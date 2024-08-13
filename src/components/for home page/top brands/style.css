@@ -1,8 +1,26 @@
+.top-category-1{
+  background-image: url("https://themewagon.github.io/hexashop/assets/images/men-03.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  min-height: 450px;
+}
+.top-category-2{
+  background-image: url("https://themewagon.github.io/hexashop/assets/images/women-03.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  min-height: 450px;
+}
 .mid-div {
   background-image: url("https://wp.xpeedstudio.com/charitious/wp-content/uploads/2018/11/banner_img1.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
+  min-height: 150px;
 }
 
 .mid-div2 {
@@ -10,4 +28,6 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  height: 100%;
+  min-height: 150px;
 }

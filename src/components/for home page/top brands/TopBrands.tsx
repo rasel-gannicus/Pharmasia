@@ -14,15 +14,7 @@ const TopBrands = () => {
       <div className="grid md:grid-cols-3 gap-5 py-5">
         {/* --- first row --- */}
         <Link href={"/products/mens-wear"}>
-          <div className="bg-slate-800 p-5 relative hover:shadow-xl hover:cursor-pointer transition-all ">
-            <Image
-              src={
-                "https://themewagon.github.io/hexashop/assets/images/men-03.jpg"
-              }
-              width={370}
-              height={390}
-              alt="Category Men"
-            />
+          <div className="bg-slate-800 p-5 relative hover:shadow-xl hover:cursor-pointer transition-all top-category-1 ">
             <div className="absolute bottom-8 left-8">
               <h2 className="text-4xl font-bold">Men</h2>
             </div>
@@ -50,15 +42,8 @@ const TopBrands = () => {
 
         {/* --- last row --- */}
         <Link href={"/products/women-clothing"}>
-          <div className="bg-slate-800 p-5 relative hover:shadow-xl hover:cursor-pointer transition-all ">
-            <Image
-              src={
-                "https://themewagon.github.io/hexashop/assets/images/women-03.jpg"
-              }
-              width={370}
-              height={390}
-              alt="Category Women"
-            />
+          <div className="bg-slate-800 p-5 relative hover:shadow-xl hover:cursor-pointer transition-all top-category-2">
+            
             <div className="absolute bottom-8 left-8">
               <h2 className="text-4xl font-bold text-white">Women</h2>
             </div>
