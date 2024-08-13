@@ -1,21 +1,21 @@
+import { Button } from "@/components/ui/button";
 import React from "react";
 
 const BannerCard2 = () => {
   return (
-    <div className=" banner-section-2 flex flex-col justify-center items-center relative h-[680px]  ">
+    <div className=" banner-section-2 flex flex-col justify-center items-center relative h-[680px]">
       {/* --- banner text and buttons --- */}
-      <div className="flex flex-col gap-10 md:flex-row justify-between items-center w-full px-20 z-20">
-        <div></div>
-        <div className="absolute top-0 bottom-0 left-0 right-0 bg-black opacity-20 z-0"></div>
-        <div className="banner-left-side flex flex-col gap-5 items-start max-w-60 text-white banner-left z-40">
-          <h1 className="uppercase md:text-4xl font-bold">
-            <span className="text-[#F565B0]">Kid&apos;s </span> <br /> fashion
+      <div className="flex flex-col gap-10 md:flex-row justify-evenly items-center w-full px-10 z-20 ">
+        <div className="banner-left-side flex flex-col gap-5 items-start  banner-left  max-w-96 flex-1">
+          <h1 className="md:text-6xl font-bold">
+            <span className="text-[#1b8674]">Get </span> rid of bacteria in your home
           </h1>
-          <p>Explore the gorgeous collection for Kid&apos;s here</p>
-          <button className="btn bg-[#F565B0] font-semibold rounded-none text-white md:text-lg border-none hover:btn-neutral z-40">
+          <p className="text-xl">Get rid of all bacteria</p>
+          <Button className="btn bg-[#4C2857] border-none font-semibold rounded-full px-7 hover:bg-white hover:text-black  text-white md:text-lg hover:btn-neutral">
             Shop Now
-          </button>
+          </Button>
         </div>
+        <div className=""></div>
       </div>
     </div>
   );

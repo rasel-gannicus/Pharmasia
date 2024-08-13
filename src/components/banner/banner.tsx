@@ -11,6 +11,7 @@ import "swiper/css/pagination";
 
 
 import BannerCard2 from "./banner slider cards/BannerCard2";
+import BannerCard3 from "./banner slider cards/BannerCard3";
 
 interface Slide {
   id: number;
@@ -46,6 +47,9 @@ const Banner = () => {
         </SwiperSlide>
         <SwiperSlide>
           <BannerCard2 />
+        </SwiperSlide>
+        <SwiperSlide>
+          <BannerCard3 />
         </SwiperSlide>
       </Swiper>
     </div>

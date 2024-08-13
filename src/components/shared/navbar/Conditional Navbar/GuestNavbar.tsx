@@ -14,7 +14,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import logo from "@/assets/img/cap 2.png";
+import logo from "@/assets/img/injection.png";
 
 const GuestNavbar = () => {
   const urlPath = usePathname();
@@ -30,7 +30,7 @@ const GuestNavbar = () => {
           <Image
             alt="Logo for Navbar"
             src={logo}
-            className="rounded-sm max-w-80 w-12 absolute left-0 -top-7 -rotate-[20deg] "
+            className="rounded-sm max-w-80 w-12 absolute -left-3 -top-5 rotate-[260deg] "
           />
         </Link>
         <Link href="/" className=" transition-colors hover:text-foreground">
