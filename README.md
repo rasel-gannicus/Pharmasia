@@ -1,6 +1,6 @@
-# Cotton Club
+# Pharmasia
 
-Welcome to our Cotton Club Clothing Store! This project showcases a comprehensive online platform for shopping Men’s, Women’s, and Children’s clothing. Built using modern web technologies, this platform offers a seamless shopping experience with a focus on performance and user-friendly design.
+Welcome to our Pharmasia Store! This project showcases a comprehensive online platform for shopping Medical Equipment. Built using modern web technologies, this platform offers a seamless shopping experience with a focus on performance and user-friendly design.
 
 ## Technologies Used
 
@@ -16,19 +16,19 @@ Welcome to our Cotton Club Clothing Store! This project showcases a comprehensiv
 ## Features and Functionality
 
 * **Responsive Design**: Ensures a smooth and consistent user experience across all devices, including desktops, tablets, and mobile phones.
-* **Product Listing**: Displays a wide variety of clothing items for Men, Women, and Children, fetched from the MongoDB database.
+* **Product Listing**: Displays a wide variety of Medical Equipments.
 * **Shopping Cart**: Allows users to add, remove, and manage items in their shopping cart.
 * **Admin Dashboard**: Provides administrators with tools to manage products, view orders, and handle customer inquiries.
 
 ### Live Site
 
-Explore the live site [here](https://assignment-8-next-js-project.vercel.app/).
+Explore the live site [here](link here...).
 
 ### Repository
 
-Access the Frontend GitHub repository for the project [here](https://github.com/shafik720/Assignment-8-Next-Js-Project).
+Access the Frontend GitHub repository for the project [here](link here...).
 
-Access the Backend GitHub repository for the project [here](https://github.com/shafik720/server-for-assignment-8-level-2).
+Access the Backend GitHub repository for the project [here](link here...).
 
 ## Setting Up Locally
 

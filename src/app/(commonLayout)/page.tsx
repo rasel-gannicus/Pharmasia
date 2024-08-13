@@ -12,7 +12,7 @@ export default function Home() {
       <div className="lg:max-w-[1450px] container mx-auto">
         <DiscountSection1 />
         <DiscountSection2 />
-        {/* <FlashSale /> */}
+        <FlashSale />
         <TopBrands />
         <MostPopularProducts />
       </div>

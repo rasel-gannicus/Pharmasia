@@ -1,6 +1,7 @@
 import React from "react";
 import discountImg from "@/assets/img/discount 2.jpg";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 const SectionCard2 = () => {
   return (

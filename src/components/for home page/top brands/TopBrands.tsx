@@ -45,7 +45,7 @@ const TopBrands = () => {
           <div className="bg-slate-800 p-5 relative hover:shadow-xl hover:cursor-pointer transition-all top-category-2">
             
             <div className="absolute bottom-8 left-8">
-              <h2 className="text-4xl font-bold ">Meters</h2>
+              <h2 className="text-4xl font-bold ">Mask</h2>
             </div>
           </div>
         </Link>

@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { TCloths } from "@/types/types";
 import React, { cache } from "react";
 
@@ -86,12 +87,12 @@ const SingleProduct = async ({ params }: { params: TProductId }) => {
               </p>
             </div>
             <div className="my-10 flex gap-4">
-              <button className="btn btn-neutral hover:btn-ghost">
+              <Button className="btn btn-neutral hover:btn-ghost">
                 Buy Now
-              </button>
-              <button className="btn btn-neutral hover:btn-warning">
+              </Button>
+              <Button className="btn btn-neutral hover:btn-warning">
                 Add to wishlist{" "}
-              </button>
+              </Button>
             </div>
           </div>
         </div>

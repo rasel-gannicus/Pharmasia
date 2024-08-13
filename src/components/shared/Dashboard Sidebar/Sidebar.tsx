@@ -1,4 +1,5 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React, { useState } from "react";
 
@@ -10,7 +11,7 @@ const Sidebar = () => {
   };
   return (
     <div className="relative">
-      <button
+      <Button
         onClick={() => handleSidebar()}
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -32,7 +33,7 @@ const Sidebar = () => {
             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
           ></path>
         </svg>
-      </button>
+      </Button>
       <div
         onClick={() => setShow(false)} 
         className={`bg-black  absolute  top-2 right-2 cursor-pointer w-10 h-10 text-white flex justify-center items-center text-4xl rounded-full p-0 m-0 z-40 md:hidden ${

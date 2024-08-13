@@ -1,6 +1,7 @@
 import { TCloths } from "@/types/types";
 import FlashSaleCard from "./flash sale card/FlashSaleCard";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 const FlashSale = async () => {
   // --- fetching data with ISR method
@@ -31,9 +32,9 @@ const FlashSale = async () => {
         </div>
         <div className="text-center my-10">
           <Link href={"/flash-sale"}>
-            <button className="btn  rounded-none px-10  btn-neutral btn-lg mx-auto">
+            <Button className="btn  rounded-none px-10  btn-neutral btn-lg mx-auto">
               See All
-            </button>
+            </Button>
           </Link>
         </div>
       </div>
