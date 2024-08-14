@@ -1,4 +1,6 @@
 'use client' ;
+import Image from "next/image";
+
 // --- using this component to show countdown timer for the left time in flash sale products
 import React, { useState, useEffect } from 'react';
 
@@ -20,7 +22,7 @@ const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = ({ endTime }) => {
 
     if (difference > 0) {
       timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        // days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
         seconds: Math.floor((difference / 1000) % 60),
@@ -63,7 +65,7 @@ const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = ({ endTime }) => {
 
   return (
     <div>
-      {isClient && timerComponents.length ? timerComponents : <span>Flash Sale Ended</span>}
+      {isClient && timerComponents.length ? timerComponents : <span>Flash Sale Ended </span>}
     </div>
   );
 };

@@ -3,6 +3,7 @@ import DiscountSection1 from "@/components/for home page/Discount Section/Discou
 import DiscountSection2 from "@/components/for home page/Discount Section/DiscountSection 2/DiscountSection2";
 import DiscountSection3 from "@/components/for home page/Discount Section/DiscountSection 3/DiscountSection3";
 import NewsLetter from "@/components/for home page/News Letter/NewsLetter";
+import RaiseSection from "@/components/for home page/Raise Section/RaiseSection";
 import Banner from "@/components/for home page/banner/banner";
 import FlashSale from "@/components/for home page/flash sale/FlashSale";
 import MostPopularProducts from "@/components/for home page/most popular products/MostPopularProducts";
@@ -20,6 +21,7 @@ export default function Home() {
         <TopBrands />
         <MostPopularProducts />
         <DiscountSection3 /> 
+        <RaiseSection />
         <NewsLetter /> 
       </div>
     </div>

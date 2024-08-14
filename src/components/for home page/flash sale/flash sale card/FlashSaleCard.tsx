@@ -3,12 +3,17 @@ import React from "react";
 import FlashSaleCountdown from "../flash sale countdown/FlashSaleCountdown";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import flash from "@/assets/img/icons8-sale.gif" ;
+import Image from "next/image";
 
 const FlashSaleCard = ({ data }: { data: TCloths }) => {
   return (
     data.FlashSale && (
       <div className="card w-[95%] py-10 rounded-lg px-3 lg:w-[400px]   bg-base-100 shadow-xl mx-auto">
         <figure className="relative">
+          <div className="absolute top-0 right-0">
+          <Image alt="flash" src={flash} /> 
+          </div>
           <img src={data.Images} alt="Shoes" className="mx-auto w-full" />
           {data?.flashSaleEndTime && (
             <div className="absolute w-full bg-[#DB2777] py-1 px-2 bottom-0 right-0  text-white text-sm ">
