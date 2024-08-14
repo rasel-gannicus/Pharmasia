@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import SocialLogin from "../Social Login/SocialLogin";
@@ -10,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import EmailLogin from "./EmailLogin";
+import PublicRoute from "@/utils/Route Protection/PublicRoute";
 
 const Login = () => {
   return (
@@ -23,17 +25,16 @@ const Login = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-
             {/* --- email/password login */}
             <EmailLogin />
 
             {/* --- social account login --- */}
             <SocialLogin />
-            
+
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
-              <Link href="/authentication/register" className="underline">
-                Sign up
+              Don&apos;t have an account ?{" "}
+              <Link href="/authentication/register" className="font-bold text-[#488EAF]">
+                Register
               </Link>
             </div>
           </CardContent>
@@ -50,4 +51,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default PublicRoute(Login);

@@ -1,3 +1,4 @@
+"use client";
 import loginImg from "@/assets/img/Register.png";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,8 +11,9 @@ import {
 } from "@/components/ui/card";
 import SocialLogin from "../Social Login/SocialLogin";
 import EmailRegister from "./EmailRegister";
+import PublicRoute from "@/utils/Route Protection/PublicRoute";
 
-const Register = async () => {
+const Register = () => {
   // // --- fetching data with SSG(Static Site Generation) method
   // const res = await fetch(
   //   `https://server-for-assignment-8.vercel.app/cloths/${params.productId}`,
@@ -21,7 +23,7 @@ const Register = async () => {
   // );
   // const data = await res.json();
   return (
-    <div className="w-full lg:grid lg:min-h-[500px] lg:grid-cols-2 xl:min-h-[300px] ">
+    <div className="w-full mt-20 lg:grid lg:min-h-[500px] lg:grid-cols-2 xl:min-h-[300px] ">
       <div className="flex items-center justify-center py-10 lg:border-t lg:border-l lg:border-b">
         <div className="mx-auto max-w-sm border-none">
           <CardHeader>
@@ -31,7 +33,6 @@ const Register = async () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            
             {/* --- email-password login --- */}
             <EmailRegister />
 
@@ -39,9 +40,12 @@ const Register = async () => {
             <SocialLogin />
 
             <div className="mt-4 text-center text-sm">
-              Already have an account?{" "}
-              <Link href="/authentication/login" className="underline">
-                Sign in
+              Already have an account ?{" "}
+              <Link
+                href="/authentication/login"
+                className="font-bold text-[#488EAF]"
+              >
+                Log in
               </Link>
             </div>
           </CardContent>
@@ -58,4 +62,4 @@ const Register = async () => {
   );
 };
 
-export default Register;
+export default PublicRoute(Register);

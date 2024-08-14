@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/assets/img/injection.png";
+import { IoMdKey, IoMdLogIn } from "react-icons/io";
 
 const GuestNavbar = () => {
   const urlPath = usePathname();
@@ -120,7 +121,20 @@ const GuestNavbar = () => {
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Link href="/authentication/login">Login</Link>
+              <Link
+                className="bg-[#488EAF] px-3 rounded py-2 flex justify-center items-center gap-1 text-white me-2 "
+                href="/authentication/login"
+              >
+                <IoMdLogIn/>
+                Login
+              </Link>
+              <Link
+                className="bg-[#FB714C] px-3 rounded py-2 flex justify-center items-center gap-1 text-white "
+                href="/authentication/register"
+              >
+                <IoMdKey  className="text-lg" />
+                Register
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
