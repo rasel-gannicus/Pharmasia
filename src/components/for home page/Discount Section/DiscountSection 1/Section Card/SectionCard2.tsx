@@ -10,7 +10,7 @@ const SectionCard2 = () => {
         <Image
           alt="discount image"
           src={discountImg}
-          className="w-[100%] h-full   "
+          className="w-[100%] h-full  "
         />
       </div>
       <div className="uppercase  absolute top-0 bottom-0 left-0 right-0 flex flex-col justify-evenly items-start ps-6 text-white">

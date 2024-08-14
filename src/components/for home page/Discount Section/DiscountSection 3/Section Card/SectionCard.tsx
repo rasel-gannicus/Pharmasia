@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 
 const SectionCard = () => {
   return (
-    <div className=" min-h-[230px] col-span-2 lg:min-h-[400px]  rounded-lg bg-green-400 relative overflow-hidden ">
+    <div className=" min-h-[330px] col-span-2 lg:min-h-[400px]  rounded-lg bg-green-400 relative overflow-hidden ">
       <div className="absolute top-0 bottom-0 left-0 right-0 ">
         <Image
           alt="discount image"
