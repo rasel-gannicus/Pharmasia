@@ -5,25 +5,29 @@ import { useAppDispatch } from "@/utils/Redux/hooks";
 import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import Modal from "../Modal/Modal";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "@/utils/firebase.init";
 
 const CustomWrapper = ({
-  children,
-  session,
+  children
 }: {
   children: React.ReactNode;
-  session: any;
 }) => {
   const isHomePage = usePathname() === "/";
-  console.log(session);
+
+  // --- using react-firebase-hook to sign out and to get user data
+  const [user] = useAuthState(auth);
+
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (session?.user.email) {
-      dispatch(addUserToRedux(session?.user));
+    
+    if (user?.email) {
+      dispatch(addUserToRedux(user));
       // dispatch(addUserToRedux(session));
     }
-  }, [session, dispatch]);
+  }, [ dispatch, user]);
   return (
     <div
       className={`${

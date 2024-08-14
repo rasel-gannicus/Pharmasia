@@ -42,14 +42,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
   return (
     <ReduxProvider>
       <html lang="en">
         <body className={ubuntu.className}>
           <Navbar />
           <div className="min-h-screen mx-auto">
-            <CustomWrapper session={session}>{children}</CustomWrapper>
+            <CustomWrapper>{children}</CustomWrapper>
           </div>
           <Footer />
           <Toaster />

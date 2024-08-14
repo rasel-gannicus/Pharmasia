@@ -1,11 +1,20 @@
-"use client" ;
+"use client";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
 import React from "react";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
+import {
+  useSignInWithEmailAndPassword,
+  useSignInWithFacebook,
+  useSignInWithGithub,
+  useSignInWithGoogle,
+} from "react-firebase-hooks/auth";
+
+import auth from "../../../utils/firebase.init";
 
 const SocialLogin = () => {
-    // console.log(process.env.NEXT_PUBLIC_CLIENT_SITE_URL);
+  // sign up with 'google'
+  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   return (
     <div>
       <p className="text-center font-semibold text-slate-500 my-4">
@@ -27,11 +36,7 @@ const SocialLogin = () => {
           <FaFacebook className="font-bold mx-5 w-5 h-5" />
         </Button> */}
         <Button
-          onClick={() =>
-            signIn("google", {
-              callbackUrl: `${process.env.NEXT_PUBLIC_CLIENT_SITE_URL}`,
-            })
-          }
+          onClick={() => signInWithGoogle()}
           variant="outline"
           className=""
         >

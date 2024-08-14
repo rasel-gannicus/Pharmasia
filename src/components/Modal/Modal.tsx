@@ -13,19 +13,45 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { closeModal } from "@/utils/Redux/features/modal/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
+import auth from "@/utils/firebase.init";
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSignOut } from "react-firebase-hooks/auth";
+import { toast } from "../ui/use-toast";
+import { addUserToRedux } from "@/utils/Redux/features/user/userSlice";
 
 const Modal = () => {
   //   const [open, setOpen] = useState(true);
   const modalStatus = useAppSelector((state) => state.modalSlice.modalStatus);
   const dispatch = useAppDispatch();
 
+  const [signOut, loading, error] = useSignOut(auth);
+
+
   //   -- closing modal and logging out
-  const handleModalClose = () => {
+  const handleModalClose = async() => {
     dispatch(closeModal(false));
-    signOut();
+    const success = await signOut() ;
+    if(success){
+      dispatch(addUserToRedux({user : null}))
+      toast({
+        description: 'Logged out successfully !',
+      });
+    }
   };
+
+  useEffect(()=>{
+    if(error){
+      toast({
+        description : error?.message || 'An error happened while logging out !' 
+      })
+    }
+    if(loading){
+      toast({
+        description : 'Logging out ...'
+      })
+    }
+  },[loading, error])
   return (
     <Dialog open={modalStatus} onOpenChange={() => dispatch(closeModal(false))}>
       <DialogContent>

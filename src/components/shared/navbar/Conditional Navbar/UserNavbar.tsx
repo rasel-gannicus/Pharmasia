@@ -28,9 +28,14 @@ const UserNavbar = () => {
   const isHomePage = urlPath === "/";
 
   const userState = useAppSelector((state) => state.userSlice.user);
-  const { name, email, image } = userState;
+  const { displayName, email, photoURL } = userState;
+  // console.log(userState.displayName);
 
   const dispatch = useAppDispatch();
+
+  function handleLogout(){
+    dispatch(activeModal(false))
+  }
   return (
     <header
       className={`absolute left-0 right-0 z-50 top-0 flex h-16 items-center gap-4  px-4 md:px-6 ${
@@ -128,13 +133,13 @@ const UserNavbar = () => {
               className="rounded-full overflow-hidden"
             >
               {/* <CircleUser className="h-5 w-5" /> */}
-              {image ? (
+              {userState?.photoURL ? (
                 <Image
                   alt="user image"
                   width={30}
                   height={30}
                   style={{ width: "100%" }}
-                  src={image}
+                  src={userState?.photoURL}
                 />
               ) : (
                 <Image alt="user image" src={userImage} />
@@ -143,14 +148,14 @@ const UserNavbar = () => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{name || "John Wick"}</DropdownMenuLabel>
+            <DropdownMenuLabel>{displayName || "John Wick"}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
               <Button
-                onClick={() => dispatch(activeModal(false))}
+                onClick={handleLogout}
                 className="bg-pink-600"
               >
                 Logout

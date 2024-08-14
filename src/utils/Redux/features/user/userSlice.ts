@@ -2,9 +2,10 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
     user : {
-        name : '',
+        displayName : '',
         email : '',
-        image : '' 
+        emailVerified : '' ,
+        photoURL : '',
     }
 }
 

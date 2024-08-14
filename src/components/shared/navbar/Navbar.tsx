@@ -6,7 +6,7 @@ import UserNavbar from "./Conditional Navbar/UserNavbar";
 
 const Navbar = () => {
   const userState = useAppSelector((state) => state.userSlice.user);
-  // console.log(userState);
+  console.log({userState});
   return (
     userState.email ? <UserNavbar /> : <GuestNavbar />
   );
