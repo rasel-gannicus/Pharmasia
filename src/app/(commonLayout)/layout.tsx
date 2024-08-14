@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins, Ubuntu } from "next/font/google";
+import { Inter, Josefin_Sans, Poppins, Ubuntu } from "next/font/google";
 import "@/app/globals.css";
 import Navbar from "@/components/shared/navbar/Navbar";
 import Footer from "@/components/shared/footer/footer";
@@ -24,6 +24,13 @@ export const ubuntu = Ubuntu({
   weight: ["400", "500", "700"],
   display: "swap",
 });
+export const joseph = Josefin_Sans({
+  variable: "--font-ubuntu",
+  subsets: ["latin"],
+  weight: ["400", "500", "700"],
+  display: "swap",
+});
+
 
 export const metadata: Metadata = {
   title: "Pharmasia",

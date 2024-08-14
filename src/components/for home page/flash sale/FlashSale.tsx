@@ -21,7 +21,7 @@ const FlashSale = async () => {
           Our Current Flash Sales Items
         </h2>
         <hr className="border-2 w-3/4 mx-auto my-5" />
-        <div className="py-5 grid md:grid-cols-2 grid-cols-1 gap-6 px-1">
+        <div className="py-5 grid md:grid-cols-2 xl:grid-cols-3 grid-cols-1 gap-6 px-1">
           {data?.length > 0 ? (
             data?.map((item: TCloths) => (
               <FlashSaleCard key={item._id} data={item} />
