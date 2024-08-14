@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.Toastify__toast-container{
+  width: fit-content !important;
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;

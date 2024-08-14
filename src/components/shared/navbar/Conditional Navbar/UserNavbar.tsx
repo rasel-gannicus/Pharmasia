@@ -12,15 +12,12 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/assets/img/cap 2.png";
 import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
-import Modal from "@/components/Modal/Modal";
 import {
   activeModal,
-  closeModal,
 } from "@/utils/Redux/features/modal/modalSlice";
 
 const UserNavbar = () => {
@@ -33,8 +30,8 @@ const UserNavbar = () => {
 
   const dispatch = useAppDispatch();
 
-  function handleLogout(){
-    dispatch(activeModal(false))
+  function handleLogout() {
+    dispatch(activeModal(false));
   }
   return (
     <header
@@ -154,10 +151,7 @@ const UserNavbar = () => {
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <Button
-                onClick={handleLogout}
-                className="bg-pink-600"
-              >
+              <Button onClick={handleLogout} className="bg-pink-600">
                 Logout
               </Button>
             </DropdownMenuItem>

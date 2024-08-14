@@ -19,6 +19,7 @@ import { useEffect, useState } from "react";
 import { useSignOut } from "react-firebase-hooks/auth";
 import { toast } from "../ui/use-toast";
 import { addUserToRedux } from "@/utils/Redux/features/user/userSlice";
+import { errorMessage, successMessage } from "@/utils/Redux/toastMsg";
 
 const Modal = () => {
   //   const [open, setOpen] = useState(true);
@@ -34,23 +35,15 @@ const Modal = () => {
     const success = await signOut() ;
     if(success){
       dispatch(addUserToRedux({user : null}))
-      toast({
-        description: 'Logged out successfully !',
-      });
+      successMessage('Logged out successfully !') ;
     }
   };
 
   useEffect(()=>{
     if(error){
-      toast({
-        description : error?.message || 'An error happened while logging out !' 
-      })
+      errorMessage(error?.message || 'An error happened while logging out !' )
     }
-    if(loading){
-      toast({
-        description : 'Logging out ...'
-      })
-    }
+
   },[loading, error])
   return (
     <Dialog open={modalStatus} onOpenChange={() => dispatch(closeModal(false))}>

@@ -4,9 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import { registerUser } from "@/utils/Authentication/registerUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { TailSpin } from "react-loader-spinner";
+import { errorMessage, successMessage } from "@/utils/Redux/toastMsg";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from "@/utils/firebase.init";
 
 const EmailRegister = () => {
   const [firstName, setFirstName] = useState("");
@@ -14,59 +17,40 @@ const EmailRegister = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repassword, setRepassword] = useState("");
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast(); // --- toast from ShadCn
 
   const router = useRouter();
+  const [createUserWithEmailAndPassword, user, loading, error] =
+    useCreateUserWithEmailAndPassword(auth);
 
   //   --- submitting the form
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     if (password !== repassword) {
-      // window.alert("Password didn't matched");
-      toast({
-        description: "Password didn't matched",
-        variant: "destructive",
-      });
+      errorMessage("Password didn't matched");
       return;
     }
     if (password.length < 6) {
-      toast({
-        description: "Password should be atleast 6 characters long !",
-        variant: "destructive",
-      });
+      errorMessage("Password should be atleast 6 characters long !");
       return;
     }
-    try {
-      setLoading(true);
-      let name = firstName + " " + lastName;
-      const res = await registerUser({
-        name,
-        email,
-        password,
-      });
-      if (!res.success) {
-        setLoading(false);
-        toast({
-          description: res.message,
-        });
-      }
-      if (res.success) {
-        setLoading(false);
-        toast({
-          description: res.message + " Now login please !",
-        });
-        router.push("/authentication/login");
-      }
-    } catch (err: any) {
-      setLoading(false);
-      toast({
-        variant: "destructive",
-        description: err.message || "An error happened",
-      });
-      throw new Error(err.message);
-    }
+    
+    let name = firstName + " " + lastName;
+    const response = await createUserWithEmailAndPassword(email, password);
   };
+
+  useEffect(() => {
+    if (error) {
+      errorMessage(
+        error.code || error.message ||
+          "There was an error creating the account, please try again later"
+      );
+    }
+    if (user) {
+      successMessage("Account Created Successfully ! Now login please");
+      router.push("/authentication/login");
+    }
+  }, [loading, error, user]);
   return (
     <form onSubmit={handleSubmit} className="grid gap-4">
       <div className="grid grid-cols-2 gap-4">
@@ -123,7 +107,7 @@ const EmailRegister = () => {
       <Button
         type="submit"
         disabled={loading}
-        className="w-full  hover:text-white bg-[#FFC700]"
+        className="w-full  hover:text-white bg-[#476382]"
       >
         {loading ? (
           <TailSpin

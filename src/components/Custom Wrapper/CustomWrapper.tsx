@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import Modal from "../Modal/Modal";
 import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "@/utils/firebase.init";
+import auth from "@/utils/firebase.init";  
+import { ToastContainer, toast } from 'react-toastify';
 
 const CustomWrapper = ({
   children
@@ -37,6 +38,7 @@ const CustomWrapper = ({
     >
       {children}
       <Modal />
+      <ToastContainer />
     </div>
   );
 };

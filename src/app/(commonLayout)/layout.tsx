@@ -5,9 +5,8 @@ import Navbar from "@/components/shared/navbar/Navbar";
 import Footer from "@/components/shared/footer/footer";
 import CustomWrapper from "@/components/Custom Wrapper/CustomWrapper";
 import { Toaster } from "@/components/ui/toaster";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/utils/NextAuth/authOptions";
 import ReduxProvider from "@/utils/Redux/ReduxProvider";
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin"] });
 
