@@ -4,16 +4,18 @@ export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
     // baseUrl: process.env.NEXT_PUBLIC_BACKENED_URL,
-    baseUrl: 'http://localhost:2500/api/v1',
+    baseUrl: "http://localhost:2500/api/v1",
   }),
   tagTypes: ["Users"],
   endpoints: (builder) => ({
-    addUserData : builder.mutation({
-        query : (data) => ({
-            url : '/addUserData',
-            method : 'PATCH',
-            body : data
-        }),
+
+    // --- adding new user to db after registration or login with firebase 
+    addUserData: builder.mutation({
+      query: (data) => ({
+        url: "/addUserData",
+        method: "POST",
+        body: data,
+      }),
     }),
     // getUserInfo : builder.query({
     //     query : (email) => ({
@@ -23,7 +25,7 @@ export const userApi = createApi({
   }),
 });
 
-export const { 
-    useAddUserDataMutation, 
-    // useGetUserInfoQuery 
+export const {
+  useAddUserDataMutation,
+  // useGetUserInfoQuery
 } = userApi;
