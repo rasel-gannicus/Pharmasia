@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAddUserDataMutation } from "@/utils/Redux/features/user/userApi";
 import { errorMessage, successMessage } from "@/utils/Redux/toastMsg";
 import auth from "@/utils/firebase.init";
 import { Link } from "lucide-react";
@@ -15,6 +16,8 @@ const EmailLogin = () => {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
+
+  // --- logging user with firebase
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
@@ -33,7 +36,9 @@ const EmailLogin = () => {
     }
     if (user) {
       successMessage("Logged in successfully");
-      router.push("/authentication/login");
+      console.log(user);
+      // addUserToMongoDb({email : user?.email, name : user?.displayName});
+      // router.push("/authentication/login");
     }
   }, [loading, error, user]);
 

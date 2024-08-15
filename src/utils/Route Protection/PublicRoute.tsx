@@ -4,6 +4,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import auth from "../firebase.init"; // Adjust the path to your firebase initialization file
 import { useRouter } from "next/navigation";
 import { ThreeCircles } from "react-loader-spinner";
+import { successMessage } from "../Redux/toastMsg";
+import { useAddUserDataMutation } from "../Redux/features/user/userApi";
 
 const PublicRoute = (WrappedComponent: FC) => {
   return function ProtectComponent(props: any) {
@@ -11,11 +13,17 @@ const PublicRoute = (WrappedComponent: FC) => {
     const [authenticated, setAuthenticated] = useState(false);
     const router = useRouter();
 
+    const [addUserToMongoDb, { data, isLoading, isError, isSuccess }] =
+      useAddUserDataMutation();
+
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           setAuthenticated(true);
           router.replace("/"); // Redirect to the homepage
+          // console.log(user);
+          successMessage(`Welcome ${user.displayName}`);
+          addUserToMongoDb({ email: user.email });
         } else {
           setAuthenticated(false);
         }

@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { FaFacebook, FaGithub, FaGoogle } from "react-icons/fa";
 import {
   useSignInWithEmailAndPassword,
@@ -11,10 +11,23 @@ import {
 } from "react-firebase-hooks/auth";
 
 import auth from "../../../utils/firebase.init";
+import { errorMessage } from "@/utils/Redux/toastMsg";
 
 const SocialLogin = () => {
   // sign up with 'google'
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  // sign up with 'google'
+  const [signInWithGithub, gitUser, gitLoading, gitError] =
+    useSignInWithGithub(auth);
+
+  useEffect(() => {
+    // console.log({ gitUser, gitLoading, gitError });
+    if((!loading && !gitLoading) && (error || gitError)){
+      console.log({error, gitError});
+      errorMessage(gitError?.code || error?.code || 'An error happened')
+    }
+  }, [gitUser, gitLoading, gitError, user, loading, error]);
+
   return (
     <div>
       <p className="text-center font-semibold text-slate-500 my-4">
@@ -23,11 +36,7 @@ const SocialLogin = () => {
       <div className="flex justify-center items-center gap-4">
         <Button
           variant="outline"
-          onClick={() =>
-            signIn("github", {
-              callbackUrl: `${process.env.NEXT_PUBLIC_CLIENT_SITE_URL}`,
-            })
-          }
+          onClick={() => signInWithGithub()}
           className=""
         >
           <FaGithub className="font-bold mx-5 w-5 h-5" />
