@@ -20,9 +20,9 @@ export default function Home() {
         <Difference />
         <TopBrands />
         <MostPopularProducts />
-        <DiscountSection3 /> 
+        <DiscountSection3 />
         <RaiseSection />
-        <NewsLetter /> 
+        <NewsLetter />
       </div>
     </div>
   );
