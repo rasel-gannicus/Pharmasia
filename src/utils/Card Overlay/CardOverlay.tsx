@@ -6,7 +6,6 @@ import { CgDetailsMore } from "react-icons/cg";
 import { useRouter } from "next/navigation";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../firebase.init";
-import { errorMessage, showCnToast } from "../Redux/toastMsg";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useAddUserDataMutation } from "../Redux/features/user/userApi";

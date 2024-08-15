@@ -1,15 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { apiSlice } from "../../api/apiSlice";
 
-export const userApi = createApi({
-  reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({
-    // baseUrl: process.env.NEXT_PUBLIC_BACKENED_URL,
-    baseUrl: "http://localhost:2500/api/v1",
-  }),
-  tagTypes: ["Users"],
+export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-
-    // --- adding new user to db after registration or login with firebase 
+    // --- adding new user to db after registration or login with firebase
     addUserData: builder.mutation({
       query: (data) => ({
         url: "/addUserData",

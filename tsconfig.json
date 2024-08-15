@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/utils/Redux/toastMsg.js",
+    "src/utils/Redux/toastMsg.ts",
     "src/utils/Route Protection/PrivateRoute.tsx",
     "src/utils/Route Protection/PublicRoute.tsx"
   ],
