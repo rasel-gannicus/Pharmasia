@@ -10,14 +10,15 @@ import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useAddUserDataMutation } from "../Redux/features/user/userApi";
 import { useEffect } from "react";
+import { useAddToCartMutation } from "../Redux/features/products/productsApi";
 
-const CardOverlay = ({ data: productData }: any) => {
+const CardOverlay = ({ data: productData }: { data : any}) => {
   const { _id: id } = productData;
   const router = useRouter();
   const [user, loading, error] = useAuthState(auth);
 
-  const [addUserToMongoDb, { data, isLoading, isError, isSuccess }] =
-    useAddUserDataMutation();
+  const [addToCart, { data , isLoading, isError, isSuccess } ] =
+    useAddToCartMutation();
 
   const checkUser = () => {
     if (!user?.email) {
@@ -41,7 +42,7 @@ const CardOverlay = ({ data: productData }: any) => {
     checkUser();
     if (user?.email) {
       try {
-        await addUserToMongoDb({ email: user.email, product: productData });
+        addToCart({ email: user.email, product: productData, status : 'pending' });
       } catch (error) {
         console.error("Error adding product to cart:", error);
       }
@@ -49,8 +50,9 @@ const CardOverlay = ({ data: productData }: any) => {
   };
 
   useEffect(() => {
+    // console.log(user?.email);
     console.log(data);
-    if (data?.result?.acknowledged) {
+    if (data) {
       // showCnToast('Product added to cart') ;
       toast({
         description: "Product Added to cart!",
