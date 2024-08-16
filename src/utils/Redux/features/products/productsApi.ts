@@ -2,31 +2,23 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const productApi = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
-    addToCart: builder.mutation({
-      query: (data: any) => (
-        {
-          url: "/addToCart",
-          method: "POST",
-          body: data,
-        }
-      ),
-    }),
-    // --- get how much bookings each user have in their cart
-    getProductCarts: builder.mutation({
-        query: (email : any) => ({
-            url : `/getCart`,
-            method : 'POST',
-            body : email,
-        })
-    }),
-
     // --- get how much bookings each user have in their cart
     getProductCart: builder.query({
-        query: (email : any) => (console.log(email),{
-            url: `/getCart?email=${email}`,
-            method: 'GET',
-            // No need for a body in a GET request
-        }),
+      query: (email: any) => ({
+        url: `/getCart?email=${email}`,
+        method: "GET",
+        // No need for a body in a GET request
+      }),
+      providesTags: ["cart"],
+    }),
+
+    addToCart: builder.mutation({
+      query: (data: any) => ({
+        url: "/addToCart",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags : ["cart"]
     }),
 
     // // --- update a users cart when he/she confirms the bookings
@@ -94,4 +86,4 @@ export const productApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useAddToCartMutation , useGetProductCartQuery, useGetProductCartsMutation } = productApi;
+export const { useAddToCartMutation, useGetProductCartQuery } = productApi;

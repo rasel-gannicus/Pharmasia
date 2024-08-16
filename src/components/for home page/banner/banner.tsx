@@ -9,7 +9,6 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-
 import BannerCard2 from "./banner slider cards/BannerCard2";
 import BannerCard3 from "./banner slider cards/BannerCard3";
 
@@ -34,7 +33,7 @@ interface DemoSliderProps {
 
 const Banner = () => {
   return (
-    <div  className="">
+    <div className="">
       <Swiper
         navigation
         pagination={{ type: "bullets", clickable: true }}

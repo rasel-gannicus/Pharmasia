@@ -16,44 +16,43 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/assets/img/cap 2.png";
 import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
+import { activeModal } from "@/utils/Redux/features/modal/modalSlice";
 import {
-  activeModal,
-} from "@/utils/Redux/features/modal/modalSlice";
-import {  useGetProductCartQuery, useGetProductCartsMutation } from "@/utils/Redux/features/products/productsApi";
-import { useEffect } from "react";
+  useGetProductCartQuery,
+} from "@/utils/Redux/features/products/productsApi";
+import { useEffect, useState } from "react";
+import { FaCartPlus } from "react-icons/fa";
 
 const UserNavbar = () => {
   const urlPath = usePathname();
   const isHomePage = urlPath === "/";
+  const [cart, setCart] = useState(0) ;
 
   const userState = useAppSelector((state) => state.userSlice.user);
   const { displayName, email, photoURL } = userState;
 
+  const { data, isLoading, isError, isSuccess } : any = useGetProductCartQuery(email);
 
-  const { data, isLoading, isError, isSuccess } = useGetProductCartQuery(email);
 
-
-  const [getProduct,{data:productData}] = useGetProductCartsMutation() ;
-
-  useEffect(()=>{
-    getProduct({email}) ;
-    console.log(data);
-  },[email,data])
+  useEffect(() => {
+    if(data?.cart?.length > 0){
+      setCart(data.cart.length)
+    }
+    // console.log(data);
+    // console.log(data?.cart?.length);
+  }, [email, cart, data]);
 
   const dispatch = useAppDispatch();
 
   function handleLogout() {
     dispatch(activeModal(false));
     // getProduct(email) ;
-
   }
   return (
     <header
-      className={`absolute left-0 right-0 z-50 top-0 flex h-16 items-center gap-4  px-4 md:px-6 ${
-        !isHomePage && "bg-black"
-      }`}
+      className={`absolute left-0 right-0 z-50 top-0 flex h-16 items-center gap-4  px-4 md:px-6 `}
     >
-      <nav className="hidden  flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6 text-white relative">
+      <nav className="hidden  flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6  relative">
         <Link href="/" className="flex justify-center items-center gap-3">
           <Image
             alt="Logo for Navbar"
@@ -73,9 +72,18 @@ const UserNavbar = () => {
         <Link href="#" className=" transition-colors hover:text-foreground">
           Contact
         </Link>
-        <Link href="#" className=" transition-colors hover:text-foreground">
-          Analytics
-        </Link>
+
+        {/* --- cart --- */}
+        {cart>0 && <Link
+          href="#"
+          className=" transition-colors hover:text-foreground hover:bg-slate-200 text-white hover:text-black bg-[#1C8674] py-2 px-3 relative  rounded flex gap-1 justify-between items-center"
+        >
+          <FaCartPlus className="text-lg " />
+          Cart
+          <span className="bg-red-600 w-5 h-5 text-center text-white rounded-full absolute -right-2 -bottom-2">
+            {cart}
+          </span>
+        </Link>}
       </nav>
       <Sheet>
         <SheetTrigger asChild>

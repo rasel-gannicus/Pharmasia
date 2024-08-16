@@ -16,7 +16,7 @@ const FlashSaleCard = ({ data }: { data: TCloths }) => {
           </div>
           <img src={data.Images} alt="Shoes" className="mx-auto w-full" />
           {data?.flashSaleEndTime && (
-            <div className="absolute w-full bg-[#DB2777] py-1 px-2 bottom-0 right-0  text-white text-sm ">
+            <div className="absolute text-center w-full bg-[#DB2777] py-1 px-2 bottom-0 right-0  text-white text-sm ">
               <FlashSaleCountdown endTime={data.flashSaleEndTime} />
             </div>
           )}
