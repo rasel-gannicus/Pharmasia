@@ -75,7 +75,7 @@ const UserNavbar = () => {
 
         {/* --- cart --- */}
         {cart>0 && <Link
-          href="#"
+          href="/user/cart"
           className=" transition-colors hover:text-foreground hover:bg-slate-200 text-white hover:text-black bg-[#1C8674] py-2 px-3 relative  rounded flex gap-1 justify-between items-center"
         >
           <FaCartPlus className="text-lg " />

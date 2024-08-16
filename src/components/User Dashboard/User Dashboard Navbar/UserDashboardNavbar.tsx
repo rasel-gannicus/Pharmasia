@@ -44,7 +44,7 @@ export function UserDashboardNavbar({
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
-              <span className="">Acme Inc</span>
+              <span className="">Pharmasia</span>
             </Link>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -61,7 +61,7 @@ export function UserDashboardNavbar({
                 Dashboard
               </Link>
               <Link
-                href="#"
+                href="/user/cart"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <ShoppingCart className="h-4 w-4" />
@@ -77,6 +77,15 @@ export function UserDashboardNavbar({
                 <Package className="h-4 w-4" />
                 Products{" "}
               </Link>
+
+              <Link
+                href="/user/wishlist"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <Package className="h-4 w-4" />
+                Wisth List
+              </Link>
+
               <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
@@ -84,6 +93,7 @@ export function UserDashboardNavbar({
                 <Users className="h-4 w-4" />
                 Customers
               </Link>
+
               <Link
                 href="#"
                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
