@@ -1,7 +1,7 @@
 import ReduxProvider from "@/utils/Redux/ReduxProvider";
-import { ubuntu } from "../(commonLayout)/layout";
 import UserDashboardWrapper from "@/components/Wrapper Components/User Dashboard Wrapper/UserDashboardWrapper";
 import { UserDashboardNavbar } from "@/components/User Dashboard/User Dashboard Navbar/UserDashboardNavbar";
+import { ubuntu } from "./(commonLayout)/layout";
 
 export default async function RootLayout({
   children,
@@ -9,9 +9,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <UserDashboardNavbar>{children} </UserDashboardNavbar>
-      {/* <UserDashboardWrapper>{children}</UserDashboardWrapper> */}
-    </div>
+    <ReduxProvider>
+      <html lang="en">
+        <body className={ubuntu.className}>
+          {children}
+        </body>
+      </html>
+    </ReduxProvider>
   );
 }

@@ -69,8 +69,8 @@ const UserNavbar = () => {
         <Link href="#" className=" transition-colors hover:text-foreground">
           Products
         </Link>
-        <Link href="#" className=" transition-colors hover:text-foreground">
-          Contact
+        <Link href="/dashboard" className=" transition-colors hover:text-foreground">
+          Admin
         </Link>
 
         {/* --- cart --- */}

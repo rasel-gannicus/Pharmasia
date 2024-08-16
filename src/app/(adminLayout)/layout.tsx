@@ -16,11 +16,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Sidebar />
-        <div className="p-4 sm:ml-64">{children}</div>
-      </body>
-    </html>
+    <div>
+      <Sidebar />
+      <div className="p-4 sm:ml-64">{children}</div>
+    </div>
   );
 }
