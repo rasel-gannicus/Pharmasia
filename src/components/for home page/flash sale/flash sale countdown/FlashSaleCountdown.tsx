@@ -10,9 +10,9 @@ interface FlashSaleCountdownProps {
 
 interface TimeLeft {
   days?: number;
-  hours?: number;
-  minutes?: number;
-  seconds?: number;
+  h?: number;
+  m?: number;
+  s?: number;
 }
 
 const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = ({ endTime }) => {
@@ -23,9 +23,9 @@ const FlashSaleCountdown: React.FC<FlashSaleCountdownProps> = ({ endTime }) => {
     if (difference > 0) {
       timeLeft = {
         // days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
+        h: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        m: Math.floor((difference / 1000 / 60) % 60),
+        s: Math.floor((difference / 1000) % 60),
       };
     }
 

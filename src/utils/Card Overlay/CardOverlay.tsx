@@ -50,8 +50,8 @@ const CardOverlay = ({ data: productData }: { data : any}) => {
   };
 
   useEffect(() => {
-    console.log(user?.email);
-    console.log(cartResult);
+    // console.log(user?.email);
+    // console.log(cartResult);
     if (cartResult) {
       // showCnToast('Product added to cart') ;
       toast({

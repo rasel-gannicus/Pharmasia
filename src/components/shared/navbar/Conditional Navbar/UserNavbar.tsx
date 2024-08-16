@@ -19,6 +19,8 @@ import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
 import {
   activeModal,
 } from "@/utils/Redux/features/modal/modalSlice";
+import {  useGetProductCartQuery, useGetProductCartsMutation } from "@/utils/Redux/features/products/productsApi";
+import { useEffect } from "react";
 
 const UserNavbar = () => {
   const urlPath = usePathname();
@@ -26,12 +28,24 @@ const UserNavbar = () => {
 
   const userState = useAppSelector((state) => state.userSlice.user);
   const { displayName, email, photoURL } = userState;
-  // console.log(userState.displayName);
+
+
+  const { data, isLoading, isError, isSuccess } = useGetProductCartQuery(email);
+
+
+  const [getProduct,{data:productData}] = useGetProductCartsMutation() ;
+
+  useEffect(()=>{
+    getProduct({email}) ;
+    console.log(data);
+  },[email,data])
 
   const dispatch = useAppDispatch();
 
   function handleLogout() {
     dispatch(activeModal(false));
+    // getProduct(email) ;
+
   }
   return (
     <header
