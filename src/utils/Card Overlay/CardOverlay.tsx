@@ -17,7 +17,7 @@ const CardOverlay = ({ data: productData }: { data : any}) => {
   const router = useRouter();
   const [user, loading, error] = useAuthState(auth);
 
-  const [addToCart, { data , isLoading, isError, isSuccess } ] =
+  const [addToCart, { data : cartResult , isLoading, isError, isSuccess } ] =
     useAddToCartMutation();
 
   const checkUser = () => {
@@ -50,15 +50,15 @@ const CardOverlay = ({ data: productData }: { data : any}) => {
   };
 
   useEffect(() => {
-    // console.log(user?.email);
-    console.log(data);
-    if (data) {
+    console.log(user?.email);
+    console.log(cartResult);
+    if (cartResult) {
       // showCnToast('Product added to cart') ;
       toast({
-        description: "Product Added to cart!",
+        description:  "Product Added to cart!",
       });
     }
-  }, [data, isLoading, isError, isSuccess]);
+  }, [cartResult, isLoading, isError, isSuccess]);
 
   const handleAddToWishlist = () => {
     checkUser();

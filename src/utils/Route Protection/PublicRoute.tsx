@@ -18,12 +18,11 @@ const PublicRoute = (WrappedComponent: FC) => {
 
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) {
+        if (user?.email != null || undefined || '') {
           setAuthenticated(true);
           router.replace("/"); // Redirect to the homepage
-          // console.log(user);
-          successMessage(`Welcome ${user.displayName}`);
-          addUserToMongoDb({ email: user.email });
+          successMessage(`Welcome ${user?.displayName}`);
+          addUserToMongoDb({ email: user?.email });
         } else {
           setAuthenticated(false);
         }
@@ -31,7 +30,7 @@ const PublicRoute = (WrappedComponent: FC) => {
       });
 
       return () => unsubscribe();
-    }, [router]);
+    }, [router, data, isLoading, isError, isSuccess]);
 
     if (loading) {
       return (
