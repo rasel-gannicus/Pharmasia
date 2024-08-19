@@ -33,6 +33,7 @@ const UserNavbar = () => {
 
   const { data, isLoading, isError, isSuccess } : any = useGetProductCartQuery(email);
 
+  console.log(data);
 
   useEffect(() => {
     if(data?.cart?.length > 0){

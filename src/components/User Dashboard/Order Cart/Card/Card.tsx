@@ -1,20 +1,24 @@
 import React from "react";
 
-const Card = () => {
+const Card = (data : any) => {
+    // console.log(data);
+    const {_id, Images, Ratings, Title, quantity, Price } = data.data ;
+    console.log(Images);
   return (
     <div>
       <div className="grid grid-cols-3 items-start gap-4">
         <div className="col-span-2 flex items-start gap-4">
           <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0 bg-gray-100 p-2 rounded-md">
             <img
-              src="https://readymadeui.com/images/product14.webp"
+              src={Images}
+              alt=""
               className="w-full h-full object-contain"
             />
           </div>
 
           <div className="flex flex-col">
             <h3 className="text-base font-bold text-gray-800">
-              Velvet Sneaker
+              {Title}
             </h3>
             <p className="text-xs font-semibold text-gray-500 mt-0.5">
               Size: MD
@@ -45,7 +49,7 @@ const Card = () => {
 
         <div className="ml-auto">
           <h4 className="text-lg max-sm:text-base font-bold text-gray-800">
-            $20.00
+            ${Price}
           </h4>
 
           <button
@@ -63,7 +67,7 @@ const Card = () => {
               ></path>
             </svg>
 
-            <span className="mx-3 font-bold">2</span>
+            <span className="mx-3 font-bold">{quantity}</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-2.5 fill-current"
