@@ -4,9 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import auth from "../firebase.init";
 import { useRouter } from "next/navigation";
 import { ThreeCircles } from "react-loader-spinner";
-import { errorMessage } from "../Redux/toastMsg";
 import { toast } from "@/components/ui/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 
 const PrivateRoute = (WrappedComponent: any) => {
   return function ProtectComponent(props: any) {

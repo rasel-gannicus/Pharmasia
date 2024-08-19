@@ -1,24 +1,35 @@
-import React from "react";
+import { useModifyCartMutation } from "@/utils/Redux/features/products/productsApi";
+import { errorMessage } from "@/utils/Redux/toastMsg";
+import React, { useEffect } from "react";
+import { FaMinus, FaPlus } from "react-icons/fa";
+<FaPlus />;
 
-const Card = (data : any) => {
-    // console.log(data);
-    const {_id, Images, Ratings, Title, quantity, Price } = data.data ;
+const Card = (data: any) => {
+  const [
+    modifyCart,
+    { data: modifiedData, isLoading, isError, isSuccess, error },
+  ] : any = useModifyCartMutation();
+
+  const { _id, Images, Ratings, Title, quantity, Price } = data.data;
+
+  const handleModify = (type : string) => {
+    modifyCart({ ...data, modifyType: type, email: data.email });
+  };
+  useEffect(()=>{
+    console.log(error);
+    if( isError && error){
+      errorMessage(error?.data?.error)}
+  },[isError, modifiedData, isLoading, isError])
   return (
     <div>
       <div className="grid grid-cols-3 items-start gap-4">
         <div className="col-span-2 flex items-start gap-4">
           <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0 bg-gray-100 p-2 rounded-md">
-            <img
-              src={Images}
-              alt=""
-              className="w-full h-full object-contain"
-            />
+            <img src={Images} alt="" className="w-full h-full object-contain" />
           </div>
 
           <div className="flex flex-col">
-            <h3 className="text-base font-bold text-gray-800">
-              {Title}
-            </h3>
+            <h3 className="text-base font-bold text-gray-800">{Title}</h3>
             <p className="text-xs font-semibold text-gray-500 mt-0.5">
               Size: MD
             </p>
@@ -51,33 +62,27 @@ const Card = (data : any) => {
             ${Price}
           </h4>
 
-          <button
-            type="button"
-            className="mt-6 flex items-center px-3 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-2.5 fill-current"
-              viewBox="0 0 124 124"
-            >
-              <path
-                d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
-                data-original="#000000"
-              ></path>
-            </svg>
+          {/* --- increase decrease button --- */}
+          <div className="mt-6 flex items-center px-3 py-1.5 border border-gray-300 text-gray-800 text-xs outline-none bg-transparent rounded-md">
+            {isLoading ? (
+              "loading ... "
+            ) : (
+              <>
+                <button onClick={()=>handleModify('decrease')} className="hover:text-red-500">
+                  <FaMinus />
+                </button>
 
-            <span className="mx-3 font-bold">{quantity}</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-2.5 fill-current"
-              viewBox="0 0 42 42"
-            >
-              <path
-                d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
-                data-original="#000000"
-              ></path>
-            </svg>
-          </button>
+                <span className="mx-3 font-bold">{quantity}</span>
+
+                <button
+                  onClick={()=>handleModify('increase')}
+                  className="hover:text-blue-500"
+                >
+                  <FaPlus />
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
       <hr className="border-gray-300 my-3" />

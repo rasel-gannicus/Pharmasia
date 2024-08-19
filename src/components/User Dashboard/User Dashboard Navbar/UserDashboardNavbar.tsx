@@ -34,6 +34,7 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import NavLink from "@/utils/Navlink/NavLink";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
+import { ToastContainer } from "react-toastify";
 
 function UserDashboardNavbar({
   children,
@@ -234,6 +235,7 @@ function UserDashboardNavbar({
         </header>
         {children}
       </div>
+      <ToastContainer />
     </div>
   );
 }

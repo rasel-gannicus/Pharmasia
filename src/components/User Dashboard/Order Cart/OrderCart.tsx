@@ -8,6 +8,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
 import PublicRoute from "@/utils/Route Protection/PublicRoute";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
+import { ThreeCircles } from "react-loader-spinner";
 
 const OrderCart = () => {
   const [cart, setCart] = useState([]);
@@ -22,7 +23,7 @@ const OrderCart = () => {
     }
   }, [user, data, isLoading, isError, isSuccess]);
 
-  console.log(cart);
+  //   console.log(cart);
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">
@@ -36,9 +37,26 @@ const OrderCart = () => {
           <div className="grid md:grid-cols-3 gap-8 ">
             <div className="md:col-span-2 space-y-4">
               {cart?.length > 0 ? (
-                cart.map((index: any) => <Card key={index} data={index} />)
+                cart.map((index: any) => (
+                  <Card key={index} data={index} email={user?.email} />
+                ))
               ) : (
                 <p className="text-center text-gray-400">Your cart is empty</p>
+              )}
+              {isLoading && (
+                <div className="min-h-screen flex justify-center items-center">
+                  <div className="">
+                    <ThreeCircles
+                      visible={true}
+                      height="100"
+                      width="100"
+                      color="#9FC4DA"
+                      ariaLabel="three-circles-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  </div>
+                </div>
               )}
             </div>
 

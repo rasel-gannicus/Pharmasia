@@ -96,4 +96,4 @@ export const productApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useAddToCartMutation, useGetProductCartQuery } = productApi;
+export const { useAddToCartMutation, useGetProductCartQuery, useModifyCartMutation } = productApi;
