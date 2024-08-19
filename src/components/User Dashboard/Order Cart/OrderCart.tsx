@@ -20,7 +20,7 @@ const OrderCart = () => {
   useEffect(() => {
     if (data?.cart?.length > 0) {
       setCart(data.cart);
-      const onlyCart = data.cart.filter((item : any) => item.status === 'pending');
+      const onlyCart = data.cart.filter((item : any) => item.quantity > 0);
       setCart(onlyCart) ; 
     }
   }, [user, data, isLoading, isError, isSuccess]);

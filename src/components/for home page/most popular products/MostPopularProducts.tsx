@@ -1,6 +1,8 @@
 import { TCloths } from "@/types/types";
 import PopularProductCard from "./Popular Products Card/PopularProductCard";
 import Link from "next/link";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "@/utils/firebase.init";
 
 const MostPopularProducts = async () => {
   // --- fetching data with ISR method
@@ -18,6 +20,7 @@ const MostPopularProducts = async () => {
   const topRatedProducts = [...data]
     .sort((a, b) => b.Ratings - a.Ratings)
     .slice(0, 6);
+
   return (
     <div className="flex flex-col justify-center items-center py-20 ">
       <div className="md:flex-row md:justify-between  flex flex-col justify-center items-center w-full">
@@ -36,7 +39,11 @@ const MostPopularProducts = async () => {
 
       <div className="my-10  lg:w-full mx-auto md:grid md:grid-cols-3 lg:grid-cols-4 grid grid-cols-1 gap-y-10">
         {topRatedProducts.map((item: TCloths) => (
-          <PopularProductCard key={item._id} data={item} />
+          <PopularProductCard 
+          key={item._id} 
+          data={item} 
+          // email={user?.email} 
+          />
         ))}
       </div>
     </div>

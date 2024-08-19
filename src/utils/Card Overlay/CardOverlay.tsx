@@ -9,16 +9,33 @@ import auth from "../firebase.init";
 import { toast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { useAddUserDataMutation } from "../Redux/features/user/userApi";
-import { useEffect } from "react";
-import { useAddToCartMutation } from "../Redux/features/products/productsApi";
+import { useEffect, useState } from "react";
+import { useAddToCartMutation, useGetProductCartQuery } from "../Redux/features/products/productsApi";
 
-const CardOverlay = ({ data: productData }: { data : any}) => {
+const CardOverlay = ({ data: productData }: { data: any }) => {
   const { _id: id } = productData;
   const router = useRouter();
   const [user, loading, error] = useAuthState(auth);
 
-  const [addToCart, { data : cartResult , isLoading, isError, isSuccess } ] =
+
+  const { data : userCart} : any = useGetProductCartQuery(user?.email);
+  const userCartData = userCart?.cart
+
+  const [cartAmount, setCartAmount] : any = useState({}) ;
+  useEffect(()=>{
+    // console.log(userCartData);
+    if(userCartData?.length > 0){
+      let isCarted = userCartData.find((item : any) => item._id == id ) ;
+      setCartAmount(userCartData.find((item : any) => item._id == id ))
+      // console.log(cartAmount?.quantity); 
+      // console.log(userCartData.find((item : any) => item._id === id)); 
+    } 
+  },[user, userCartData, cartAmount])
+  // console.log(userCartData);
+
+  const [addToCart, { data: cartResult, isLoading, isError, isSuccess }] =
     useAddToCartMutation();
+
 
   const checkUser = () => {
     if (!user?.email) {
@@ -42,7 +59,11 @@ const CardOverlay = ({ data: productData }: { data : any}) => {
     checkUser();
     if (user?.email) {
       try {
-        addToCart({ email: user.email, product: productData, status : 'pending' });
+        addToCart({
+          email: user.email,
+          product: productData,
+          status: "pending",
+        });
       } catch (error) {
         console.error("Error adding product to cart:", error);
       }
@@ -55,7 +76,7 @@ const CardOverlay = ({ data: productData }: { data : any}) => {
     if (cartResult) {
       // showCnToast('Product added to cart') ;
       toast({
-        description:  "Product Added to cart!",
+        description: "Product Added to cart!",
       });
     }
   }, [cartResult, isLoading, isError, isSuccess]);
@@ -75,11 +96,12 @@ const CardOverlay = ({ data: productData }: { data : any}) => {
 
       <Button
         onClick={handleAddToCart}
-        disabled={isLoading}
+        disabled={isLoading || (cartAmount?.quantity > 0 )}
         className="rounded py-6 bg-white min-w-[230px] text-black hover:text-white"
       >
         <FaShoppingCart className="me-3 text-xl text-slate-500 " />{" "}
-        {isLoading ? "Adding . . ." : "Add to cart"}
+        {/* {isLoading ? "Adding . . ." : "Add to cart"} */}
+        {(cartAmount?.quantity > 0 ) ? 'Added' : 'Add to Cart' }
       </Button>
 
       <Button

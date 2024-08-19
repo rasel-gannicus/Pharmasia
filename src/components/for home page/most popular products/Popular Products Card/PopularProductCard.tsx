@@ -1,10 +1,17 @@
+"use client" ;
 import { Button } from "@/components/ui/button";
 import { TCloths } from "@/types/types";
 import Link from "next/link";
 import CardOverlay from "@/utils/Card Overlay/CardOverlay";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "@/utils/firebase.init";
+import { useGetProductCartQuery } from "@/utils/Redux/features/products/productsApi";
+import { useEffect } from "react";
 
 const PopularProductCard = ({ data }: { data: TCloths }) => {
   
+  const [user] = useAuthState(auth) ;
+
   return (
     <div className="md:max-w-80 w-[95%] mx-auto hover:shadow-lg group duration-300 rounded-lg py-2">
       <div className="rounded overflow-hidden relative ">
