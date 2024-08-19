@@ -1,9 +1,10 @@
+import OrderCart from '@/components/User Dashboard/Order Cart/OrderCart';
 import React from 'react';
 
 const page = () => {
     return (
         <div>
-            <h2>all the orders here</h2>
+            <OrderCart />
         </div>
     );
 };
