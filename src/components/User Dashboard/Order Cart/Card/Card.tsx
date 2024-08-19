@@ -3,7 +3,6 @@ import React from "react";
 const Card = (data : any) => {
     // console.log(data);
     const {_id, Images, Ratings, Title, quantity, Price } = data.data ;
-    console.log(Images);
   return (
     <div>
       <div className="grid grid-cols-3 items-start gap-4">

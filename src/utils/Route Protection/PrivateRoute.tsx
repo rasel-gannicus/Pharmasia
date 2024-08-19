@@ -4,8 +4,11 @@ import { onAuthStateChanged } from "firebase/auth";
 import auth from "../firebase.init";
 import { useRouter } from "next/navigation";
 import { ThreeCircles } from "react-loader-spinner";
+import { errorMessage } from "../Redux/toastMsg";
+import { toast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 
-const PrivateRoute = (WrappedComponent: FC) => {
+const PrivateRoute = (WrappedComponent: any) => {
   return function ProtectComponent(props: any) {
     const [loading, setLoading] = useState(true);
     const [authenticated, setAuthenticated] = useState(false);
@@ -16,7 +19,10 @@ const PrivateRoute = (WrappedComponent: FC) => {
         if (user) {
           setAuthenticated(true);
         } else {
-          router.push("/login");
+          toast({
+            title: "You need to login first !"
+          });
+          router.push("/authentication/login");
         }
         setLoading(false);
       });
@@ -26,7 +32,7 @@ const PrivateRoute = (WrappedComponent: FC) => {
 
     if (loading) {
       return (
-        <div className="loader-in-middle">
+        <div className="min-h-screen flex justify-center items-center">
           <div className="">
             <ThreeCircles
               visible={true}

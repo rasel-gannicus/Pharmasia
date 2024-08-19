@@ -6,6 +6,8 @@ import { useGetProductCartQuery } from "@/utils/Redux/features/products/products
 import { useAppSelector } from "@/utils/Redux/hooks";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
+import PublicRoute from "@/utils/Route Protection/PublicRoute";
+import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 
 const OrderCart = () => {
   const [cart, setCart] = useState([]);
@@ -49,4 +51,4 @@ const OrderCart = () => {
   );
 };
 
-export default OrderCart;
+export default PrivateRoute(OrderCart);

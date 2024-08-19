@@ -1,3 +1,4 @@
+"use client" ;
 import Link from "next/link";
 import {
   Bell,
@@ -32,8 +33,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import NavLink from "@/utils/Navlink/NavLink";
+import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 
-export function UserDashboardNavbar({
+function UserDashboardNavbar({
   children,
 }: {
   children: React.ReactNode;
@@ -235,6 +237,7 @@ export function UserDashboardNavbar({
     </div>
   );
 }
+export default PrivateRoute(UserDashboardNavbar);
 
 {
   //   <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
