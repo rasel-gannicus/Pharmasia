@@ -33,11 +33,11 @@ const UserNavbar = () => {
 
   const { data, isLoading, isError, isSuccess } : any = useGetProductCartQuery(email);
 
-  console.log(data);
-
   useEffect(() => {
     if(data?.cart?.length > 0){
-      setCart(data.cart.length)
+
+      const onlyCart = data.cart.filter((item : any) => item.status === 'pending');
+      setCart(onlyCart.length)
     }
     // console.log(data);
     // console.log(data?.cart?.length);

@@ -8,18 +8,18 @@ const Card = (data: any) => {
   const [
     modifyCart,
     { data: modifiedData, isLoading, isError, isSuccess, error },
-  ] : any = useModifyCartMutation();
+  ]: any = useModifyCartMutation();
 
   const { _id, Images, Ratings, Title, quantity, Price } = data.data;
 
-  const handleModify = (type : string) => {
+  const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
   };
-  useEffect(()=>{
-    console.log(error);
-    if( isError && error){
-      errorMessage(error?.data?.error)}
-  },[isError, modifiedData, isLoading, isError])
+  useEffect(() => {
+    if (isError && error) {
+      errorMessage(error?.data?.error);
+    }
+  }, [isError, modifiedData, isLoading, isError]);
   return (
     <div>
       <div className="grid grid-cols-3 items-start gap-4">
@@ -35,7 +35,9 @@ const Card = (data: any) => {
             </p>
 
             <button
+              onClick={() => handleModify("delete")}
               type="button"
+              disabled={isLoading}
               className="mt-6 font-semibold text-red-500 text-xs flex items-center gap-1 shrink-0"
             >
               <svg
@@ -68,14 +70,17 @@ const Card = (data: any) => {
               "loading ... "
             ) : (
               <>
-                <button onClick={()=>handleModify('decrease')} className="hover:text-red-500">
+                <button
+                  onClick={() => handleModify("decrease")}
+                  className="hover:text-red-500"
+                >
                   <FaMinus />
                 </button>
 
                 <span className="mx-3 font-bold">{quantity}</span>
 
                 <button
-                  onClick={()=>handleModify('increase')}
+                  onClick={() => handleModify("increase")}
                   className="hover:text-blue-500"
                 >
                   <FaPlus />

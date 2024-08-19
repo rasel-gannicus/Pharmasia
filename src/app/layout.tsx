@@ -9,9 +9,7 @@ export default async function RootLayout({
   return (
     <ReduxProvider>
       <html lang="en">
-        <body className={ubuntu.className}>
-          {children}
-        </body>
+        <body className={ubuntu.className}>{children}</body>
       </html>
     </ReduxProvider>
   );

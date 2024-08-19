@@ -4,6 +4,7 @@ import Link from "next/link";
 import CardOverlay from "@/utils/Card Overlay/CardOverlay";
 
 const PopularProductCard = ({ data }: { data: TCloths }) => {
+  
   return (
     <div className="md:max-w-80 w-[95%] mx-auto hover:shadow-lg group duration-300 rounded-lg py-2">
       <div className="rounded overflow-hidden relative ">
