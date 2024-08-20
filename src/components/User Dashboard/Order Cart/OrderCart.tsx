@@ -20,7 +20,7 @@ const OrderCart = () => {
   useEffect(() => {
     if (data?.cart?.length > 0) {
       setCart(data.cart);
-      const onlyCart = data.cart.filter((item : any) => item.quantity > 0);
+      const onlyCart = data.cart.filter((item : any) => (item.quantity > 0 && item.status !== 'wishlist'));
       setCart(onlyCart) ; 
     }
   }, [user, data, isLoading, isError, isSuccess]);
