@@ -23,6 +23,6 @@ export const useCart = (email: any, isFullData: any) => {
     }
     // console.log(data);
     // console.log(data?.cart?.length);
-  }, [email, cart, data]);
+  }, [email, data]);
   return cart;
 };

@@ -11,7 +11,7 @@ const Card = (data: any) => {
   ]: any = useModifyCartMutation();
 
   const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
-console.log(quantity);
+// console.log(quantity);
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
   };

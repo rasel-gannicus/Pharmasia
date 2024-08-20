@@ -74,9 +74,11 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
               >
                 <ShoppingCart className="h-4 w-4" />
                 Cart
-                <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  {cartQuantity}
-                </Badge>
+                {cartQuantity > 0 && (
+                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                    {cartQuantity}
+                  </Badge>
+                )}
               </NavLink>
               <NavLink
                 href="#"
@@ -164,9 +166,11 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
                 >
                   <ShoppingCart className="h-5 w-5" />
                   Cart
-                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    {cartQuantity}
-                  </Badge>
+                  {cartQuantity > 0 && (
+                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                      {cartQuantity}
+                    </Badge>
+                  )}
                 </NavLink>
                 <NavLink
                   href="#"
