@@ -1,4 +1,4 @@
-"use client" ;
+"use client";
 import Link from "next/link";
 import {
   Bell,
@@ -35,12 +35,14 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import NavLink from "@/utils/Navlink/NavLink";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ToastContainer } from "react-toastify";
+import { useCart } from "@/utils/Custom Function/checkingCart";
+import { useRouter } from "next/navigation";
 
-function UserDashboardNavbar({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
+  // --- checking how many items are in cart
+  let cartQuantity = useCart("rasel@gmail.com", false);
+
+  const router = useRouter();
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <div className="hidden border-r bg-muted/40 md:block">
@@ -48,7 +50,9 @@ function UserDashboardNavbar({
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <NavLink href="/" className="flex items-center gap-2 font-semibold">
               <Package2 className="h-6 w-6" />
-              <span className="">Pharmasia</span>
+              <button onClick={() => router.push("/")} className="">
+                Pharmasia
+              </button>
             </NavLink>
             <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
               <Bell className="h-4 w-4" />
@@ -69,9 +73,9 @@ function UserDashboardNavbar({
                 className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
                 <ShoppingCart className="h-4 w-4" />
-                Orders
+                Cart
                 <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                  6
+                  {cartQuantity}
                 </Badge>
               </NavLink>
               <NavLink
@@ -159,9 +163,9 @@ function UserDashboardNavbar({
                   className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
                 >
                   <ShoppingCart className="h-5 w-5" />
-                  Orders
+                  Cart
                   <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                    6
+                    {cartQuantity}
                   </Badge>
                 </NavLink>
                 <NavLink

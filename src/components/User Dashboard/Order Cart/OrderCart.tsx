@@ -9,23 +9,17 @@ import auth from "@/utils/firebase.init";
 import PublicRoute from "@/utils/Route Protection/PublicRoute";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ThreeCircles } from "react-loader-spinner";
+import { useCart } from "@/utils/Custom Function/checkingCart";
 
 const OrderCart = () => {
-  const [cart, setCart] = useState([]);
   const [user, loading, error] = useAuthState(auth);
   const { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
     user?.email
   );
 
-  useEffect(() => {
-    if (data?.cart?.length > 0) {
-      setCart(data.cart);
-      const onlyCart = data.cart.filter((item : any) => (item.quantity > 0 && item.status !== 'wishlist'));
-      setCart(onlyCart) ; 
-    }
-  }, [user, data, isLoading, isError, isSuccess]);
-
-  //   console.log(cart);
+  // --- checking how many items are in cart
+  let cart : any = useCart(user?.email, true);
+  console.log(cart);
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">

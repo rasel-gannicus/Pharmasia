@@ -17,31 +17,20 @@ import Image from "next/image";
 import logo from "@/assets/img/cap 2.png";
 import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
 import { activeModal } from "@/utils/Redux/features/modal/modalSlice";
-import {
-  useGetProductCartQuery,
-} from "@/utils/Redux/features/products/productsApi";
+import { useGetProductCartQuery } from "@/utils/Redux/features/products/productsApi";
 import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
+import { useCart } from "@/utils/Custom Function/checkingCart";
 
 const UserNavbar = () => {
   const urlPath = usePathname();
   const isHomePage = urlPath === "/";
-  const [cart, setCart] = useState(0) ;
 
   const userState = useAppSelector((state) => state.userSlice.user);
   const { displayName, email, photoURL } = userState;
 
-  const { data, isLoading, isError, isSuccess } : any = useGetProductCartQuery(email);
-
-  useEffect(() => {
-    if(data?.cart?.length > 0){
-
-      const onlyCart = data.cart.filter((item : any) => (item.quantity > 0 && item.status !== 'wishlist'));
-      setCart(onlyCart.length)
-    }
-    // console.log(data);
-    // console.log(data?.cart?.length);
-  }, [email, cart, data]);
+  // --- checking how many items are in cart
+  let cart = useCart(email, false);
 
   const dispatch = useAppDispatch();
 
@@ -70,21 +59,26 @@ const UserNavbar = () => {
         <Link href="#" className=" transition-colors hover:text-foreground">
           Products
         </Link>
-        <Link href="/dashboard" className=" transition-colors hover:text-foreground">
+        <Link
+          href="/dashboard"
+          className=" transition-colors hover:text-foreground"
+        >
           Admin
         </Link>
 
         {/* --- cart --- */}
-        {cart>0 && <Link
-          href="/user/cart"
-          className=" transition-colors hover:text-foreground hover:bg-slate-200 text-white hover:text-black bg-[#1C8674] py-2 px-3 relative  rounded flex gap-1 justify-between items-center"
-        >
-          <FaCartPlus className="text-lg " />
-          Cart
-          <span className="bg-red-600 w-5 h-5 text-center text-white rounded-full absolute -right-2 -bottom-2">
-            {cart}
-          </span>
-        </Link>}
+        {cart > 0 && (
+          <Link
+            href="/user/cart"
+            className=" transition-colors hover:text-foreground hover:bg-slate-200 text-white hover:text-black bg-[#1C8674] py-2 px-3 relative  rounded flex gap-1 justify-between items-center"
+          >
+            <FaCartPlus className="text-lg " />
+            Cart
+            <span className="bg-red-600 w-5 h-5 text-center text-white rounded-full absolute -right-2 -bottom-2">
+              {cart}
+            </span>
+          </Link>
+        )}
       </nav>
       <Sheet>
         <SheetTrigger asChild>

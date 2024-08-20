@@ -77,7 +77,7 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
     // console.log(user?.email);
     // console.log(cartResult);
     if (cartResult) {
-      console.log(cartResult);
+      // console.log(cartResult);
       toast({
         description: cartResult?.message || "Product Added to cart!",
       });
@@ -86,48 +86,52 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
 
   return (
     <div className="absolute bg-[rgba(71,85,105,0.85)] top-0 bottom-0 left-[900px] -right-[900px] group-hover:right-0 group-hover:left-0  flex flex-col justify-center items-center gap-5 duration-300">
-      {loading || isLoading ? <TailSpin
-            visible={true}
-            height="80"
-            width="80"
-            color="#ddd"
-            ariaLabel="tail-spin-loading"
-            radius="1"
-            wrapperStyle={{}}
-            wrapperClass=""
-          /> : <>
-        <Button
-          onClick={() => router.push(`/singleProduct/${id}`)}
-          className="rounded py-6 bg-white min-w-[230px] text-black hover:text-white"
-        >
-          <CgDetailsMore className="me-3 text-xl text-[#5092C7] " />
-          View Details
-        </Button>
+      {loading || isLoading ? (
+        <TailSpin
+          visible={true}
+          height="80"
+          width="80"
+          color="#ddd"
+          ariaLabel="tail-spin-loading"
+          radius="1"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      ) : (
+        <>
+          <Button
+            onClick={() => router.push(`/singleProduct/${id}`)}
+            className="rounded py-6 bg-white min-w-[230px] text-black hover:text-white"
+          >
+            <CgDetailsMore className="me-3 text-xl text-[#5092C7] " />
+            View Details
+          </Button>
 
-        <Button
-          onClick={() => handleCartAndWishlist("pending")}
-          disabled={isLoading || cartAmount?.quantity > 0}
-          className="rounded py-6 bg-white min-w-[230px] text-black hover:text-white"
-        >
-          <FaShoppingCart className="me-3 text-xl text-slate-500 " />{" "}
-          {/* {isLoading ? "Adding . . ." : "Add to cart"} */}
-          {cartAmount?.quantity > 0 ? "Added" : "Add to Cart"}
-        </Button>
+          <Button
+            onClick={() => handleCartAndWishlist("pending")}
+            disabled={isLoading || cartAmount?.quantity > 0}
+            className="rounded py-6 bg-white min-w-[230px] text-black hover:text-white"
+          >
+            <FaShoppingCart className="me-3 text-xl text-slate-500 " />{" "}
+            {/* {isLoading ? "Adding . . ." : "Add to cart"} */}
+            {cartAmount?.quantity > 0 ? "Added" : "Add to Cart"}
+          </Button>
 
-        <Button
-          onClick={() => handleCartAndWishlist("wishlist")}
-          disabled={isLoading || cartAmount?.wishlist}
-          className="rounded py-6 bg-white min-w-[230px] text-black hover:text-white"
-        >
-          {cartAmount?.wishlist ? (
-            <FaHeart className="me-2 text-xl text-[#FF594D] " />
-          ) : (
-            <MdFavoriteBorder className="me-2 text-xl text-[#FF594D] " />
-          )}
+          <Button
+            onClick={() => handleCartAndWishlist("wishlist")}
+            disabled={isLoading || cartAmount?.wishlist}
+            className="rounded py-6 bg-white min-w-[230px] text-black hover:text-white"
+          >
+            {cartAmount?.wishlist ? (
+              <FaHeart className="me-2 text-xl text-[#FF594D] " />
+            ) : (
+              <MdFavoriteBorder className="me-2 text-xl text-[#FF594D] " />
+            )}
 
-          {cartAmount?.wishlist ? "WishListed" : "Add to favourite"}
-        </Button>
-      </>}
+            {cartAmount?.wishlist ? "WishListed" : "Add to favourite"}
+          </Button>
+        </>
+      )}
     </div>
   );
 };
