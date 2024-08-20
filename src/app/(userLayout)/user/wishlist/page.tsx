@@ -1,9 +1,10 @@
+import Wishlist from '@/components/User Dashboard/Wishlist/Wishlist';
 import React from 'react';
 
 const page = () => {
     return (
         <div>
-            user wish list here 
+            <Wishlist />
         </div>
     );
 };

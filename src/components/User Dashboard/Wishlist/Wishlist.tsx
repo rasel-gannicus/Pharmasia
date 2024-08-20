@@ -1,29 +1,24 @@
 "use client";
+import { useWishlist } from "@/utils/Hooks/useWishlist";
 import React, { useEffect, useState } from "react";
-import Card from "./Card/Card";
-import SummaryCard from "./Card/Order Summary/SummaryCard";
+import WishlistCard from "./Wishlist Card/WishlistCard";
 import { useGetProductCartQuery } from "@/utils/Redux/features/products/productsApi";
-import { useAppSelector } from "@/utils/Redux/hooks";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
-import PublicRoute from "@/utils/Route Protection/PublicRoute";
-import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ThreeCircles } from "react-loader-spinner";
-import { useCart } from "@/utils/Hooks/useCart";
 
-const OrderCart = () => {
+const Wishlist = () => {
   const [user, loading, error] = useAuthState(auth);
+
+  const wishlist: any = useWishlist();
+
   const { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
     user?.email
   );
-
-  // --- checking how many items are in cart
-  let cart: any = useCart(user?.email, true);
-  // console.log(cart);
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">
-        <h1 className="text-lg font-semibold md:text-2xl">Order Inventory</h1>
+        <h1 className="text-lg font-semibold md:text-2xl">Your Wishlist</h1>
       </div>
       <div
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm px-3"
@@ -32,9 +27,9 @@ const OrderCart = () => {
         <div className="max-w-5xl max-md:max-w-xl mx-auto bg-white py-4">
           <div className="grid md:grid-cols-3 gap-8 ">
             <div className="md:col-span-2 space-y-4">
-              {cart?.length > 0 ? (
-                cart.map((index: any) => (
-                  <Card key={index} data={index} email={user?.email} />
+              {wishlist?.length > 0 ? (
+                wishlist.map((index: any) => (
+                  <WishlistCard key={index} data={index} />
                 ))
               ) : (
                 <p className="text-center text-gray-400">Your cart is empty</p>
@@ -55,9 +50,6 @@ const OrderCart = () => {
                 </div>
               )}
             </div>
-
-            {/* --- order summary card --- */}
-            <SummaryCard />
           </div>
         </div>
       </div>
@@ -65,4 +57,4 @@ const OrderCart = () => {
   );
 };
 
-export default PrivateRoute(OrderCart);
+export default Wishlist;

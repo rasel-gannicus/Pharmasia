@@ -2,7 +2,6 @@ import { useModifyCartMutation } from "@/utils/Redux/features/products/productsA
 import { errorMessage } from "@/utils/Redux/toastMsg";
 import React, { useEffect } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
-<FaPlus />;
 
 const Card = (data: any) => {
   const [
@@ -11,7 +10,7 @@ const Card = (data: any) => {
   ]: any = useModifyCartMutation();
 
   const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
-// console.log(quantity);
+  
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
   };
