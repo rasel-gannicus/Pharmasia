@@ -20,7 +20,7 @@ import { activeModal } from "@/utils/Redux/features/modal/modalSlice";
 import { useGetProductCartQuery } from "@/utils/Redux/features/products/productsApi";
 import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
-import { useCart } from "@/utils/Custom Function/checkingCart";
+import { useCart } from "@/utils/Hooks/useCart";
 
 const UserNavbar = () => {
   const urlPath = usePathname();

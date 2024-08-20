@@ -9,7 +9,7 @@ import auth from "@/utils/firebase.init";
 import PublicRoute from "@/utils/Route Protection/PublicRoute";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ThreeCircles } from "react-loader-spinner";
-import { useCart } from "@/utils/Custom Function/checkingCart";
+import { useCart } from "@/utils/Hooks/useCart";
 
 const OrderCart = () => {
   const [user, loading, error] = useAuthState(auth);
@@ -18,7 +18,7 @@ const OrderCart = () => {
   );
 
   // --- checking how many items are in cart
-  let cart : any = useCart(user?.email, true);
+  let cart: any = useCart(user?.email, true);
   // console.log(cart);
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">

@@ -35,7 +35,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import NavLink from "@/utils/Navlink/NavLink";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ToastContainer } from "react-toastify";
-import { useCart } from "@/utils/Custom Function/checkingCart";
+import { useCart } from "@/utils/Hooks/useCart";
 import { useRouter } from "next/navigation";
 
 function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
