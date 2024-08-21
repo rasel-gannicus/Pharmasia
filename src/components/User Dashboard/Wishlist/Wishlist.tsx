@@ -10,9 +10,10 @@ import { ThreeCircles } from "react-loader-spinner";
 const Wishlist = () => {
   const [user, loading, error] = useAuthState(auth);
 
+  //   --- getting wishlist data from mongodb with redux
   const wishlist: any = useWishlist();
 
-  const { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
+  const {  isLoading }: any = useGetProductCartQuery(
     user?.email
   );
   return (
@@ -32,7 +33,9 @@ const Wishlist = () => {
                   <WishlistCard key={index} data={index} email={user?.email} />
                 ))
               ) : (
-                <p className="text-center text-gray-400">Your cart is empty</p>
+                <p className="text-center text-gray-400">
+                  Your Wishlist is empty
+                </p>
               )}
               {isLoading && (
                 <div className="min-h-screen flex justify-center items-center">

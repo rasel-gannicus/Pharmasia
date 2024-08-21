@@ -37,10 +37,20 @@ import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ToastContainer } from "react-toastify";
 import { useCart } from "@/utils/Hooks/useCart";
 import { useRouter } from "next/navigation";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "@/utils/firebase.init";
+import { useWishlist } from "@/utils/Hooks/useWishlist";
+import { FaRegHeart } from "react-icons/fa";
+import MobileMenu from "./Menubar/MobileMenu";
 
 function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
+  const [user, loading] = useAuthState(auth);
+
   // --- checking how many items are in cart
-  let cartQuantity = useCart("rasel@gmail.com", false);
+  let cartQuantity = useCart(user?.email, false);
+
+  //   --- getting wishlist data from mongodb with redux
+  const wishlist: any = useWishlist();
 
   const router = useRouter();
   return (
@@ -92,8 +102,13 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
                 href="/user/wishlist"
                 className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
               >
-                <Package className="h-4 w-4" />
+                <FaRegHeart className="h-4 w-4" />
                 Wish List
+                {wishlist.length > 0 && (
+                  <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
+                    {wishlist.length}
+                  </Badge>
+                )}
               </NavLink>
 
               <NavLink
@@ -133,85 +148,11 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
       </div>
       <div className="flex flex-col">
         <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className="shrink-0 md:hidden"
-              >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left" className="flex flex-col">
-              <nav className="grid gap-2 text-lg font-medium">
-                <NavLink
-                  href="#"
-                  className="flex items-center gap-2 text-lg font-semibold"
-                >
-                  <Package2 className="h-6 w-6" />
-                  <span className="sr-only">Acme Inc</span>
-                </NavLink>
-                <NavLink
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Home className="h-5 w-5" />
-                  Dashboard
-                </NavLink>
-                <NavLink
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl bg-muted px-3 py-2 text-foreground hover:text-foreground"
-                >
-                  <ShoppingCart className="h-5 w-5" />
-                  Cart
-                  {cartQuantity > 0 && (
-                    <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-                      {cartQuantity}
-                    </Badge>
-                  )}
-                </NavLink>
-                <NavLink
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Package className="h-5 w-5" />
-                  Products
-                </NavLink>
-                <NavLink
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <Users className="h-5 w-5" />
-                  Customers
-                </NavLink>
-                <NavLink
-                  href="#"
-                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
-                >
-                  <LineChart className="h-5 w-5" />
-                  Analytics
-                </NavLink>
-              </nav>
-              <div className="mt-auto">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Upgrade to Pro</CardTitle>
-                    <CardDescription>
-                      Unlock all features and get unlimited access to our
-                      support team.
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <Button size="sm" className="w-full">
-                      Upgrade
-                    </Button>
-                  </CardContent>
-                </Card>
-              </div>
-            </SheetContent>
-          </Sheet>
+
+          {/* ------------ Mobile Menu Here ---------------- */}
+
+          <MobileMenu cartQuantity = {cartQuantity} wishlist = {wishlist} />
+
           <div className="w-full flex-1">
             <form>
               <div className="relative">
