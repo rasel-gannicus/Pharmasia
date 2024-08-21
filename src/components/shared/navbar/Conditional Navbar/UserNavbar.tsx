@@ -21,16 +21,21 @@ import { useGetProductCartQuery } from "@/utils/Redux/features/products/products
 import { useEffect, useState } from "react";
 import { FaCartPlus } from "react-icons/fa";
 import { useCart } from "@/utils/Hooks/useCart";
+import { useWishlist } from "@/utils/Hooks/useWishlist";
+import { FaHeart } from "react-icons/fa";
+import DesktopMenu from "./Responsive Menu/DesktopMenu";
 
 const UserNavbar = () => {
   const urlPath = usePathname();
-  const isHomePage = urlPath === "/";
 
   const userState = useAppSelector((state) => state.userSlice.user);
   const { displayName, email, photoURL } = userState;
 
   // --- checking how many items are in cart
-  let cart = useCart(email, false);
+  let cartQuantity = useCart(email, false);
+
+  //   --- getting wishlist data from mongodb with redux
+  const wishlist: any = useWishlist();
 
   const dispatch = useAppDispatch();
 
@@ -42,44 +47,7 @@ const UserNavbar = () => {
     <header
       className={`absolute left-0 right-0 z-50 top-0 flex h-16 items-center gap-4  px-4 md:px-6 `}
     >
-      <nav className="hidden  flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6  relative">
-        <Link href="/" className="flex justify-center items-center gap-3">
-          <Image
-            alt="Logo for Navbar"
-            src={logo}
-            className="rounded-sm max-w-80 w-12 absolute left-0 -top-7 -rotate-[20deg] "
-          />
-        </Link>
-        <Link href="/" className=" transition-colors hover:text-foreground">
-          Home
-        </Link>
-        <Link href="#" className=" transition-colors hover:text-foreground">
-          Orders
-        </Link>
-        <Link href="#" className=" transition-colors hover:text-foreground">
-          Products
-        </Link>
-        <Link
-          href="/dashboard"
-          className=" transition-colors hover:text-foreground"
-        >
-          Admin
-        </Link>
-
-        {/* --- cart --- */}
-        {cart > 0 && (
-          <Link
-            href="/user/cart"
-            className=" transition-colors hover:text-foreground hover:bg-slate-200 text-white hover:text-black bg-[#1C8674] py-2 px-3 relative  rounded flex gap-1 justify-between items-center"
-          >
-            <FaCartPlus className="text-lg " />
-            Cart
-            <span className="bg-red-600 w-5 h-5 text-center text-white rounded-full absolute -right-2 -bottom-2">
-              {cart}
-            </span>
-          </Link>
-        )}
-      </nav>
+      <DesktopMenu cartQuantity={cartQuantity} wishlist={wishlist} /> 
       <Sheet>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">

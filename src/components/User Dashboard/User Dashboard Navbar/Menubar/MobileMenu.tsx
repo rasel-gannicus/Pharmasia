@@ -23,7 +23,6 @@ import NavLink from "@/utils/Navlink/NavLink";
 import { FaRegHeart } from "react-icons/fa";
 
 const MobileMenu = ({cartQuantity, wishlist} : any) => {
-    console.log(cartQuantity, wishlist);
   return (
     <Sheet>
       <SheetTrigger asChild>
