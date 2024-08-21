@@ -1,39 +1,35 @@
-import React from "react";
-import {
-  Bell,
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  ShoppingCart,
-  Users,
-} from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { Home, Menu, Package2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import Image from "next/image";
+import logo from "@/assets/img/cap 2.png";
+import { FaCartPlus } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import NavLink from "@/utils/Navlink/NavLink";
-import { FaRegHeart } from "react-icons/fa";
-import { useRouter } from "next/navigation";
+import {
+    Bell,
+    LineChart,
+    Package,
+    ShoppingCart,
+    Users,
+  } from "lucide-react";
+  
+  import { Badge } from "@/components/ui/badge";
+  import { FaRegHeart } from "react-icons/fa";
+  import { useRouter } from "next/navigation";
 
-const DesktopMenu = ({ cartQuantity, wishlist }: any) => {
-  const router = useRouter();
-
+const MobileMenu = ({ cartQuantity, wishlist }: any) => {
   return (
-    <div className="flex h-full max-h-screen flex-col gap-2">
-      <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
-        <NavLink href="/" className="flex items-center gap-2 font-semibold">
-          <Package2 className="h-6 w-6" />
-          <button onClick={() => router.push("/")} className="">
-            Pharmasia
-          </button>
-        </NavLink>
-        <Button variant="outline" size="icon" className="ml-auto h-8 w-8">
-          <Bell className="h-4 w-4" />
-          <span className="sr-only">Toggle notifications</span>
+    <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline" size="icon" className="shrink-0 md:hidden">
+          <Menu className="h-5 w-5" />
+          <span className="sr-only">Toggle navigation menu</span>
         </Button>
-      </div>
-      <div className="flex-1">
-        <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+      </SheetTrigger>
+      <SheetContent side="left">
+      <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <NavLink
             href="#"
             className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
@@ -90,9 +86,9 @@ const DesktopMenu = ({ cartQuantity, wishlist }: any) => {
             Analytics
           </NavLink>
         </nav>
-      </div>
-    </div>
+      </SheetContent>
+    </Sheet>
   );
 };
 
-export default DesktopMenu;
+export default MobileMenu;
