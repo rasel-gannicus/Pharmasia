@@ -24,12 +24,12 @@ const Wishlist = () => {
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm px-3"
         x-chunk="dashboard-02-chunk-1"
       >
-        <div className="max-w-5xl max-md:max-w-xl mx-auto bg-white py-4">
+        <div className=" max-w-3xl w-full py-4">
           <div className="grid md:grid-cols-3 gap-8 ">
-            <div className="md:col-span-2 space-y-4">
+            <div className="md:col-span-3 space-y-4">
               {wishlist?.length > 0 ? (
                 wishlist.map((index: any) => (
-                  <WishlistCard key={index} data={index} />
+                  <WishlistCard key={index} data={index} email={user?.email} />
                 ))
               ) : (
                 <p className="text-center text-gray-400">Your cart is empty</p>
