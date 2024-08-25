@@ -7,8 +7,8 @@ import ProfileDashboardCard4 from "./Profile Dashboard Card/ProfileDashboardCard
 export const dashboardCardClass = "w-[170px] xl:w-[250px] max-w-[300px] flex flex-col justify-evenly items-center py-5  px-3 bg-white min-h-[300px] rounded text-center "
 const ProfileDashboard = () => {
   return (
-    <div className="bg-[#E9EFFB] min-h-screen grid grid-cols-3 gap-5 p-5 ">
-      <div className=" col-span-2">
+    <div className="bg-[#E9EFFB] min-h-screen grid grid-cols-4 gap-5 p-3 ">
+      <div className=" col-span-3">
         <div className=" flex justify-center items-center gap-3 ">
           <ProfileDashboardCard />
           <ProfileDashboardCard2 />
