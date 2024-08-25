@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { useModifyCartMutation } from "@/utils/Redux/features/products/productsApi";
+import { useAddToCartMutation, useModifyCartMutation } from "@/utils/Redux/features/products/productsApi";
 import { errorMessage } from "@/utils/Redux/toastMsg";
 import React, { useEffect } from "react";
+import { ThreeCircles } from "react-loader-spinner";
 
 const WishlistCard = (data: any) => {
   // --- modifying the cart (delete from cart, increase or decrease the amount in cart )
@@ -20,6 +21,19 @@ const WishlistCard = (data: any) => {
       errorMessage(error?.data?.error);
     }
   }, [isError, modifiedData, isLoading, isError]);
+
+  // // --- using this function to 'Add to cart' , 'Add to wishlist'
+  // const [addToCart, { data: cartResult, isLoading : addToCartLoading, isError : addToCartError, isSuccess : addToCartSuccess }]: any =
+  //   useAddToCartMutation();
+
+  //   const handleCartAndWishlist = (status: string) => {
+  //     addToCart({
+  //       email: user.email,
+  //       product: productData,
+  //       status,
+  //     });
+  //   };
+
   return (
     <div>
       <div className="grid grid-cols-3 items-start gap-4">
@@ -36,33 +50,49 @@ const WishlistCard = (data: any) => {
           </div>
         </div>
 
-        <div className="ml-auto">
-          <Button className="bg-[#1C8674]">Add to cart</Button>
+        <div className="ml-auto  h-full">
+          {isLoading ? (
+            <div className="h-full flex justify-center items-center">
+              <ThreeCircles
+                visible={true}
+                height="50"
+                width="50"
+                color="#9FC4DA"
+                ariaLabel="three-circles-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          ) : (
+            <>
+              <Button className="bg-[#1C8674]">Add to cart</Button>
 
-          {/* --- increase decrease button --- */}
+              {/* --- increase decrease button --- */}
 
-          <button
-            onClick={() => handleModify("wishlist_false")}
-            type="button"
-            disabled={isLoading}
-            className="mt-6 font-semibold text-red-500 text-xs flex items-center justify-center gap-1 shrink-0"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 fill-current inline"
-              viewBox="0 0 24 24"
-            >
-              <path
-                d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
-                data-original="#000000"
-              ></path>
-              <path
-                d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
-                data-original="#000000"
-              ></path>
-            </svg>
-            REMOVE
-          </button>
+              <button
+                onClick={() => handleModify("wishlist_false")}
+                type="button"
+                disabled={isLoading}
+                className="mt-6 font-semibold text-red-500 text-xs flex items-center justify-center gap-1 shrink-0"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-4 fill-current inline"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M19 7a1 1 0 0 0-1 1v11.191A1.92 1.92 0 0 1 15.99 21H8.01A1.92 1.92 0 0 1 6 19.191V8a1 1 0 0 0-2 0v11.191A3.918 3.918 0 0 0 8.01 23h7.98A3.918 3.918 0 0 0 20 19.191V8a1 1 0 0 0-1-1Zm1-3h-4V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM10 4V3h4v1Z"
+                    data-original="#000000"
+                  ></path>
+                  <path
+                    d="M11 17v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Zm4 0v-7a1 1 0 0 0-2 0v7a1 1 0 0 0 2 0Z"
+                    data-original="#000000"
+                  ></path>
+                </svg>
+                REMOVE
+              </button>
+            </>
+          )}
         </div>
       </div>
       <hr className="border-gray-300 my-3" />

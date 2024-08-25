@@ -1,23 +1,11 @@
-import Link from "next/link";
 import { Home, Menu, Package2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import Image from "next/image";
-import logo from "@/assets/img/cap 2.png";
-import { FaCartPlus } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
 import NavLink from "@/utils/Navlink/NavLink";
-import {
-    Bell,
-    LineChart,
-    Package,
-    ShoppingCart,
-    Users,
-  } from "lucide-react";
-  
-  import { Badge } from "@/components/ui/badge";
-  import { FaRegHeart } from "react-icons/fa";
-  import { useRouter } from "next/navigation";
+import { LineChart, Package, ShoppingCart, Users } from "lucide-react";
+
+import { Badge } from "@/components/ui/badge";
+import { FaRegHeart } from "react-icons/fa";
 
 const MobileMenu = ({ cartQuantity, wishlist }: any) => {
   return (
@@ -29,7 +17,7 @@ const MobileMenu = ({ cartQuantity, wishlist }: any) => {
         </Button>
       </SheetTrigger>
       <SheetContent side="left">
-      <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+        <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <NavLink
             href="#"
             className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"

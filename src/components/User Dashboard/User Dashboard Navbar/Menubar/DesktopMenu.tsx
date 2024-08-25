@@ -35,7 +35,7 @@ const DesktopMenu = ({ cartQuantity, wishlist }: any) => {
       <div className="flex-1">
         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
           <NavLink
-            href="#"
+            href="/user/dashboard"
             className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
           >
             <Home className="h-4 w-4" />

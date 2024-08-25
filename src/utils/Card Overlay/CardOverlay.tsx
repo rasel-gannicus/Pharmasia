@@ -22,23 +22,17 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
   const router = useRouter();
   const [user, loading, error] = useAuthState(auth);
 
+  // --- getting product cart info for individual user
   const { data: userCart }: any = useGetProductCartQuery(user?.email);
   const userCartData = userCart?.cart;
 
   const [cartAmount, setCartAmount]: any = useState({});
   useEffect(() => {
-    // console.log(userCartData);
     if (userCartData?.length > 0) {
       let isCarted = userCartData.find((item: any) => item._id == id);
       setCartAmount(userCartData.find((item: any) => item._id == id));
-      // console.log(cartAmount);
-      // console.log(userCartData.find((item : any) => item._id === id));
     }
   }, [user, userCartData, cartAmount]);
-  // console.log(userCartData);
-
-  const [addToCart, { data: cartResult, isLoading, isError, isSuccess }]: any =
-    useAddToCartMutation();
 
   const checkUser = () => {
     if (!user?.email) {
@@ -58,6 +52,10 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
     }
   };
 
+  // --- using this function to 'Add to cart' , 'Add to wishlist'
+  const [addToCart, { data: cartResult, isLoading, isError, isSuccess }]: any =
+    useAddToCartMutation();
+
   const handleCartAndWishlist = (status: string) => {
     checkUser();
     if (user?.email) {
@@ -74,10 +72,7 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
   };
 
   useEffect(() => {
-    // console.log(user?.email);
-    // console.log(cartResult);
     if (cartResult) {
-      // console.log(cartResult);
       toast({
         description: cartResult?.message || "Product Added to cart!",
       });
