@@ -1,11 +1,10 @@
 import { useModifyCartMutation } from "@/utils/Redux/features/products/productsApi";
 import { errorMessage } from "@/utils/Redux/toastMsg";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
 const Card = (data: any) => {
-
-  // --- using this function to 'Delete' a product from Cart 
+  // --- using this function to 'Delete' a product from Cart
   const [
     modifyCart,
     { data: modifiedData, isLoading, isError, isSuccess, error },
@@ -13,20 +12,38 @@ const Card = (data: any) => {
 
   const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
 
+  const { checkAll } = data;
+
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
   };
-  
+
+  const [checked, setChecked] = useState(false);
+
   useEffect(() => {
     if (isError && error) {
       errorMessage(error?.data?.error);
     }
   }, [isError, modifiedData, isLoading, isError]);
+
+  const handleCheckboxChange = () => {
+    setChecked(!checked);
+  };
   return (
     quantity > 0 && (
       <div>
         <div className="grid grid-cols-3 items-start gap-4">
           <div className="col-span-2 flex items-start gap-4">
+            {/* Checkbox before the image */}
+            <div className=" shrink-0  p-2 rounded-md">
+              <input
+                type="checkbox"
+                className="mt-2 w-3 h-3 cursor-pointer border-b-2 border-gray-300 "
+                checked={checked || checkAll}
+                onChange={handleCheckboxChange}
+              />
+            </div>
+
             <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0 bg-gray-100 p-2 rounded-md">
               <img
                 src={Images}
