@@ -8,7 +8,7 @@ import {
 
 const OrderCard = () => {
   return (
-    <div className="bg-[#FF7555] text-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-xl max-w-[300px] ">
+    <div className="bg-[#FF7555] text-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] ">
       <h2 className="text-xl font-bold xl:text-4xl flex flex-col justify-center items-start">
         $ 5700
       </h2>

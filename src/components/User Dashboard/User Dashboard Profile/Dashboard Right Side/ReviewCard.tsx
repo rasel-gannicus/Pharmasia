@@ -9,7 +9,7 @@ import { FaStar } from "react-icons/fa";
 
 const ReviewCard = () => {
   return (
-    <div className=" bg-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-xl max-w-[300px] ">
+    <div className=" bg-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] ">
       <h2 className="text-xl font-bold xl:text-4xl text-gray-500 gap-2 flex  justify-start items-start">
         <FaStar className="text-[#FDB457]" />
         17
