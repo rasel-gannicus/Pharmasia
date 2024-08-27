@@ -12,13 +12,17 @@ const Card = (data: any) => {
 
   const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
 
-  const { checkAll } = data;
+  const { checkAll, handleItemCheck } = data;
 
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
   };
 
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(checkAll);
+
+  useEffect(() => {
+    setChecked(checkAll);
+  }, [checkAll]);
 
   useEffect(() => {
     if (isError && error) {
@@ -27,7 +31,9 @@ const Card = (data: any) => {
   }, [isError, modifiedData, isLoading, isError]);
 
   const handleCheckboxChange = () => {
-    setChecked(!checked);
+    const isChecked = !checked;
+    setChecked(isChecked);
+    handleItemCheck(data, isChecked);
   };
   return (
     quantity > 0 && (
@@ -37,9 +43,10 @@ const Card = (data: any) => {
             {/* Checkbox before the image */}
             <div className=" shrink-0  p-2 rounded-md">
               <input
+                id={_id}
                 type="checkbox"
-                className="mt-2 w-3 h-3 cursor-pointer border-b-2 border-gray-300 "
-                checked={checked || checkAll}
+                className="cart-checkbox mt-2 w-3 h-3 cursor-pointer border-b-2 border-gray-300 "
+                checked={checked}
                 onChange={handleCheckboxChange}
               />
             </div>

@@ -23,6 +23,55 @@ const OrderCart = () => {
   // --- check all button functionality
   const [checkAll, setCheckAll] = useState(false);
 
+  const [checkedItems, setCheckedItems] = useState<any[]>([]); // Track checked items
+  const [totalPrice, setTotalPrice] = useState(0); // Track total price
+
+  useEffect(() => {
+    const checkboxes = document.querySelectorAll(".cart-checkbox");
+    checkboxes.forEach((checkbox: any) => {
+      checkbox.checked = checkAll;
+    });
+
+    if (checkAll) {
+      const updatedCheckedItems = data?.cart?.map((item: any) => item) || [];
+      setCheckedItems(updatedCheckedItems);
+      const price = updatedCheckedItems.reduce(
+        (acc : any, item : any) => acc + (item.quantity * item.Price),
+        0
+      );
+      // console.log(updatedCheckedItems);
+      // console.log(checkedItems);
+      // console.log({price});
+      setTotalPrice(price);
+    }else {
+      setCheckedItems([]);
+      setTotalPrice(0);
+    }
+    // console.log(data);
+    // console.log({totalPrice});
+  }, [checkAll, data, totalPrice]);
+
+  const handleItemCheck = (item: any, isChecked: boolean) => {
+    let updatedItems;
+    if (isChecked) {
+      updatedItems = [...checkedItems, item.data];
+    } else {
+      updatedItems = checkedItems.filter((i) => i._id !== item.data._id);
+    }
+    // console.log(updatedItems);
+    setCheckedItems(updatedItems);
+    const price = updatedItems.reduce(
+      (acc, item) => acc + (item.Price * item.quantity),
+      0
+    );
+    setTotalPrice(price);
+  };
+
+  useEffect(()=>{
+    // console.log({totalPrice});
+    // console.log(checkedItems);
+  },[totalPrice, checkedItems, checkAll])
+
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">
@@ -43,7 +92,7 @@ const OrderCart = () => {
               !checkAll ? "text-gray-400" : "font-bold text-black"
             }`}
           >
-            {checkAll ? 'All checked' : 'Check all'}
+            {checkAll ? "All checked" : "Check all"}
           </span>
         </label>
       </div>
@@ -58,10 +107,12 @@ const OrderCart = () => {
               {cart?.length > 0 ? (
                 cart.map((index: any) => (
                   <Card
-                    key={index}
+                    key={index._id}
                     data={index}
                     email={user?.email}
                     checkAll={checkAll}
+                    handleItemCheck={handleItemCheck} // Pass handleItemCheck to each Card
+
                   />
                 ))
               ) : (
@@ -85,7 +136,7 @@ const OrderCart = () => {
             </div>
 
             {/* --- order summary card --- */}
-            <SummaryCard />
+            <SummaryCard totalPrice={totalPrice} />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import React from "react";
 
-const SummaryCard = () => {
+const SummaryCard = ({totalPrice} : any) => {
+  // console.log(totalPrice);
   return (
     <div className="bg-gray-100 rounded-md p-4 h-max">
       <h3 className="text-lg max-sm:text-base font-bold text-gray-800 border-b border-gray-300 pb-2">
@@ -53,13 +54,13 @@ const SummaryCard = () => {
                   </clipPath>
                 </defs>
                 <g
-                  clip-path="url(#a)"
+                  clipPath="url(#a)"
                   transform="matrix(1.33 0 0 -1.33 0 682.667)"
                 >
                   <path
                     fill="none"
-                    stroke-miterlimit="10"
-                    stroke-width="40"
+                    strokeMiterlimit="10"
+                    strokeWidth="40"
                     d="M452 444H60c-22.091 0-40-17.909-40-40v-39.446l212.127-157.782c14.17-10.54 33.576-10.54 47.746 0L492 364.554V404c0 22.091-17.909 40-40 40Z"
                     data-original="#000000"
                   ></path>
@@ -104,7 +105,7 @@ const SummaryCard = () => {
         </li>
         <hr className="border-gray-300" />
         <li className="flex flex-wrap gap-4 text-sm font-bold">
-          Total <span className="ml-auto">$206.00</span>
+          Total <span className="ml-auto">${totalPrice}</span>
         </li>
       </ul>
 
