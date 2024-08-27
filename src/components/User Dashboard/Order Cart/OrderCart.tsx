@@ -13,14 +13,14 @@ import { useCart } from "@/utils/Hooks/useCart";
 
 const OrderCart = () => {
   const [user, loading, error] = useAuthState(auth);
-  const { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
+  let { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
     user?.email
   );
 
   // --- checking how many items are in cart
   let cart: any = useCart(user?.email, true);
 
-  // --- check all button functionality
+  // --- 'Check all' button functionality
   const [checkAll, setCheckAll] = useState(false);
 
   const [checkedItems, setCheckedItems] = useState<any[]>([]); // Track checked items
@@ -36,14 +36,14 @@ const OrderCart = () => {
       const updatedCheckedItems = data?.cart?.map((item: any) => item) || [];
       setCheckedItems(updatedCheckedItems);
       const price = updatedCheckedItems.reduce(
-        (acc : any, item : any) => acc + (item.quantity * item.Price),
+        (acc: any, item: any) => acc + item.quantity * item.Price,
         0
       );
       // console.log(updatedCheckedItems);
       // console.log(checkedItems);
       // console.log({price});
       setTotalPrice(price);
-    }else {
+    } else {
       setCheckedItems([]);
       setTotalPrice(0);
     }
@@ -54,23 +54,32 @@ const OrderCart = () => {
   const handleItemCheck = (item: any, isChecked: boolean) => {
     let updatedItems;
     if (isChecked) {
-      updatedItems = [...checkedItems, item.data];
+      let isExists = checkedItems.find((index) => index._id == item.data._id);
+      if (isExists) {
+        // console.log(item.data);
+        updatedItems = checkedItems.filter((i) => i._id !== item.data._id);
+        // const latestItemsFromDb = data.cart.find((i : any) => i._id == item.data._id) ; 
+        // console.log(latestItemsFromDb);
+        updatedItems = [...updatedItems, item.data];
+      } else {
+        updatedItems = [...checkedItems, item.data];
+      }
     } else {
       updatedItems = checkedItems.filter((i) => i._id !== item.data._id);
     }
     // console.log(updatedItems);
     setCheckedItems(updatedItems);
     const price = updatedItems.reduce(
-      (acc, item) => acc + (item.Price * item.quantity),
+      (acc, item) => acc + item.Price * item.quantity,
       0
     );
     setTotalPrice(price);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     // console.log({totalPrice});
-    console.log(checkedItems);
-  },[totalPrice, checkedItems, checkAll])
+    // console.log(checkedItems);
+  }, [totalPrice, checkedItems, checkAll, data]);
 
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
@@ -112,7 +121,6 @@ const OrderCart = () => {
                     email={user?.email}
                     checkAll={checkAll}
                     handleItemCheck={handleItemCheck} // Pass handleItemCheck to each Card
-
                   />
                 ))
               ) : (

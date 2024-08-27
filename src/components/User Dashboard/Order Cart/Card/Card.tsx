@@ -4,21 +4,33 @@ import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
 const Card = (data: any) => {
-  // --- using this function to 'Delete' a product from Cart
+  const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
+
+  const { checkAll, handleItemCheck } = data;
+
+  // --- "Check button" functionality
+  const [checked, setChecked] = useState(checkAll);
+
+  // --- using this function to 'Delete, Increase, Decrease' a product from Cart
   const [
     modifyCart,
     { data: modifiedData, isLoading, isError, isSuccess, error },
   ]: any = useModifyCartMutation();
 
-  const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
-
-  const { checkAll, handleItemCheck } = data;
-
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
+    if (checked) {
+      if (type == "increase" && data.data.quantity < 5) {
+        let newQuantity = data.data.quantity + 1;
+        let newData = { ...data.data, quantity: newQuantity };
+        handleItemCheck({ data: newData }, true);
+      } else if (type == "decrease" && data.data.quantity > 1) {
+        let newQuantity = data.data.quantity - 1;
+        let newData = { ...data.data, quantity: newQuantity };
+        handleItemCheck({ data: newData }, true);
+      }
+    }
   };
-
-  const [checked, setChecked] = useState(checkAll);
 
   useEffect(() => {
     setChecked(checkAll);
