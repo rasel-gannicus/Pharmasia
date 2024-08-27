@@ -49,7 +49,7 @@ const OrderCart = () => {
     }
     // console.log(data);
     // console.log({totalPrice});
-  }, [checkAll, data, totalPrice]);
+  }, [checkAll]);
 
   const handleItemCheck = (item: any, isChecked: boolean) => {
     let updatedItems;
@@ -69,7 +69,7 @@ const OrderCart = () => {
 
   useEffect(()=>{
     // console.log({totalPrice});
-    // console.log(checkedItems);
+    console.log(checkedItems);
   },[totalPrice, checkedItems, checkAll])
 
   return (
