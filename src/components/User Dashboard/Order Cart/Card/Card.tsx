@@ -28,6 +28,10 @@ const Card = (data: any) => {
         let newQuantity = data.data.quantity - 1;
         let newData = { ...data.data, quantity: newQuantity };
         handleItemCheck({ data: newData }, true);
+      }else if (type == "delete" ) {
+        let newQuantity = 0;
+        let newData = { ...data.data, quantity: newQuantity };
+        handleItemCheck({ data: newData }, true);
       }
     }
   };
