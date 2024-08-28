@@ -1,9 +1,15 @@
 import auth from "@/utils/firebase.init";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
-const SummaryAddressInfo = () => {
+const SummaryAddressInfo = (data: any) => {
   const [user, loading]: any = useAuthState(auth);
+  const { name, setName, email, setEmail, phone, setPhone } = data.data;
+  useEffect(() => {
+    setName(user.displayName);
+    setEmail(user.email);
+    setPhone(user.phoneNumber) ;
+  }, [user, loading]);
   return (
     <form className="mt-6">
       <div>
@@ -16,6 +22,7 @@ const SummaryAddressInfo = () => {
               required
               type="text"
               placeholder="Full Name"
+              onChange={(e) => setName(e.target.value)}
               defaultValue={user?.displayName}
               className="px-4 py-2.5 bg-white text-gray-800 rounded-md w-full text-sm border-b focus:border-gray-800 outline-none"
             />
@@ -37,6 +44,7 @@ const SummaryAddressInfo = () => {
           <div className="relative flex items-center">
             <input
               required
+              onChange={(e) => setEmail(e.target.value)}
               type="email"
               placeholder="Email"
               defaultValue={user?.email}
@@ -76,6 +84,7 @@ const SummaryAddressInfo = () => {
           <div className="relative flex items-center">
             <input
               required
+              onChange={(e) => setPhone(e.target.value)}
               type="number"
               placeholder="Phone No."
               defaultValue={user?.phoneNumber}

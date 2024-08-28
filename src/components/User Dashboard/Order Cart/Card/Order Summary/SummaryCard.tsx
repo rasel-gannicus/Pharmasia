@@ -1,8 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SummaryAddressInfo from "./SummaryAddressInfo";
+import { errorMessage } from "@/utils/Redux/toastMsg";
+import { Button } from "@/components/ui/button";
+import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
+import { addTotalPrice } from "@/utils/Redux/features/products/productSlice";
 
 const SummaryCard = ({ totalPrice }: any) => {
-  // console.log(totalPrice);
+  const [name, setName] = useState('') ; 
+  const [email, setEmail] = useState('') ; 
+  const [phone, setPhone] = useState('') ;
+ 
+  useEffect(()=>{
+    // console.log(name);
+  },[name])
+  
+  // --- calculating cart value
   let subTotal = totalPrice;
   let shippingFee = 0;
   if (totalPrice >= 300) {
@@ -12,13 +24,30 @@ const SummaryCard = ({ totalPrice }: any) => {
   }
   let tax = (subTotal * 5) / 100;
   let total = subTotal + shippingFee + tax;
+  const dispatch = useAppDispatch() ; 
+  dispatch(addTotalPrice(total)) ;
+
+  const productSlice = useAppSelector(state => state.productSlice.cart) ;
+  console.log(productSlice);
+
+  const handleSubmit = (e : any) => {
+    e.preventDefault() ;
+    if(!name){
+      errorMessage('Name required') ;
+    }else if(!email){
+      errorMessage('Email required') ;
+    }else if(!phone){
+      errorMessage('Phone Number required') ;
+    }
+    
+  }
   return (
-    <div className="bg-gray-100 rounded-md p-4 h-max">
+    <form onSubmit={handleSubmit} className="bg-gray-100 rounded-md p-4 h-max">
       <h3 className="text-lg max-sm:text-base font-bold text-gray-800 border-b border-gray-300 pb-2">
         Order Summary
       </h3>
 
-      <SummaryAddressInfo />
+      <SummaryAddressInfo data={{name, setName, email, setEmail, phone, setPhone}} />
 
       <ul className="text-gray-800 mt-6 space-y-3">
         <li className="flex flex-wrap gap-4 text-sm">
@@ -43,13 +72,14 @@ const SummaryCard = ({ totalPrice }: any) => {
       </ul>
 
       <div className="mt-6 space-y-3">
-        <button
+        <Button
           type="submit"
-          
+          onClick={handleSubmit}
+          disabled={productSlice.totalPrice <= 0}
           className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-gray-800 hover:bg-gray-900 text-white rounded-md"
         >
           Checkout
-        </button>
+        </Button>
         <button
           type="button"
           className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent text-gray-800 border border-gray-300 rounded-md"
@@ -57,7 +87,7 @@ const SummaryCard = ({ totalPrice }: any) => {
           Continue Shopping
         </button>
       </div>
-    </div>
+    </form>
   );
 };
 

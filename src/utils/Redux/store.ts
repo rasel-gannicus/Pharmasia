@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { apiSlice } from "./api/apiSlice";
 import { userApi } from "./features/user/userApi";
 import userReducer from "./features/user/userSlice";
 import modalReducer from "./features/modal/modalSlice";
-import { apiSlice } from "./api/apiSlice";
+import productReducer from "./features/products/productSlice" ;
 
 export const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: userApi.reducer,
     userSlice: userReducer,
-    modalSlice : modalReducer
+    modalSlice : modalReducer,
+    productSlice : productReducer
   },
   middleware: (getDefaultMiddleWares) =>
     getDefaultMiddleWares().concat(apiSlice.middleware),
