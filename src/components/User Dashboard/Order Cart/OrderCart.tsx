@@ -11,11 +11,12 @@ import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ThreeCircles } from "react-loader-spinner";
 import { useCart } from "@/utils/Hooks/useCart";
 import { ModalConfirmation } from "@/utils/Modal/ModalConfirmation";
+import CheckoutPage from "./Checkout Page/CheckoutPage";
 
 const OrderCart = () => {
   const [user, loading, error] = useAuthState(auth);
   const [modalStatus, setModalStatus] = useState(false);
-  console.log(modalStatus);
+  const [isAgree, setIsAgree] = useState(false);
 
   let { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
     user?.email
@@ -80,7 +81,7 @@ const OrderCart = () => {
     // console.log(checkedItems);
   }, [totalPrice, checkedItems, checkAll, data]);
 
-  return (
+  return !isAgree ? (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Order Inventory</h1>
@@ -151,9 +152,17 @@ const OrderCart = () => {
         </div>
       </div>
       <ModalConfirmation
-        props={{ modalStatus, setModalStatus, title: "Proceed to Checkout ? " }}
+        props={{
+          modalStatus,
+          setModalStatus,
+          title: "Proceed to Checkout ? ",
+          isAgree,
+          setIsAgree,
+        }}
       />
     </div>
+  ) : (
+    <CheckoutPage />
   );
 };
 
