@@ -10,9 +10,13 @@ import PublicRoute from "@/utils/Route Protection/PublicRoute";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ThreeCircles } from "react-loader-spinner";
 import { useCart } from "@/utils/Hooks/useCart";
+import { ModalConfirmation } from "@/utils/Modal/ModalConfirmation";
 
 const OrderCart = () => {
   const [user, loading, error] = useAuthState(auth);
+  const [modalStatus, setModalStatus] = useState(false);
+  console.log(modalStatus);
+
   let { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
     user?.email
   );
@@ -39,16 +43,11 @@ const OrderCart = () => {
         (acc: any, item: any) => acc + item.quantity * item.Price,
         0
       );
-      // console.log(updatedCheckedItems);
-      // console.log(checkedItems);
-      // console.log({price});
       setTotalPrice(price);
     } else {
       setCheckedItems([]);
       setTotalPrice(0);
     }
-    // console.log(data);
-    // console.log({totalPrice});
   }, [checkAll]);
 
   const handleItemCheck = (item: any, isChecked: boolean) => {
@@ -58,7 +57,7 @@ const OrderCart = () => {
       if (isExists) {
         // console.log(item.data);
         updatedItems = checkedItems.filter((i) => i._id !== item.data._id);
-        // const latestItemsFromDb = data.cart.find((i : any) => i._id == item.data._id) ; 
+        // const latestItemsFromDb = data.cart.find((i : any) => i._id == item.data._id) ;
         // console.log(latestItemsFromDb);
         updatedItems = [...updatedItems, item.data];
       } else {
@@ -87,8 +86,8 @@ const OrderCart = () => {
         <h1 className="text-lg font-semibold md:text-2xl">Order Inventory</h1>
       </div>
 
+      {/* --- check box for all items  --- */}
       <div className="col-span-2">
-        {/* --- check box for all items  --- */}
         <label draggable className="shrink-0  p-2 rounded-md cursor-pointer">
           <input
             type="checkbox"
@@ -144,10 +143,16 @@ const OrderCart = () => {
             </div>
 
             {/* --- order summary card --- */}
-            <SummaryCard totalPrice={totalPrice} />
+            <SummaryCard
+              totalPrice={totalPrice}
+              setModalStatus={setModalStatus}
+            />
           </div>
         </div>
       </div>
+      <ModalConfirmation
+        props={{ modalStatus, setModalStatus, title: "Proceed to Checkout ? " }}
+      />
     </div>
   );
 };
