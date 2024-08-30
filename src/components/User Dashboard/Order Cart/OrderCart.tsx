@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Card from "./Card/Card";
-import SummaryCard from "./Card/Order Summary/SummaryCard";
+import SummaryCard from "./Order Summary/SummaryCard";
 import { useGetProductCartQuery } from "@/utils/Redux/features/products/productsApi";
 import { useAppSelector } from "@/utils/Redux/hooks";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -76,13 +76,9 @@ const OrderCart = () => {
     setTotalPrice(price);
   };
 
-  useEffect(() => {
-    // console.log({totalPrice});
-    // console.log(checkedItems);
-  }, [totalPrice, checkedItems, checkAll, data]);
 
   return !isAgree ? (
-    <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+    <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 min-h-[90vh] ">
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Order Inventory</h1>
       </div>
