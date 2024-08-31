@@ -2,7 +2,10 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card/Card";
 import SummaryCard from "./Order Summary/SummaryCard";
-import { useGetProductCartQuery } from "@/utils/Redux/features/products/productsApi";
+import {
+  useGetProductCartQuery,
+  useModifyCartMutation,
+} from "@/utils/Redux/features/products/productsApi";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
@@ -11,6 +14,7 @@ import { useCart } from "@/utils/Hooks/useCart";
 import { ModalConfirmation } from "@/utils/Modal/ModalConfirmation";
 import CheckoutPage from "./Checkout Page/CheckoutPage";
 import { FaRegTrashCan } from "react-icons/fa6";
+import { ModalForDeleteConfirmation } from "@/utils/Modal/ModalForDeleteConfirmation";
 
 const OrderCart = () => {
   const [user, loading, error] = useAuthState(auth); //-- getting user info from firebase
@@ -33,6 +37,7 @@ const OrderCart = () => {
   const [checkedItems, setCheckedItems] = useState<any[]>([]); // Track checked items
   const [totalPrice, setTotalPrice] = useState(0); // Track total price
 
+  // --- handling checked all items if user click 'Check All'
   useEffect(() => {
     const checkboxes = document.querySelectorAll(".cart-checkbox");
     checkboxes.forEach((checkbox: any) => {
@@ -80,6 +85,39 @@ const OrderCart = () => {
     setTotalPrice(price);
   };
 
+  // --- using this function to 'Delete, Increase, Decrease' a product from Cart
+  const [
+    modifyCart,
+    {
+      data: modifiedData,
+      isLoading: loadingForDelete,
+      isError: isErrorForDelete,
+      isSuccess: isSuccessForDelete,
+      isError: errorForDelete,
+    },
+  ]: any = useModifyCartMutation();
+
+  const [deleteMessage, setDeleteMessage] = useState("");
+  // --- deleting checked items
+  useEffect(() => {
+    if (modalStatus2) {
+      if (checkedItems.length == 1) {
+        setDeleteMessage("Delete 1 item ?");
+      } else if (checkedItems.length > 1) {
+        setDeleteMessage(`Delete all ${checkedItems.length} items ?`);
+      } else {
+        setDeleteMessage("Delete items ?");
+      }
+    }
+    if (isAgree2) {
+      modifyCart({
+        data: checkedItems,
+        modifyType: "delete",
+        email: user?.email,
+      });
+    }
+  }, [isAgree2, modalStatus2]);
+
   return !isAgree ? (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 min-h-[90vh] ">
       <div className="flex items-center">
@@ -107,7 +145,10 @@ const OrderCart = () => {
 
           {/* --- Remove all button --- */}
           {checkAll && (
-            <button onClick={()=>setModalStatus2(true)} className="flex border-2 px-2 py-1 rounded border-red-500 font-bold text-red-500 hover:bg-red-600 hover:text-white duration-200 justify-center items-center gap-2">
+            <button
+              onClick={() => setModalStatus2(true)}
+              className="flex border-2 px-2 py-1 rounded border-red-500 font-bold text-red-500 hover:bg-red-600 hover:text-white duration-200 justify-center items-center gap-2"
+            >
               <FaRegTrashCan /> Remove
             </button>
           )}
@@ -168,11 +209,11 @@ const OrderCart = () => {
           setIsAgree,
         }}
       />
-      <ModalConfirmation
+      <ModalForDeleteConfirmation
         props={{
           modalStatus2,
           setModalStatus2,
-          title: "Delete Checked Items ? ",
+          title: deleteMessage,
           isAgree2,
           setIsAgree2,
         }}
