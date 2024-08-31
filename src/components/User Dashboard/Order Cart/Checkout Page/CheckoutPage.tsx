@@ -1,8 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BillingAddress from "./Billing Information & Address/BillingAddress";
+import { useModifyCartMutation } from "@/utils/Redux/features/products/productsApi";
 
-const CheckoutPage = () => {
+const CheckoutPage = ({props} : any) => {
   const [isAgree, setIsAgree] = useState(false);
+  const {checkedItems, email} = props ; 
+
+    // --- using this function to 'Delete, Increase, Decrease' a product from Cart
+    const [
+      modifyCart,
+      { data: modifiedData, isLoading, isError, isSuccess, error },
+    ]: any = useModifyCartMutation();
+
+  useEffect(()=>{
+    if(isAgree){
+      modifyCart({ data : checkedItems, modifyType: 'confirmed', email });
+    }
+  },[isAgree])
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  min-h-[90vh]">
       <div className="flex items-center">

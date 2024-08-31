@@ -28,7 +28,7 @@ const Card = (data: any) => {
         let newQuantity = data.data.quantity - 1;
         let newData = { ...data.data, quantity: newQuantity };
         handleItemCheck({ data: newData }, true);
-      }else if (type == "delete" ) {
+      } else if (type == "delete") {
         let newQuantity = 0;
         let newData = { ...data.data, quantity: newQuantity };
         handleItemCheck({ data: newData }, true);
@@ -42,7 +42,7 @@ const Card = (data: any) => {
 
   useEffect(() => {
     if (isError && error) {
-      errorMessage(error?.data?.error);
+      errorMessage(error?.data?.error || error?.data?.errors[0].message);
     }
   }, [isError, modifiedData, isLoading, isError]);
 

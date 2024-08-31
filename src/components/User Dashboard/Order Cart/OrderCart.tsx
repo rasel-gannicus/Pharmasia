@@ -14,13 +14,13 @@ import { ModalConfirmation } from "@/utils/Modal/ModalConfirmation";
 import CheckoutPage from "./Checkout Page/CheckoutPage";
 
 const OrderCart = () => {
-  const [user, loading, error] = useAuthState(auth);
-  const [modalStatus, setModalStatus] = useState(false);
-  const [isAgree, setIsAgree] = useState(false);
+  const [user, loading, error] = useAuthState(auth); //-- getting user info from firebase
+  const [modalStatus, setModalStatus] = useState(false); //-- activating modal
+  const [isAgree, setIsAgree] = useState(false); //-- activating modal
 
   let { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
     user?.email
-  );
+  ); //-- getting the cart for every individual user
 
   // --- checking how many items are in cart
   let cart: any = useCart(user?.email, true);
@@ -38,7 +38,8 @@ const OrderCart = () => {
     });
 
     if (checkAll) {
-      const updatedCheckedItems = data?.cart?.map((item: any) => item) || [];
+      const updatedCheckedItems =
+        data?.cart?.filter((item: any) => item.quantity > 0) || [];
       setCheckedItems(updatedCheckedItems);
       const price = updatedCheckedItems.reduce(
         (acc: any, item: any) => acc + item.quantity * item.Price,
@@ -51,6 +52,7 @@ const OrderCart = () => {
     }
   }, [checkAll]);
 
+  // --- handling single item check
   const handleItemCheck = (item: any, isChecked: boolean) => {
     let updatedItems;
     if (isChecked) {
@@ -75,7 +77,6 @@ const OrderCart = () => {
     );
     setTotalPrice(price);
   };
-
 
   return !isAgree ? (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 min-h-[90vh] ">
@@ -158,7 +159,7 @@ const OrderCart = () => {
       />
     </div>
   ) : (
-    <CheckoutPage />
+    <CheckoutPage props={{ checkedItems, email : user?.email }} />
   );
 };
 

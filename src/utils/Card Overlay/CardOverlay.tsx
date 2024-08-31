@@ -72,10 +72,38 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
   };
 
   useEffect(() => {
+    console.log(cartResult);
     if (cartResult) {
-      toast({
-        description: cartResult?.message || "Product Added to cart!",
-      });
+      if (cartResult.message.toLowerCase().includes("cart")) {
+        toast({
+          title: "Product Added to cart ",
+          action: (
+            <ToastAction
+              className="bg-yellow-400 text-white border-none hover:text-black"
+              onClick={() => router.push("/user/cart")}
+              altText="Try again"
+            >
+              View Cart
+            </ToastAction>
+          ),
+        });
+      }else if(cartResult.message.toLowerCase().includes("wishlist")){
+        toast({
+          title: "Product Added to Wishlist ",
+          action: (
+            <ToastAction
+              className="bg-blue-700 border-none text-white hover:text-black"
+              onClick={() => router.push("/user/wishlist")}
+              altText="Try again"
+            >
+              View Wishlist
+            </ToastAction>
+          ),
+        });
+      }
+      // toast({
+      //   description: cartResult?.message || "Product Added to cart!",
+      // });
     }
   }, [cartResult, isLoading, isError, isSuccess]);
 
