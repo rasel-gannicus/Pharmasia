@@ -3,20 +3,22 @@ import React, { useEffect, useState } from "react";
 import Card from "./Card/Card";
 import SummaryCard from "./Order Summary/SummaryCard";
 import { useGetProductCartQuery } from "@/utils/Redux/features/products/productsApi";
-import { useAppSelector } from "@/utils/Redux/hooks";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
-import PublicRoute from "@/utils/Route Protection/PublicRoute";
 import PrivateRoute from "@/utils/Route Protection/PrivateRoute";
 import { ThreeCircles } from "react-loader-spinner";
 import { useCart } from "@/utils/Hooks/useCart";
 import { ModalConfirmation } from "@/utils/Modal/ModalConfirmation";
 import CheckoutPage from "./Checkout Page/CheckoutPage";
+import { FaRegTrashCan } from "react-icons/fa6";
 
 const OrderCart = () => {
   const [user, loading, error] = useAuthState(auth); //-- getting user info from firebase
   const [modalStatus, setModalStatus] = useState(false); //-- activating modal
   const [isAgree, setIsAgree] = useState(false); //-- activating modal
+
+  const [modalStatus2, setModalStatus2] = useState(false); //-- activating modal
+  const [isAgree2, setIsAgree2] = useState(false); //--- deleting checked items
 
   let { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
     user?.email
@@ -85,22 +87,31 @@ const OrderCart = () => {
       </div>
 
       {/* --- check box for all items  --- */}
-      <div className="col-span-2">
-        <label draggable className="shrink-0  p-2 rounded-md cursor-pointer">
-          <input
-            type="checkbox"
-            className="mt-2 w-3 h-3 me-5 cursor-pointer border-b-2 border-gray-300 "
-            checked={checkAll}
-            onChange={() => setCheckAll(!checkAll)}
-          />
-          <span
-            className={` ${
-              !checkAll ? "text-gray-400" : "font-bold text-black"
-            }`}
-          >
-            {checkAll ? "All checked" : "Check all"}
-          </span>
-        </label>
+      <div className=" grid grid-cols-3">
+        <div className="col-span-2 flex justify-between items-center ">
+          <label draggable className="shrink-0  p-2 rounded-md cursor-pointer">
+            <input
+              type="checkbox"
+              className="mt-2 w-3 h-3 me-5 cursor-pointer border-b-2 border-gray-300 "
+              checked={checkAll}
+              onChange={() => setCheckAll(!checkAll)}
+            />
+            <span
+              className={` ${
+                !checkAll ? "text-gray-400" : "font-bold text-black"
+              }`}
+            >
+              {checkAll ? "All checked" : "Check all"}
+            </span>
+          </label>
+
+          {/* --- Remove all button --- */}
+          {checkAll && (
+            <button onClick={()=>setModalStatus2(true)} className="flex border-2 px-2 py-1 rounded border-red-500 font-bold text-red-500 hover:bg-red-600 hover:text-white duration-200 justify-center items-center gap-2">
+              <FaRegTrashCan /> Remove
+            </button>
+          )}
+        </div>
       </div>
       <div
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm px-3"
@@ -157,9 +168,18 @@ const OrderCart = () => {
           setIsAgree,
         }}
       />
+      <ModalConfirmation
+        props={{
+          modalStatus2,
+          setModalStatus2,
+          title: "Delete Checked Items ? ",
+          isAgree2,
+          setIsAgree2,
+        }}
+      />
     </div>
   ) : (
-    <CheckoutPage props={{ checkedItems, email : user?.email }} />
+    <CheckoutPage props={{ checkedItems, email: user?.email }} />
   );
 };
 

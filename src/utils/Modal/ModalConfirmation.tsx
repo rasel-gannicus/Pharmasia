@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
 
 export const ModalConfirmation = ({ props }: any) => {
   const { modalStatus, setModalStatus, title, setIsAgree } = props;
+  const { modalStatus2, setModalStatus2,  setIsAgree2 } = props;
   //   const [open, setOpen] = useState(true);
   const dispatch = useAppDispatch();
 

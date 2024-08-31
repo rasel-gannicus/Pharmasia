@@ -72,7 +72,6 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
   };
 
   useEffect(() => {
-    console.log(cartResult);
     if (cartResult) {
       if (cartResult.message.toLowerCase().includes("cart")) {
         toast({
@@ -87,7 +86,7 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
             </ToastAction>
           ),
         });
-      }else if(cartResult.message.toLowerCase().includes("wishlist")){
+      } else if (cartResult.message.toLowerCase().includes("wishlist")) {
         toast({
           title: "Product Added to Wishlist ",
           action: (
