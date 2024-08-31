@@ -1,7 +1,9 @@
 import { FaShoppingCart } from "react-icons/fa";
 import { dashboardCardClass } from "../../ProfileDashboard";
 
-const ProfileDashboardCard4 = () => {
+const ProfileDashboardCard4 = ({ props }: any) => {
+  const { userInfo } = props;
+  let cartQuantity = userInfo?.cart?.filter((item: any) => item.quantity > 0 );
   return (
     <div
       className={`${dashboardCardClass} bg-gradient-to-b from-blue-100  to-white `}
@@ -10,8 +12,8 @@ const ProfileDashboardCard4 = () => {
         <FaShoppingCart />
       </div>
       <h2 className="text-lg font-semibold"> Carts</h2>
-      <p className="text-slate-400 text-sm ">You completed</p>
-      <h2 className="text-2xl font-semibold text-[#3E5189] ">$ 2500</h2>
+      <p className="text-slate-400 text-sm ">You have items to order</p>
+      <h2 className="text-2xl lg:text-3xl font-bold text-[#3E5189] ">{cartQuantity?.length || 0}</h2>
     </div>
   );
 };

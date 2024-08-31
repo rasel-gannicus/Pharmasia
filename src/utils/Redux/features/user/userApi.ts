@@ -1,6 +1,5 @@
 import { apiSlice } from "../../api/apiSlice";
 
-
 export const userApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     // --- adding new user to db after registration or login with firebase
@@ -11,15 +10,12 @@ export const userApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    // getUserInfo : builder.query({
-    //     query : (email) => ({
-    //         url : `/userInfo/${email}`
-    //     })
-    // })
+    getUserInfo: builder.query({
+      query: (email) => ({
+        url: `/userInfo/${email}`,
+      }),
+    }),
   }),
 });
 
-export const {
-  useAddUserDataMutation,
-  // useGetUserInfoQuery
-} = userApi;
+export const { useAddUserDataMutation, useGetUserInfoQuery } = userApi;

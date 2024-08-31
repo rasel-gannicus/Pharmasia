@@ -97,10 +97,12 @@ const OrderCart = () => {
     },
   ]: any = useModifyCartMutation();
 
-  const [deleteMessage, setDeleteMessage] = useState("");
+  const [deleteMessage, setDeleteMessage] = useState(""); //-- customized delete confirmation message
+
   // --- deleting checked items
   useEffect(() => {
     if (modalStatus2) {
+      //-- customizing delete confirmation message
       if (checkedItems.length == 1) {
         setDeleteMessage("Delete 1 item ?");
       } else if (checkedItems.length > 1) {
@@ -110,6 +112,7 @@ const OrderCart = () => {
       }
     }
     if (isAgree2) {
+      // --- deleting checked items from cart
       modifyCart({
         data: checkedItems,
         modifyType: "delete",
@@ -118,6 +121,12 @@ const OrderCart = () => {
     }
   }, [isAgree2, modalStatus2]);
 
+  useEffect(() => {
+    if (modifiedData) {
+      console.log(modifiedData);
+    }
+  }, [modifiedData, loadingForDelete, isErrorForDelete, isSuccessForDelete]);
+
   return !isAgree ? (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 min-h-[90vh] ">
       <div className="flex items-center">
@@ -125,35 +134,40 @@ const OrderCart = () => {
       </div>
 
       {/* --- check box for all items  --- */}
-      <div className=" grid grid-cols-3">
-        <div className="col-span-2 flex justify-between items-center ">
-          <label draggable className="shrink-0  p-2 rounded-md cursor-pointer">
-            <input
-              type="checkbox"
-              className="mt-2 w-3 h-3 me-5 cursor-pointer border-b-2 border-gray-300 "
-              checked={checkAll}
-              onChange={() => setCheckAll(!checkAll)}
-            />
-            <span
-              className={` ${
-                !checkAll ? "text-gray-400" : "font-bold text-black"
-              }`}
+      {cart?.length > 0 && (
+        <div className=" grid grid-cols-3">
+          <div className="col-span-2 flex justify-between items-center ">
+            <label
+              draggable
+              className="shrink-0  p-2 rounded-md cursor-pointer"
             >
-              {checkAll ? "All checked" : "Check all"}
-            </span>
-          </label>
+              <input
+                type="checkbox"
+                className="mt-2 w-3 h-3 me-5 cursor-pointer border-b-2 border-gray-300 "
+                checked={checkAll}
+                onChange={() => setCheckAll(!checkAll)}
+              />
+              <span
+                className={` ${
+                  !checkAll ? "text-gray-400" : "font-bold text-black"
+                }`}
+              >
+                {checkAll ? "All checked" : "Check all"}
+              </span>
+            </label>
 
-          {/* --- Remove all button --- */}
-          {checkAll && (
-            <button
-              onClick={() => setModalStatus2(true)}
-              className="flex border-2 px-2 py-1 rounded border-red-500 font-bold text-red-500 hover:bg-red-600 hover:text-white duration-200 justify-center items-center gap-2"
-            >
-              <FaRegTrashCan /> Remove
-            </button>
-          )}
+            {/* --- Remove all button --- */}
+            {checkAll && (
+              <button
+                onClick={() => setModalStatus2(true)}
+                className="flex border-2 px-2 py-1 rounded border-red-500 font-bold text-red-500 hover:bg-red-600 hover:text-white duration-200 justify-center items-center gap-2"
+              >
+                <FaRegTrashCan /> Remove
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      )}
       <div
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm px-3"
         x-chunk="dashboard-02-chunk-1"
