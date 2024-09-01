@@ -1,22 +1,55 @@
 import React, { useEffect, useState } from "react";
 import BillingAddress from "./Billing Information & Address/BillingAddress";
-import { useModifyCartMutation } from "@/utils/Redux/features/products/productsApi";
+import {
+  useAddOrdersMutation,
+  useModifyCartMutation,
+} from "@/utils/Redux/features/products/productsApi";
+import { TailSpin } from "react-loader-spinner";
 
-const CheckoutPage = ({props} : any) => {
+const CheckoutPage = ({ props }: any) => {
   const [isAgree, setIsAgree] = useState(false);
-  const {checkedItems, email} = props ; 
+  const { checkedItems, email } = props;
 
-    // --- using this function to 'Delete, Increase, Decrease' a product from Cart
-    const [
-      modifyCart,
-      { data: modifiedData, isLoading, isError, isSuccess, error },
-    ]: any = useModifyCartMutation();
+  const [addOrders, { data, isLoading, isError, isSuccess, error }]: any =
+    useAddOrdersMutation();
 
-  useEffect(()=>{
-    if(isAgree){
-      modifyCart({ data : checkedItems, modifyType: 'confirmed', email });
+  // --- using this function to 'Delete, Increase, Decrease' a product from Cart
+  const [modifyCart, { data: modifiedData, isLoading: isModifyLoading }] =
+    useModifyCartMutation();
+
+  useEffect(() => {
+    // --- making order request to servers when user make confirmation in checkout page
+    if (isAgree) {
+      addOrders({ data: checkedItems, status: "newOrder", email });
     }
-  },[isAgree])
+  }, [isAgree]);
+
+  useEffect(() => {
+    // --- removing items from cart if the user make successfull order
+    if (data?.results?.length > 0) {
+      modifyCart({ data: checkedItems, modifyType: "delete", email });
+      return;
+    }
+  }, [data]);
+
+  if (isLoading || isModifyLoading) {
+    return (
+      <div className="w-full min-h-screen flex justify-center items-center">
+        <TailSpin
+          visible={true}
+          height="100"
+          width="100"
+          color="#1C8674"
+          ariaLabel="tail-spin-loading"
+          radius="4"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
+  // console.log(data);
+
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6  min-h-[90vh]">
       <div className="flex items-center">

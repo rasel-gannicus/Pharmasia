@@ -14,6 +14,7 @@ export const userApi = apiSlice.injectEndpoints({
       query: (email) => ({
         url: `/userInfo/${email}`,
       }),
+      providesTags : ['userInfo'] 
     }),
   }),
 });

@@ -1,10 +1,11 @@
 import { MdOutlinePendingActions } from "react-icons/md";
 import { dashboardCardClass } from "../../ProfileDashboard";
+import { TailSpin } from "react-loader-spinner";
 
 const ProfileDashboardCard = ({ props }: any) => {
-  const { userInfo } = props;
-  let pendingOrders = userInfo?.cart?.filter(
-    (item: any) => item.status === "confirmed"
+  const { userInfo, isLoading } = props;
+  let pendingOrders = userInfo?.orders?.filter(
+    (item: any) => item.status === "newOrder"
   );
 
   return (
@@ -17,7 +18,20 @@ const ProfileDashboardCard = ({ props }: any) => {
       <h2 className="text-lg font-semibold">Pending</h2>
       <p className="text-slate-400 text-sm ">Orders to be delivered</p>
       <h2 className="text-2xl lg:text-3xl font-semibold text-[#FF7555] ">
-        {pendingOrders?.length || 0}
+        {isLoading ? (
+          <TailSpin
+            visible={true}
+            height="40"
+            width= "40"
+            color="#FF7555"
+            ariaLabel="tail-spin-loading"
+            radius="4"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        ) : (
+          pendingOrders?.length || 0
+        )}
       </h2>
     </div>
   );

@@ -6,7 +6,17 @@ import {
   FaLongArrowAltUp,
 } from "react-icons/fa";
 
-const OrderCard = () => {
+const OrderCard = ({ props }: any) => {
+  const { userInfo, isLoading } = props;
+  let pendingOrders = userInfo?.cart?.filter(
+    (item: any) => item.status === "confirmed"
+  );
+  console.log(pendingOrders);
+  // let totalValue = pendingOrders?.reduce((acc : number, value : any) => {
+  //   return (acc = acc + (value.Price * value.quantity))
+  // }, 0) ;
+  // console.log(totalValue);
+
   return (
     <div className="bg-[#FF7555] text-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] ">
       <h2 className="text-xl font-bold xl:text-4xl flex flex-col justify-center items-start">
@@ -47,7 +57,9 @@ const OrderCard = () => {
         </div>
       </div>
       <div className="w-full text-center">
-        <Button className="bg-white text-orange-500 hover:text-white">View all orders</Button>
+        <Button className="bg-white text-orange-500 hover:text-white">
+          View all orders
+        </Button>
       </div>
     </div>
   );

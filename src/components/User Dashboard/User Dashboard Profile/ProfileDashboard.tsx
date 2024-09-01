@@ -29,18 +29,16 @@ const ProfileDashboard = () => {
       {/* --- Dashboard left side --- */}
       <div className=" col-span-3">
         <div className=" lg:flex justify-between items-center gap-3 ">
-
           {/* --- order card --- */}
-          <ProfileDashboardCard props={{ userInfo: data }} />
+          <ProfileDashboardCard props={{ userInfo: data, isLoading }} />
 
           {/* --- wishlist card --- */}
-          <ProfileDashboardCard2 props={{ userInfo: data }} />
+          <ProfileDashboardCard2 props={{ userInfo: data , isLoading}} />
 
-          
           <ProfileDashboardCard3 />
 
           {/* --- Cart quantity card --- */}
-          <ProfileDashboardCard4  props={{userInfo : data}} />
+          <ProfileDashboardCard4 props={{ userInfo: data, isLoading }} />
         </div>
         <div className="my-10 w-full bg-white rounded py-10 px-5 ms-auto flex justify-center items-center h-[450px]">
           <ProfileChart />
@@ -50,7 +48,7 @@ const ProfileDashboard = () => {
 
       {/* --- Dashboard right side --- */}
       <div className="flex flex-col gap-4">
-        <OrderCard />
+        <OrderCard  props={{ userInfo: data, isLoading }} />
         <ProfileChart2 />
         <ReviewCard />
       </div>

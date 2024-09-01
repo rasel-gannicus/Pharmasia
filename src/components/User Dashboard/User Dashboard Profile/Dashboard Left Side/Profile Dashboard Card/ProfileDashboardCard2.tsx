@@ -1,12 +1,11 @@
 import React from "react";
 import { FaHeart } from "react-icons/fa";
 import { dashboardCardClass } from "../../ProfileDashboard";
+import { TailSpin } from "react-loader-spinner";
 
 const ProfileDashboardCard2 = ({ props }: any) => {
-  const { userInfo } = props;
-  let wishlist = userInfo?.cart?.filter(
-    (item: any) => item.wishlist === true
-  );
+  const { userInfo, isLoading } = props;
+  let wishlist = userInfo?.cart?.filter((item: any) => item.wishlist === true);
 
   return (
     <div
@@ -17,7 +16,22 @@ const ProfileDashboardCard2 = ({ props }: any) => {
       </div>
       <h2 className="text-lg font-semibold"> Wishlists</h2>
       <p className="text-slate-400 text-sm ">Your wishlist quaintity</p>
-      <h2 className="text-2xl lg:text-3xl font-semibold text-[#38A0E9] ">{wishlist?.length || 0}</h2>
+      <h2 className="text-2xl lg:text-3xl font-semibold text-[#38A0E9] ">
+        {isLoading ? (
+          <TailSpin
+            visible={true}
+            height="40"
+            width="40"
+            color="#38A0E9"
+            ariaLabel="tail-spin-loading"
+            radius="4"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        ) : (
+          wishlist?.length || 0
+        )}
+      </h2>
     </div>
   );
 };

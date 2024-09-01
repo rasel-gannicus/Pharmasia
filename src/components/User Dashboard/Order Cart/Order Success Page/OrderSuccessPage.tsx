@@ -2,8 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { FaHome, FaShoppingCart } from "react-icons/fa";
-import { GiMedicines } from "react-icons/gi";
-
+import { MdDashboard } from "react-icons/md";
 
 const OrderSuccessPage = () => {
   const navigation = useRouter();
@@ -21,11 +20,11 @@ const OrderSuccessPage = () => {
           <FaHome /> Go Home
         </Button>
         <Button
-        //   onClick={() => navigation.push("/user/cart")}
+            onClick={() => navigation.push("/user/dashboard")}
           className="bg-blue-700 flex justify-center items-center gap-2 "
         >
-          <GiMedicines />
-          Continue Shopping
+          <MdDashboard />
+          View Dashboard
         </Button>
       </div>
     </div>

@@ -12,24 +12,35 @@ export const productApi = apiSlice.injectEndpoints({
       providesTags: ["cart"],
     }),
 
+    // --- add product to cart
     addToCart: builder.mutation({
       query: (data: any) => ({
         url: "/addToCart",
         method: "POST",
         body: data,
       }),
-      invalidatesTags : ["cart"]
+      invalidatesTags: ["cart", "userInfo"],
     }),
 
+    // --- modifying cart, 'adding, deleting, increase , decrease '
     modifyCart: builder.mutation({
       query: (data: any) => ({
         url: "/modifyCart",
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags : ["cart"]
+      invalidatesTags: ["cart", "userInfo"],
     }),
 
+    // --- add product to order list
+    addOrders: builder.mutation({
+      query: (data: any) => ({
+        url: "/addOrders",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["cart", "userInfo", "orders"],
+    }),
 
     // // --- update a users cart when he/she confirms the bookings
     // updateService: builder.mutation({
@@ -96,4 +107,9 @@ export const productApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useAddToCartMutation, useGetProductCartQuery, useModifyCartMutation } = productApi;
+export const {
+  useAddToCartMutation,
+  useGetProductCartQuery,
+  useModifyCartMutation,
+  useAddOrdersMutation
+} = productApi;
