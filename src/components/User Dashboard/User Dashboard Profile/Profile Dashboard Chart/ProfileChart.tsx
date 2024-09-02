@@ -15,32 +15,22 @@ const ProfileChart = ({ props }: any) => {
     {
       Title: "Product A",
       Price: 1000,
-      pv: 2400,
-      amt: 2400,
     },
     {
       Title: "Product B",
       Price: 2000,
-      pv: 1398,
-      amt: 2210,
     },
     {
       Title: "Product C",
       Price: 2000,
-      pv: 9800,
-      amt: 2290,
     },
     {
       Title: "Product D",
       Price: 2780,
-      pv: 3908,
-      amt: 2000,
     },
     {
       Title: "Product E",
       Price: 1890,
-      pv: 4800,
-      amt: 2181,
     },
     {
       Title: "Product F",
@@ -51,8 +41,6 @@ const ProfileChart = ({ props }: any) => {
     {
       Title: "Product G",
       Price: 3490,
-      pv: 4300,
-      amt: 2100,
     },
   ];
 
@@ -60,7 +48,7 @@ const ProfileChart = ({ props }: any) => {
   const { userInfo, isLoading } = props;
   let pendingOrders = userInfo?.orders?.filter(
     (item: any) => item.status === "newOrder"
-  ).slice(0,8).sort((a : any, b:any) => a.Price - b.Price);
+  ).slice(0,8);
 
   if (!pendingOrders || pendingOrders.length < 8) {
     pendingOrders = data;
