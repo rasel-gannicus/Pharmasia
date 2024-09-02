@@ -33,22 +33,29 @@ const ProfileDashboard = () => {
           <ProfileDashboardCard props={{ userInfo: data, isLoading }} />
 
           {/* --- wishlist card --- */}
-          <ProfileDashboardCard2 props={{ userInfo: data , isLoading}} />
+          <ProfileDashboardCard2 props={{ userInfo: data, isLoading }} />
 
           <ProfileDashboardCard3 />
 
           {/* --- Cart quantity card --- */}
           <ProfileDashboardCard4 props={{ userInfo: data, isLoading }} />
         </div>
-        <div className="my-10 w-full bg-white rounded py-10 px-5 ms-auto flex justify-center items-center h-[450px]">
-          <ProfileChart />
+        <div className=" my-10">
+          <div className=" w-full bg-white rounded pt-10 px-5 ms-auto flex justify-center items-center h-[450px]">
+            <ProfileChart props={{ userInfo: data, isLoading }} />
+          </div>
+
+          <div className="py-8 px-4 bg-white flex flex-col justify-center items-center">
+            <h2 className="text-2xl md:text-4xl font-bold text-slate-500">Your last 8 orders</h2>
+            <p className="text-center text-gray-400">(You must make atleast 8 orders to see your data in chart. Otherwise there will be some dummy data here)</p>
+          </div>
         </div>
         <RecentOrdersTable />
       </div>
 
       {/* --- Dashboard right side --- */}
       <div className="flex flex-col gap-4">
-        <OrderCard  props={{ userInfo: data, isLoading }} />
+        <OrderCard props={{ userInfo: data, isLoading }} />
         <ProfileChart2 />
         <ReviewCard />
       </div>

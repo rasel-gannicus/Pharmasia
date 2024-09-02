@@ -20,13 +20,14 @@ import { TailSpin } from "react-loader-spinner";
 const CardOverlay = ({ data: productData }: { data: any }) => {
   const { _id: id } = productData;
   const router = useRouter();
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading, error] = useAuthState(auth); //-- getting user info from firebase
 
   // --- getting product cart info for individual user
   const { data: userCart }: any = useGetProductCartQuery(user?.email);
   const userCartData = userCart?.cart;
 
   const [cartAmount, setCartAmount]: any = useState({});
+
   useEffect(() => {
     if (userCartData?.length > 0) {
       let isCarted = userCartData.find((item: any) => item._id == id);
@@ -35,6 +36,7 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
   }, [user, userCartData, cartAmount]);
 
   const checkUser = () => {
+    // --- checking if the user is logged in. if not he will be promped to login 
     if (!user?.email) {
       toast({
         title: "You need to login first !",
@@ -100,9 +102,6 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
           ),
         });
       }
-      // toast({
-      //   description: cartResult?.message || "Product Added to cart!",
-      // });
     }
   }, [cartResult, isLoading, isError, isSuccess]);
 

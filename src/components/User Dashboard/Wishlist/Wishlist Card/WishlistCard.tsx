@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { useAddToCartMutation, useModifyCartMutation } from "@/utils/Redux/features/products/productsApi";
-import { errorMessage } from "@/utils/Redux/toastMsg";
+import { ToastAction } from "@/components/ui/toast";
+import { toast } from "@/components/ui/use-toast";
+import {
+  useAddToCartMutation,
+  useModifyCartMutation,
+} from "@/utils/Redux/features/products/productsApi";
+import { errorMessage, successMessage } from "@/utils/Redux/toastMsg";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { ThreeCircles } from "react-loader-spinner";
 
@@ -13,26 +19,42 @@ const WishlistCard = (data: any) => {
 
   const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
 
+  // --- this one will remove items from wishlist
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
   };
+
   useEffect(() => {
     if (isError && error) {
       errorMessage(error?.data?.error);
     }
   }, [isError, modifiedData, isLoading, isError]);
 
-  // // --- using this function to 'Add to cart' , 'Add to wishlist'
-  // const [addToCart, { data: cartResult, isLoading : addToCartLoading, isError : addToCartError, isSuccess : addToCartSuccess }]: any =
-  //   useAddToCartMutation();
+  // // --- using this function to  'Add to wishlist'
+  const [
+    addToCart,
+    {
+      data: cartResult,
+      isLoading: addToCartLoading,
+      isError: addToCartError,
+      isSuccess: addToCartSuccess,
+    },
+  ]: any = useAddToCartMutation();
 
-  //   const handleCartAndWishlist = (status: string) => {
-  //     addToCart({
-  //       email: user.email,
-  //       product: productData,
-  //       status,
-  //     });
-  //   };
+  const handleAddToCart = (status: string) => {
+    addToCart({
+      email: data.email,
+      product: data.data,
+      status,
+    });
+  };
+
+  const router = useRouter();
+  useEffect(() => {
+    if (cartResult?.message?.toLowerCase().includes("cart")) {
+      successMessage('Product Added to cart') ;
+    }
+  }, [cartResult, addToCartLoading]);
 
   return (
     <div>
@@ -47,11 +69,14 @@ const WishlistCard = (data: any) => {
             <p className="text-xs font-semibold text-gray-500 mt-0.5">
               Size: MD
             </p>
+            <p className=" font-semibold text-[#1C8674] mt-5">
+              Price: $ {Price}
+            </p>
           </div>
         </div>
 
         <div className="ml-auto  h-full">
-          {isLoading ? (
+          {isLoading || addToCartLoading ? (
             <div className="h-full flex justify-center items-center">
               <ThreeCircles
                 visible={true}
@@ -65,7 +90,12 @@ const WishlistCard = (data: any) => {
             </div>
           ) : (
             <>
-              <Button className="bg-[#1C8674]">Add to cart</Button>
+              <Button
+                onClick={() => handleAddToCart("pending")}
+                className="bg-[#1C8674]"
+              >
+                Add to cart
+              </Button>
 
               {/* --- increase decrease button --- */}
 
