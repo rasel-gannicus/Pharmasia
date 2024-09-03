@@ -1,19 +1,28 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import OrdersRow from "./OrdersRow";
 
 export const AllOrders = ({ props }: any) => {
   // --- getting user info (including users all orders, wishlist , cart)
   const { userInfo, isLoading } = props;
+
   let allOrders = userInfo?.orders?.map((item: any) => item);
+
+  const [currentPage, setCurrentPage] = useState(0) ;
+  const [contentPerPage, setContentPerPage] = useState(10) ;
+
+  let totalPage = 0 ;
+  
+
+  const showPage = (currentPage : number, contentPerPage : number) => {
+
+  }
 
   return (
     <div className=" overflow-x-auto bg-white py-10 px-5 rounded-lg">
       <div className=" mb-5 flex justify-between">
-        <h1 className="text-slate-400 font-semibold text-lg">
-          Recent Orders :
-        </h1>
+        <h1 className="text-slate-400 font-semibold text-lg">All Orders :</h1>
         <Button className="bg-[#EFF6FF] text-black hover:text-white">
           View All Orders
         </Button>
@@ -74,6 +83,9 @@ export const AllOrders = ({ props }: any) => {
             allOrders.map((item: any) => <OrdersRow props={{ item }} />)}
         </tbody>
       </table>
+
+      {/* --- pagination button --- */}
+
     </div>
   );
 };

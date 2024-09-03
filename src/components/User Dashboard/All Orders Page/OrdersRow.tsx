@@ -3,7 +3,7 @@ import React from "react";
 
 const OrdersRow = ({ props }: any) => {
   const { item } = props;
-  console.log(item);
+  // console.log(item);
   let status;
   if (item.status == "newOrder") {
     status = "Pending";
