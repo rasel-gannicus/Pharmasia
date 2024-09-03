@@ -29,7 +29,7 @@ export const AllOrders = ({ props }: any) => {
   const [paginatedOrders, setPaginatedOrders] = useState([]);
 
   // --- Filter Dropdown menu
-  const [showLess50, setShowLess50] = React.useState<Checked>(true);
+  const [showLess50, setShowLess50] = React.useState<Checked>(false);
   const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
   const [showPanel, setShowPanel] = React.useState<Checked>(false);
 
@@ -37,9 +37,12 @@ export const AllOrders = ({ props }: any) => {
   const allOrders = userInfo?.orders ?? [];
 
   // Filter orders based on search text
-  const filteredOrders = allOrders.filter((order: any) =>
-    order.Title.toLowerCase().includes(searchText.toLowerCase())
-  );
+  const filteredOrders = allOrders.filter((order: any) => {
+    const matchesSearch =  order.Title.toLowerCase().includes(searchText.toLowerCase()) ;
+    const matchesPrice = showLess50 ? (order.Price * order.quantity) < 50 : true;
+
+    return matchesSearch && matchesPrice ;
+  });
 
   // Calculate total pages
   const totalPages = Math.ceil(allOrders.length / contentPerPage);
@@ -60,7 +63,7 @@ export const AllOrders = ({ props }: any) => {
   // Set initial pagination
   useEffect(() => {
     setPaginatedOrders(getProductsForPage(currentPage));
-  }, [currentPage, allOrders, searchText]);
+  }, [currentPage, allOrders, searchText, showLess50]);
 
   return (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
