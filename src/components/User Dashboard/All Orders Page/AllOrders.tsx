@@ -14,6 +14,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { TailSpin } from "react-loader-spinner";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
@@ -25,7 +35,7 @@ export const AllOrders = ({ props }: any) => {
 
   // Initialize state
   const [currentPage, setCurrentPage] = useState(1);
-  const [contentPerPage] = useState(5); // Set items per page
+  const [contentPerPage, setContentPerPage] = useState(5); // Set items per page
   const [paginatedOrders, setPaginatedOrders] = useState([]);
 
   // --- Filter Dropdown menu
@@ -41,7 +51,7 @@ export const AllOrders = ({ props }: any) => {
     const matchesSearch = order.Title.toLowerCase().includes(
       searchText.toLowerCase()
     );
-    
+
     const matchesPrice = showLess50 ? order.Price * order.quantity < 50 : true;
 
     const matchesPending = showPending
@@ -80,7 +90,15 @@ export const AllOrders = ({ props }: any) => {
 
   // Set initial pagination
   useEffect(() => {
-    setPaginatedOrders(getProductsForPage(currentPage));
+    // Memoize the filtered orders to prevent unnecessary recalculations
+    const newPaginatedOrders = getProductsForPage(currentPage);
+
+    // Only update state if the new state is different from the current state
+    if (
+      JSON.stringify(newPaginatedOrders) !== JSON.stringify(paginatedOrders)
+    ) {
+      setPaginatedOrders(newPaginatedOrders);
+    }
   }, [
     currentPage,
     allOrders,
@@ -88,16 +106,31 @@ export const AllOrders = ({ props }: any) => {
     showLess50,
     showPending,
     showDelivered,
+    contentPerPage,
   ]);
 
-  return (
+  return isLoading ? (
+    <div className="min-h-[70vh] w-full flex justify-center items-center">
+      <TailSpin
+        visible={true}
+        height="100"
+        width="100"
+        color="#1C8674"
+        ariaLabel="tail-spin-loading"
+        radius="4"
+        wrapperStyle={{}}
+        wrapperClass=""
+      />
+    </div>
+  ) : (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
+      {/* --- page menu before showing contents --- */}
       <div className="mb-5 flex justify-between items-center">
         <h1 className="text-slate-400 font-semibold text-lg">
           Orders found : {filteredOrders?.length}
         </h1>
 
-        <div className=" lg:min-w-[400px] ">
+        <div className=" lg:min-w-[300px] ">
           <form className="w-full">
             <div className="relative w-full ">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -112,6 +145,27 @@ export const AllOrders = ({ props }: any) => {
           </form>
         </div>
 
+        {/* --- Filter for showing content quantity per page --- */}
+        <div className="flex justify-center items-center gap-3">
+          <p className="text-slate-400 text-sm">Products per page : </p>
+          <Select
+            onValueChange={(value: string) => {
+              setContentPerPage(parseInt(value));
+              setCurrentPage(1); // Reset to first page when changing items per page
+            }}
+            defaultValue="5" // Set default value as a string
+          >
+            <SelectTrigger className="w-[80px]">
+              <SelectValue placeholder="5" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="5">5</SelectItem>
+              <SelectItem value="10">10</SelectItem>
+              <SelectItem value="20">20</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
         {/* --- Filter dropdown menu --- */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -124,7 +178,7 @@ export const AllOrders = ({ props }: any) => {
               checked={showLess50}
               onCheckedChange={setShowLess50}
             >
-              {`Show price < $ 50`}
+              {`Show orders < $50`}
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={showPending}
@@ -174,10 +228,9 @@ export const AllOrders = ({ props }: any) => {
           </thead>
 
           <tbody className="whitespace-nowrap">
-            {!isLoading &&
-              paginatedOrders.map((item: any) => (
-                <OrdersRow key={item.id} props={{ item }} />
-              ))}
+            {paginatedOrders.map((item: any) => (
+              <OrdersRow key={item.id} props={{ item }} />
+            ))}
           </tbody>
         </table>
 
