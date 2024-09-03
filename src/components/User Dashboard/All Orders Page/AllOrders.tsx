@@ -30,22 +30,40 @@ export const AllOrders = ({ props }: any) => {
 
   // --- Filter Dropdown menu
   const [showLess50, setShowLess50] = React.useState<Checked>(false);
-  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
-  const [showPanel, setShowPanel] = React.useState<Checked>(false);
+  const [showPending, setShowPending] = React.useState<Checked>(false);
+  const [showDelivered, setShowDelivered] = React.useState<Checked>(false);
 
   // Get all orders
   const allOrders = userInfo?.orders ?? [];
 
   // Filter orders based on search text
   const filteredOrders = allOrders.filter((order: any) => {
-    const matchesSearch =  order.Title.toLowerCase().includes(searchText.toLowerCase()) ;
-    const matchesPrice = showLess50 ? (order.Price * order.quantity) < 50 : true;
+    const matchesSearch = order.Title.toLowerCase().includes(
+      searchText.toLowerCase()
+    );
+    
+    const matchesPrice = showLess50 ? order.Price * order.quantity < 50 : true;
 
-    return matchesSearch && matchesPrice ;
+    const matchesPending = showPending
+      ? order.status.toLowerCase().includes("neworder")
+      : false;
+    const matchesDelivered = showDelivered
+      ? order.status.toLowerCase().includes("delivered")
+      : false;
+
+    // If both filters are unchecked, show all orders
+    if (!showPending && !showDelivered) {
+      return matchesSearch && matchesPrice;
+    }
+
+    // Show orders that match either the 'pending' or 'delivered' status when both are checked
+    return (
+      matchesSearch && matchesPrice && (matchesPending || matchesDelivered)
+    );
   });
 
   // Calculate total pages
-  const totalPages = Math.ceil(allOrders.length / contentPerPage);
+  const totalPages = Math.ceil(filteredOrders.length / contentPerPage);
 
   // Function to get products for the current page
   const getProductsForPage = (page: number) => {
@@ -63,13 +81,20 @@ export const AllOrders = ({ props }: any) => {
   // Set initial pagination
   useEffect(() => {
     setPaginatedOrders(getProductsForPage(currentPage));
-  }, [currentPage, allOrders, searchText, showLess50]);
+  }, [
+    currentPage,
+    allOrders,
+    searchText,
+    showLess50,
+    showPending,
+    showDelivered,
+  ]);
 
   return (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
       <div className="mb-5 flex justify-between items-center">
         <h1 className="text-slate-400 font-semibold text-lg">
-          All Orders : {allOrders?.length}{" "}
+          Orders found : {filteredOrders?.length}
         </h1>
 
         <div className=" lg:min-w-[400px] ">
@@ -99,20 +124,19 @@ export const AllOrders = ({ props }: any) => {
               checked={showLess50}
               onCheckedChange={setShowLess50}
             >
-              Show less than $ 50
+              {`Show price < $ 50`}
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
-              checked={showActivityBar}
-              onCheckedChange={setShowActivityBar}
-              disabled
+              checked={showPending}
+              onCheckedChange={setShowPending}
             >
-              Activity Bar
+              Pending
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
-              checked={showPanel}
-              onCheckedChange={setShowPanel}
+              checked={showDelivered}
+              onCheckedChange={setShowDelivered}
             >
-              Panel
+              Delivered
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
