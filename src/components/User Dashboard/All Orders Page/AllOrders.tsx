@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import OrdersRow from "./OrdersRow";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-
+import { FaFilter } from "react-icons/fa";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -39,21 +39,23 @@ export const AllOrders = ({ props }: any) => {
   const [paginatedOrders, setPaginatedOrders] = useState([]);
 
   // --- Filter Dropdown menu
-  const [showLess50, setShowLess50] = React.useState<Checked>(false);
-  const [showPending, setShowPending] = React.useState<Checked>(false);
-  const [showDelivered, setShowDelivered] = React.useState<Checked>(false);
+  const [showLess50, setShowLess50] = useState<Checked>(false);
+  const [showPending, setShowPending] = useState<Checked>(false);
+  const [showDelivered, setShowDelivered] = useState<Checked>(false);
+  const [priceHigh, setPriceHigh] = useState(false);
+  const [priceLow, setPriceLow] = useState(false);
 
   // Get all orders
   const allOrders = userInfo?.orders ?? [];
 
-  // Filter orders based on search text
+  // Filter orders based on 'Filter by' button
   const filteredOrders = allOrders.filter((order: any) => {
     const matchesSearch = order.Title.toLowerCase().includes(
       searchText.toLowerCase()
     );
 
-    const matchesPrice = showLess50 ? order.Price * order.quantity < 50 : true;
-
+    const matchesPriceBelow50 = showLess50 ? order.Price * order.quantity < 50 : true;
+    
     const matchesPending = showPending
       ? order.status.toLowerCase().includes("neworder")
       : false;
@@ -63,27 +65,37 @@ export const AllOrders = ({ props }: any) => {
 
     // If both filters are unchecked, show all orders
     if (!showPending && !showDelivered) {
-      return matchesSearch && matchesPrice;
+      return matchesSearch && matchesPriceBelow50;
     }
 
     // Show orders that match either the 'pending' or 'delivered' status when both are checked
     return (
-      matchesSearch && matchesPrice && (matchesPending || matchesDelivered)
+      matchesSearch && matchesPriceBelow50 && (matchesPending || matchesDelivered)
     );
   });
 
+  // --- sorting the order list based on 'Price high to low' & 'Price low to high' filtering
+  const sortedOrders : any = [...filteredOrders].sort((a, b) => {
+    if (priceHigh) {
+      return b.Price * b.quantity - a.Price * a.quantity;
+    } else if (priceLow) {
+      return a.Price * a.quantity - b.Price * b.quantity;
+    }
+    return 0; 
+  });
+
   // Calculate total pages
-  const totalPages = Math.ceil(filteredOrders.length / contentPerPage);
+  const totalPages = Math.ceil(sortedOrders.length / contentPerPage);
 
   // Function to get products for the current page
-  const getProductsForPage = (page: number) => {
+  const getProductsForPage = (page: any) => {
     const startIndex = (page - 1) * contentPerPage;
     const endIndex = startIndex + contentPerPage;
-    return filteredOrders.slice(startIndex, endIndex);
+    return sortedOrders.slice(startIndex, endIndex);
   };
 
   // Handle page change
-  const changePage = (page: number) => {
+  const changePage = (page: any) => {
     setCurrentPage(page);
     setPaginatedOrders(getProductsForPage(page));
   };
@@ -103,11 +115,23 @@ export const AllOrders = ({ props }: any) => {
     currentPage,
     allOrders,
     searchText,
+    sortedOrders,
     showLess50,
     showPending,
     showDelivered,
     contentPerPage,
+    priceHigh,
   ]);
+
+  const handlePriceFilter = (type: string) => {
+    if (type === "high") {
+      setPriceHigh(!priceHigh);
+      setPriceLow(false);
+    } else if (type === "low") {
+      setPriceLow(!priceLow);
+      setPriceHigh(false);
+    }
+  };
 
   return isLoading ? (
     <div className="min-h-[70vh] w-full flex justify-center items-center">
@@ -169,7 +193,13 @@ export const AllOrders = ({ props }: any) => {
         {/* --- Filter dropdown menu --- */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">Filter</Button>
+            <Button
+              variant="outline"
+              className=" flex justify-center items-center gap-2 text-lg  "
+            >
+              Filter by
+              <FaFilter className="w-3 h-3 text-slate-400 " />
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>Filter your orders</DropdownMenuLabel>
@@ -192,6 +222,18 @@ export const AllOrders = ({ props }: any) => {
             >
               Delivered
             </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={priceHigh}
+              onCheckedChange={() => handlePriceFilter("high")}
+            >
+              Price high to low
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem
+              checked={priceLow}
+              onCheckedChange={() => handlePriceFilter("low")}
+            >
+              Price low to high
+            </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -203,17 +245,7 @@ export const AllOrders = ({ props }: any) => {
                 Name
               </th>
               <th className="p-4 text-left text-sm font-semibold text-black">
-                Status
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-3 h-3 fill-gray-400 inline cursor-pointer ml-2"
-                  viewBox="0 0 401.998 401.998"
-                >
-                  <path
-                    d="M73.092 164.452h255.813c4.949 0 9.233-1.807 12.848-5.424 3.613-3.616 5.427-7.898 5.427-12.847s-1.813-9.229-5.427-12.85L213.846 5.424C210.232 1.812 205.951 0 200.999 0s-9.233 1.812-12.85 5.424L60.242 133.331c-3.617 3.617-5.424 7.901-5.424 12.85 0 4.948 1.807 9.231 5.424 12.847 3.621 3.617 7.902 5.424 12.85 5.424zm255.813 73.097H73.092c-4.952 0-9.233 1.808-12.85 5.421-3.617 3.617-5.424 7.898-5.424 12.847s1.807 9.233 5.424 12.848L188.149 396.57c3.621 3.617 7.902 5.428 12.85 5.428s9.233-1.811 12.847-5.428l127.907-127.906c3.613-3.614 5.427-7.898 5.427-12.848 0-4.948-1.813-9.229-5.427-12.847-3.614-3.616-7.899-5.42-12.848-5.42z"
-                    data-original="#000000"
-                  />
-                </svg>
+                Order status
               </th>
               <th className="p-4 text-left text-sm font-semibold text-black">
                 Price
