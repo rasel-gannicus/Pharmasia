@@ -24,12 +24,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TailSpin } from "react-loader-spinner";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "@/utils/firebase.init";
+import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 export const AllOrders = ({ props }: any) => {
+  const [user, loading, error] = useAuthState(auth);
+
   // --- getting user info (including user's all orders, wishlist, cart)
-  const { userInfo, isLoading } = props;
+  const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
+
 
   const [searchText, setSearchText] = useState("");
 
@@ -46,7 +52,7 @@ export const AllOrders = ({ props }: any) => {
   const [priceLow, setPriceLow] = useState(false);
 
   // Get all orders
-  const allOrders = userInfo?.orders ?? [];
+  const allOrders = data?.orders ?? [];
 
   // Filter orders based on 'Filter by' button
   const filteredOrders = allOrders.filter((order: any) => {
@@ -54,8 +60,10 @@ export const AllOrders = ({ props }: any) => {
       searchText.toLowerCase()
     );
 
-    const matchesPriceBelow50 = showLess50 ? order.Price * order.quantity < 50 : true;
-    
+    const matchesPriceBelow50 = showLess50
+      ? order.Price * order.quantity < 50
+      : true;
+
     const matchesPending = showPending
       ? order.status.toLowerCase().includes("neworder")
       : false;
@@ -70,18 +78,20 @@ export const AllOrders = ({ props }: any) => {
 
     // Show orders that match either the 'pending' or 'delivered' status when both are checked
     return (
-      matchesSearch && matchesPriceBelow50 && (matchesPending || matchesDelivered)
+      matchesSearch &&
+      matchesPriceBelow50 &&
+      (matchesPending || matchesDelivered)
     );
   });
 
   // --- sorting the order list based on 'Price high to low' & 'Price low to high' filtering
-  const sortedOrders : any = [...filteredOrders].sort((a, b) => {
+  const sortedOrders: any = [...filteredOrders].sort((a, b) => {
     if (priceHigh) {
       return b.Price * b.quantity - a.Price * a.quantity;
     } else if (priceLow) {
       return a.Price * a.quantity - b.Price * b.quantity;
     }
-    return 0; 
+    return 0;
   });
 
   // Calculate total pages
@@ -113,6 +123,8 @@ export const AllOrders = ({ props }: any) => {
     }
   }, [
     currentPage,
+    isLoading,
+    loading,
     allOrders,
     searchText,
     sortedOrders,
@@ -133,7 +145,7 @@ export const AllOrders = ({ props }: any) => {
     }
   };
 
-  return isLoading ? (
+  return (isLoading || loading) ? (
     <div className="min-h-[70vh] w-full flex justify-center items-center">
       <TailSpin
         visible={true}
