@@ -36,7 +36,6 @@ export const AllOrders = ({ props }: any) => {
   // --- getting user info (including user's all orders, wishlist, cart)
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
 
-
   const [searchText, setSearchText] = useState("");
 
   // Initialize state
@@ -145,7 +144,7 @@ export const AllOrders = ({ props }: any) => {
     }
   };
 
-  return (isLoading || loading) ? (
+  return isLoading || loading ? (
     <div className="min-h-[70vh] w-full flex justify-center items-center">
       <TailSpin
         visible={true}
@@ -160,13 +159,15 @@ export const AllOrders = ({ props }: any) => {
     </div>
   ) : (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
+
       {/* --- page menu before showing contents --- */}
-      <div className="mb-5 flex justify-between items-center">
-        <h1 className="text-slate-400 font-semibold text-lg">
+      <div className="mb-5 container flex justify-between items-center gap-5">
+        <h1 className="text-slate-500 font-semibold text-sm lg:text-lg">
           Orders found : {filteredOrders?.length}
         </h1>
 
-        <div className=" lg:min-w-[300px] ">
+        {/* --- search box --- */}
+        <div className=" lg:min-w-[250px] ">
           <form className="w-full">
             <div className="relative w-full ">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -182,8 +183,10 @@ export const AllOrders = ({ props }: any) => {
         </div>
 
         {/* --- Filter for showing content quantity per page --- */}
-        <div className="flex justify-center items-center gap-3">
-          <p className="text-slate-400 text-sm">Products per page : </p>
+        <div className="flex justify-center items-center gap-1">
+          <p className="text-slate-400 text-xs 2xl:text-sm">
+            Products per page :{" "}
+          </p>
           <Select
             onValueChange={(value: string) => {
               setContentPerPage(parseInt(value));
@@ -207,20 +210,20 @@ export const AllOrders = ({ props }: any) => {
           <DropdownMenuTrigger asChild>
             <Button
               variant="outline"
-              className=" flex justify-center items-center gap-2 text-lg  "
+              className=" flex justify-center items-center gap-2 text-lg text-slate-500  "
             >
               Filter by
               <FaFilter className="w-3 h-3 text-slate-400 " />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Filter your orders</DropdownMenuLabel>
+            <DropdownMenuLabel>Filter your orders by</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuCheckboxItem
               checked={showLess50}
               onCheckedChange={setShowLess50}
             >
-              {`Show orders < $50`}
+              {`Price less than < 50`}
             </DropdownMenuCheckboxItem>
             <DropdownMenuCheckboxItem
               checked={showPending}
@@ -249,6 +252,7 @@ export const AllOrders = ({ props }: any) => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+      <hr />
       <div className="flex flex-col justify-between items-center min-h-[70vh] ">
         <table className="min-w-full bg-white">
           <thead className="whitespace-nowrap">
