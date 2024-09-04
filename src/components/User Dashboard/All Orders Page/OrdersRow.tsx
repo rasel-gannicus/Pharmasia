@@ -8,6 +8,57 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { MdReviews } from "react-icons/md";
 import { TailSpin } from "react-loader-spinner";
 
+// --- button for user in the order inventory
+const userActionButtonOrderInventory = (item: any, setModalStatus2: any) => {
+  let actionButton = null;
+  if (item.status == "newOrder") {
+    return (actionButton = (
+      <td className=" text-center">
+        <button onClick={() => setModalStatus2(true)} title="Delete">
+          <FaRegTrashAlt className="text-lg text-red-500" />
+        </button>
+      </td>
+    ));
+  } else if (item.status.toLowerCase() == "packaged") {
+    return (actionButton = (
+      <td className=" text-center">
+        <button title="Delete" disabled>
+          <FaRegTrashAlt className="text-lg text-slate-500" />
+        </button>
+      </td>
+    ));
+  } else if (
+    item.status.toLowerCase() == "shipping" ||
+    item.status.toLowerCase() == "shipped"
+  ) {
+    return (actionButton = (
+      <td className=" text-center">
+        <button title="Delete" disabled>
+          <FaRegTrashAlt className="text-lg text-slate-500" />
+        </button>
+      </td>
+    ));
+  } else if (item.status.toLowerCase() == "delivered") {
+    return (actionButton = (
+      <td className=" text-center">
+        <Button
+          title="Delete"
+          className="flex mx-auto text-sm bg-yellow-300  text-black justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
+        >
+          Review
+          <MdReviews className="" />
+        </Button>
+      </td>
+    ));
+  } else if (item.status.toLowerCase() == "cancelled" || item?.isCancelled) {
+    return (actionButton = (
+      <td className=" text-center">
+        <p className="text-sm text-gray-300">Order Cancelled</p>
+      </td>
+    ));
+  }
+};
+
 const OrdersRow = ({ props }: any) => {
   const { item, email } = props;
   const [modalStatus2, setModalStatus2] = useState(false);
@@ -18,54 +69,7 @@ const OrdersRow = ({ props }: any) => {
   if (item.status == "newOrder") {
     status = "Pending";
   }
-  let actionButton = null;
-
-  if (item.status == "newOrder") {
-    actionButton = (
-      <td className=" text-center">
-        <button onClick={() => setModalStatus2(true)} title="Delete">
-          <FaRegTrashAlt className="text-lg text-red-500" />
-        </button>
-      </td>
-    );
-  } else if (item.status.toLowerCase() == "packaged") {
-    actionButton = (
-      <td className=" text-center">
-        <button title="Delete" disabled>
-          <FaRegTrashAlt className="text-lg text-slate-500" />
-        </button>
-      </td>
-    );
-  } else if (
-    item.status.toLowerCase() == "shipping" ||
-    item.status.toLowerCase() == "shipped"
-  ) {
-    actionButton = (
-      <td className=" text-center">
-        <button title="Delete" disabled>
-          <FaRegTrashAlt className="text-lg text-slate-500" />
-        </button>
-      </td>
-    );
-  } else if (item.status.toLowerCase() == "delivered") {
-    actionButton = (
-      <td className=" text-center">
-        <Button
-          title="Delete"
-          className="flex mx-auto text-sm bg-yellow-300  text-black justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
-        >
-          Review
-          <MdReviews className="" />
-        </Button>
-      </td>
-    );
-  } else if (item.status.toLowerCase() == "cancelled" || item?.isCancelled) {
-    actionButton = (
-      <td className=" text-center">
-        <p className="text-sm text-gray-300">Order Cancelled</p>
-      </td>
-    );
-  }
+  let actionButton = userActionButtonOrderInventory(item, setModalStatus2);
 
   const [modifyOrders, { data, isLoading, isError }] =
     useModifyOrdersMutation();
@@ -79,9 +83,8 @@ const OrdersRow = ({ props }: any) => {
         email,
       });
     }
-    setIsAgree2(false) ;
+    setIsAgree2(false);
   }, [isAgree2, modalStatus2, isLoading, data]);
-
 
   return (
     <tr className="odd:bg-blue-50 ">

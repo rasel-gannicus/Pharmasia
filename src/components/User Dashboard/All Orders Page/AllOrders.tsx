@@ -47,31 +47,49 @@ export const AllOrders = ({ props }: any) => {
   const [showLess50, setShowLess50] = useState<Checked>(false);
   const [showPending, setShowPending] = useState<Checked>(false);
   const [showDelivered, setShowDelivered] = useState<Checked>(false);
+  const [showCancelled, setShowCancelled] = useState<Checked>(false);
   const [priceHigh, setPriceHigh] = useState(false);
   const [priceLow, setPriceLow] = useState(false);
 
   // Get all orders
-  const allOrders = data?.orders ?? [];
+  let allOrders = data?.orders ?? [];
+
+  if (allOrders?.length > 0) {
+    allOrders = [...allOrders].sort((a: any, b: any) => {
+      return new Date(b.orderTime).getTime() - new Date(a.orderTime).getTime();
+    });
+  }
 
   // Filter orders based on 'Filter by' button
   const filteredOrders = allOrders.filter((order: any) => {
+
+    // --- filter order by search text
     const matchesSearch = order.Title.toLowerCase().includes(
       searchText.toLowerCase()
     );
 
+    // --- filter order by price below 50
     const matchesPriceBelow50 = showLess50
       ? order.Price * order.quantity < 50
       : true;
 
+    // --- filter order by status 'pending'
     const matchesPending = showPending
       ? order.status.toLowerCase().includes("neworder")
       : false;
+
+    // --- filter order by status 'delivered'
     const matchesDelivered = showDelivered
       ? order.status.toLowerCase().includes("delivered")
       : false;
 
+    // --- filter order by status 'cancelled'
+    const matchesCancelled = showCancelled
+      ? order.status.toLowerCase().includes("cancelled")
+      : false;
+
     // If both filters are unchecked, show all orders
-    if (!showPending && !showDelivered) {
+    if (!showPending && !showDelivered && !showCancelled) {
       return matchesSearch && matchesPriceBelow50;
     }
 
@@ -79,7 +97,7 @@ export const AllOrders = ({ props }: any) => {
     return (
       matchesSearch &&
       matchesPriceBelow50 &&
-      (matchesPending || matchesDelivered)
+      (matchesPending || matchesDelivered || matchesCancelled)
     );
   });
 
@@ -130,10 +148,12 @@ export const AllOrders = ({ props }: any) => {
     showLess50,
     showPending,
     showDelivered,
+    showCancelled,
     contentPerPage,
     priceHigh,
   ]);
 
+  // --- filtering orders according to price
   const handlePriceFilter = (type: string) => {
     if (type === "high") {
       setPriceHigh(!priceHigh);
@@ -159,7 +179,6 @@ export const AllOrders = ({ props }: any) => {
     </div>
   ) : (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
-
       {/* --- page menu before showing contents --- */}
       <div className="mb-5 container flex justify-between items-center gap-5">
         <h1 className="text-slate-500 font-semibold text-sm lg:text-lg">
@@ -225,18 +244,28 @@ export const AllOrders = ({ props }: any) => {
             >
               {`Price less than < 50`}
             </DropdownMenuCheckboxItem>
+
             <DropdownMenuCheckboxItem
               checked={showPending}
               onCheckedChange={setShowPending}
             >
               Pending
             </DropdownMenuCheckboxItem>
+
             <DropdownMenuCheckboxItem
               checked={showDelivered}
               onCheckedChange={setShowDelivered}
             >
               Delivered
+            </DropdownMenuCheckboxItem>            
+
+            <DropdownMenuCheckboxItem
+              checked={showCancelled}
+              onCheckedChange={setShowCancelled}
+            >
+              Cancelled
             </DropdownMenuCheckboxItem>
+
             <DropdownMenuCheckboxItem
               checked={priceHigh}
               onCheckedChange={() => handlePriceFilter("high")}
