@@ -68,7 +68,7 @@ const userActionButtonOrderInventory = (
 const OrdersRow = ({ props }: any) => {
   const { item, email } = props;
   const [modalStatus2, setModalStatus2] = useState(false);
-  const [modalStatus, setModalStatus] = useState(false);
+  const [modalStatus, setModalStatus] = useState(true);
   const [isAgree2, setIsAgree2] = useState(false);
 
   // --- showing order status in tabl
