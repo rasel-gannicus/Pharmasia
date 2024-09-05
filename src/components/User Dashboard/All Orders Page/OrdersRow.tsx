@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ModalForDeleteConfirmation } from "@/utils/Modal/ModalForDeleteConfirmation";
+import { ModalforRatings } from "@/utils/Modal/ModalForRatings";
 import RatingsDiv from "@/utils/Ratings/RatingsDiv";
 import { useModifyOrdersMutation } from "@/utils/Redux/features/products/productsApi";
 import React, { useEffect, useState } from "react";
@@ -9,7 +10,11 @@ import { MdReviews } from "react-icons/md";
 import { TailSpin } from "react-loader-spinner";
 
 // --- button for user in the order inventory
-const userActionButtonOrderInventory = (item: any, setModalStatus2: any) => {
+const userActionButtonOrderInventory = (
+  item: any,
+  setModalStatus2: any,
+  setModalStatus: any
+) => {
   let actionButton = null;
   if (item.status == "newOrder") {
     return (actionButton = (
@@ -42,6 +47,7 @@ const userActionButtonOrderInventory = (item: any, setModalStatus2: any) => {
     return (actionButton = (
       <td className=" text-center">
         <Button
+          onClick={() => setModalStatus(true)}
           title="Delete"
           className="flex mx-auto text-sm bg-yellow-300  text-black justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
         >
@@ -62,14 +68,15 @@ const userActionButtonOrderInventory = (item: any, setModalStatus2: any) => {
 const OrdersRow = ({ props }: any) => {
   const { item, email } = props;
   const [modalStatus2, setModalStatus2] = useState(false);
+  const [modalStatus, setModalStatus] = useState(false);
   const [isAgree2, setIsAgree2] = useState(false);
 
-  // --- showing order status in table
+  // --- showing order status in tabl
   let status;
   if (item.status == "newOrder") {
     status = "Pending";
   }
-  let actionButton = userActionButtonOrderInventory(item, setModalStatus2);
+  let actionButton = userActionButtonOrderInventory(item, setModalStatus2, setModalStatus);
 
   const [modifyOrders, { data, isLoading, isError }] =
     useModifyOrdersMutation();
@@ -134,6 +141,7 @@ const OrdersRow = ({ props }: any) => {
       ) : (
         actionButton
       )}
+
       <ModalForDeleteConfirmation
         props={{
           modalStatus2,
@@ -142,6 +150,16 @@ const OrdersRow = ({ props }: any) => {
           title: "Do you want to cancel the order ? ",
         }}
       />
+
+      <ModalforRatings
+        props={{
+          modalStatus,
+          setModalStatus,
+          title: "Rate the product ",
+          item
+        }}
+      />
+      
     </tr>
   );
 };

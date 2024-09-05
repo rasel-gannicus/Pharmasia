@@ -3,39 +3,51 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import { closeModal } from "@/utils/Redux/features/modal/modalSlice";
 import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
+import Image from "next/image";
 import { IoMdClose } from "react-icons/io";
 
-export const ModalForDeleteConfirmation = ({ props }: any) => {
-  const { modalStatus2, setModalStatus2, title, setIsAgree2 } = props;
+export const ModalforRatings = ({ props }: any) => {
+  const { modalStatus, setModalStatus, title, setIsAgree, item } = props;
   //   const [open, setOpen] = useState(true);
   const dispatch = useAppDispatch();
 
   //   -- closing modal and logging out
   const handleModalClose = () => {
     dispatch(closeModal(false));
-    setModalStatus2(false);
-    setIsAgree2(false);
+    setModalStatus(false);
+    // setIsAgree(false);
   };
 
   const handleModalButton = (tryMe: boolean) => {
-    setModalStatus2(false);
-    setIsAgree2(tryMe);
+    setModalStatus(false);
+    // setIsAgree(tryMe);
   };
 
   return (
-    <Dialog open={modalStatus2} onOpenChange={() => {}}>
+    <Dialog open={modalStatus} onOpenChange={() => {}}>
       <DialogContent>
         <DialogHeader>
-          {/* <DialogTitle>Modal Title</DialogTitle> */}
-          {/* <DialogDescription>
-            This is a description inside the modal.
-          </DialogDescription> */}
+          <DialogTitle className="pb-3">{title}</DialogTitle>
+            <hr className="pt-5" />
+          {/* --- modal body --- */}
+          <div className="modal-description grid grid-cols-2 gap-3 my-14">
+            <div className="">
+              <img src={item.Images} alt="product image" />
+            </div>
+            <div className="flex flex-col gap-3">
+                <h2 className="text-xl font-semibold text-[#1C8674] ">{item.Title}</h2>
+                <p>Your rating : </p>
+            </div>
+          </div>
         </DialogHeader>
-        <p className="text-2xl font-semibold text-center my-5">{title}</p>
+
+        {/* <p className="text-2xl font-semibold text-center my-5">{title}</p> */}
         <div className="flex justify-center items-center gap-4">
           <Button
             className="bg-red-700 min-w-20"
