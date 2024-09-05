@@ -1,47 +1,93 @@
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 import { closeModal } from "@/utils/Redux/features/modal/modalSlice";
-import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
-import Image from "next/image";
-import { IoMdClose } from "react-icons/io";
+import { useAppDispatch } from "@/utils/Redux/hooks";
+import { useState } from "react";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
 export const ModalforRatings = ({ props }: any) => {
-  const { modalStatus, setModalStatus, title, setIsAgree, item } = props;
-  //   const [open, setOpen] = useState(true);
+  const { modalStatus, setModalStatus, item } = props;
   const dispatch = useAppDispatch();
 
-  //   -- closing modal and logging out
+  // State to keep track of the user's rating and the current hover position
+  const [hoveredStar, setHoveredStar] = useState<number>(0);
+  const [rating, setRating] = useState<number>(0);
+
+  // Function to close the modal
   const handleModalClose = () => {
     dispatch(closeModal(false));
     setModalStatus(false);
-    // setIsAgree(false);
   };
 
-  const handleModalButton = (tryMe: boolean) => {
-    setModalStatus(false);
-    // setIsAgree(tryMe);
-  };
+  // Array to represent the number of stars (5 stars in this case)
+  const stars = [1, 2, 3, 4, 5];
 
   return (
-    <div className="bg-[rgba(0,0,0,0.28)] fixed top-0 left-0 bottom-0 right-0 ">
-      <div className="bg-white min-w-[300px] min-h-[400px] absolute left-[50%] -translate-x-[50%] -top-40% translate-y-[40%] rounded-lg ">
-        <div className=" relative bg-green-400 w-full h-full">
-          <div className="w-[200px] h-[200px] bg-white rounded-full overflow-hidden absolute top-[50%] -translate-y-[50%] left-[50%] -translate-x-[50%] shadow-lg p-5">
-            <img src={item?.Images} alt="" />
+    modalStatus && (
+      <div className="bg-[rgba(0,0,0,0.28)] fixed top-0 left-0 bottom-0 right-0 z-50">
+        <div className="bg-white min-w-[350px] lg:min-w-[500px]  fixed left-[50%] -translate-x-[50%] top-[50%] -translate-y-[50%] rounded-lg p-6 shadow-lg pt-0">
+          <div className="relative">
+            <div className="w-full   flex justify-center items-center bg-slate-200 rounded-lg ">
+              <div className="w-48 h-48 bg-white rounded-full overflow-hidden shadow-lg p-5 absolute -top-[50%] translate-y-[50%] ">
+                <img
+                  src={item?.Images}
+                  alt={item?.Title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+
+            <div className="overflow-y-auto">
+              <div className="mt-24 text-center">
+                <h2 className="text-xl font-bold text-slate-500">
+                  Your Ratings
+                </h2>
+                <div className="text-slate-400 text-3xl flex justify-center items-center gap-2 mt-3">
+                  {/* Map through the stars array */}
+                  {stars.map((star) => (
+                    <button
+                      key={star}
+                      onMouseEnter={() => setHoveredStar(star)} // Highlight stars on hover
+                      onMouseLeave={() => setHoveredStar(0)} // Reset highlight on mouse leave
+                      onClick={() => setRating(star)} // Set the rating on click
+                    >
+                      {rating >= star || hoveredStar >= star ? (
+                        <FaStar className="text-[#F8D001]" />
+                      ) : (
+                        <FaRegStar />
+                      )}
+                    </button>
+                  ))}
+                </div>
+                <div className="my-5">
+                  <h2 className="text-slate-400 mt-10 mb-4 font-semibold">
+                    Share your experience :{" "}
+                  </h2>
+                  <Textarea
+                    className="text-center"
+                    rows={5}
+                    placeholder="Say something about the product"
+                  />
+                </div>
+              </div>
+
+              <div className="flex justify-center items-center mt-6">
+                <button
+                  className="bg-blue-500 text-white px-6 py-2 rounded-md mr-4"
+                  onClick={() => handleModalClose()}
+                >
+                  Submit
+                </button>
+                <button
+                  className="bg-gray-400 text-white px-6 py-2 rounded-md"
+                  onClick={() => handleModalClose()}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
           </div>
         </div>
-
-        <div className="mt-[130px] text-center">
-          <h2 className="text-xl font-bold text-slate-500">Your Ratings </h2>
-        </div>
       </div>
-    </div>
+    )
   );
 };

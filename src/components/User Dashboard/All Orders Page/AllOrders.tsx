@@ -62,7 +62,6 @@ export const AllOrders = ({ props }: any) => {
 
   // Filter orders based on 'Filter by' button
   const filteredOrders = allOrders.filter((order: any) => {
-
     // --- filter order by search text
     const matchesSearch = order.Title.toLowerCase().includes(
       searchText.toLowerCase()
@@ -257,7 +256,7 @@ export const AllOrders = ({ props }: any) => {
               onCheckedChange={setShowDelivered}
             >
               Delivered
-            </DropdownMenuCheckboxItem>            
+            </DropdownMenuCheckboxItem>
 
             <DropdownMenuCheckboxItem
               checked={showCancelled}
@@ -282,34 +281,37 @@ export const AllOrders = ({ props }: any) => {
         </DropdownMenu>
       </div>
       <hr />
-      <div className="flex flex-col justify-between items-center min-h-[70vh] ">
-        <table className="min-w-full bg-white">
-          <thead className="whitespace-nowrap">
-            <tr>
-              <th className="p-4 text-left text-sm font-semibold text-black">
-                Name
-              </th>
-              <th className="p-4 text-left text-sm font-semibold text-black">
-                Order status
-              </th>
-              <th className="p-4 text-left text-sm font-semibold text-black">
-                Price
-              </th>
-              <th className="p-4 text-left text-sm font-semibold text-black">
-                Ratings
-              </th>
-              <th className="p-4 text-left text-sm font-semibold text-black">
-                Action
-              </th>
-            </tr>
-          </thead>
 
-          <tbody className="whitespace-nowrap relative">
-            {paginatedOrders.map((item: any) => (
-              <OrdersRow key={item.id} props={{ item, email: user?.email }} />
-            ))}
-          </tbody>
-        </table>
+      <div className="flex flex-col justify-between items-center min-h-[70vh] ">
+        <div className=" max-w-screen-sm md:max-w-full w-full overflow-x-auto ">
+          <table className="bg-white min-w-full">
+            <thead className="whitespace-nowrap">
+              <tr>
+                <th className="p-4 text-left text-sm font-semibold text-black">
+                  Name
+                </th>
+                <th className="p-4 text-left text-sm font-semibold text-black">
+                  Order status
+                </th>
+                <th className="p-4 text-left text-sm font-semibold text-black">
+                  Price
+                </th>
+                <th className="p-4 text-left text-sm font-semibold text-black">
+                  Ratings
+                </th>
+                <th className="p-4 text-left text-sm font-semibold text-black">
+                  Action
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="whitespace-nowrap relative">
+              {paginatedOrders.map((item: any) => (
+                <OrdersRow key={item.id} props={{ item, email: user?.email }} />
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* Pagination controls */}
         <div className="flex justify-center mt-5">
