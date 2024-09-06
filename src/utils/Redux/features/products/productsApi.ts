@@ -52,6 +52,16 @@ export const productApi = apiSlice.injectEndpoints({
       invalidatesTags: ["cart", "userInfo", "orders"],
     }),
 
+    // --- add product to order list
+    addRatings: builder.mutation({
+      query: (data: any) => ({
+        url: "/addRatings",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["cart", "userInfo", "orders", "ratings"],
+    }),
+
     // // --- update a users cart when he/she confirms the bookings
     // updateService: builder.mutation({
     //     query: (data) => ({
@@ -122,5 +132,6 @@ export const {
   useGetProductCartQuery,
   useModifyCartMutation,
   useAddOrdersMutation,
-  useModifyOrdersMutation
+  useModifyOrdersMutation,
+  useAddRatingsMutation,
 } = productApi;

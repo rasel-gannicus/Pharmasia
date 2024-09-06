@@ -1,16 +1,19 @@
 import { Textarea } from "@/components/ui/textarea";
 import { closeModal } from "@/utils/Redux/features/modal/modalSlice";
 import { useAppDispatch } from "@/utils/Redux/hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import { useAddRatingsMutation, useModifyOrdersMutation } from "../Redux/features/products/productsApi";
+import { errorMessage, successMessage } from "../Redux/toastMsg";
 
 export const ModalforRatings = ({ props }: any) => {
-  const { modalStatus, setModalStatus, item } = props;
+  const { modalStatus, setModalStatus, item, email , modifyOrders } = props;
   const dispatch = useAppDispatch();
 
   // State to keep track of the user's rating and the current hover position
   const [hoveredStar, setHoveredStar] = useState<number>(0);
   const [rating, setRating] = useState<number>(0);
+  const [review, setReview] = useState<string>("");
 
   // Function to close the modal
   const handleModalClose = () => {
@@ -20,6 +23,31 @@ export const ModalforRatings = ({ props }: any) => {
 
   // Array to represent the number of stars (5 stars in this case)
   const stars = [1, 2, 3, 4, 5];
+
+  const [addRating, { data, isLoading, isError, error }] =
+    useAddRatingsMutation();
+
+  // const [modifyOrders] = useModifyOrdersMutation() ; 
+
+  const handleRatings = () => {
+    if (!rating) {
+      return errorMessage("You have not given any rating !");
+    }
+    addRating({ data: item, email, rating, review });
+  };
+
+
+  useEffect(() => {
+    if (data) {
+      successMessage("You have successfully rated !");
+      handleModalClose();
+      modifyOrders({
+        data: item,
+        modifyType: "reviewed",
+        email,
+      });
+    }
+  }, [isLoading, data]);
 
   return (
     modalStatus && (
@@ -65,6 +93,8 @@ export const ModalforRatings = ({ props }: any) => {
                   <Textarea
                     className="text-center"
                     rows={5}
+                    onChange={(e) => setReview(e.target.value)}
+                    value={review}
                     placeholder="Say something about the product"
                   />
                 </div>
@@ -72,10 +102,15 @@ export const ModalforRatings = ({ props }: any) => {
 
               <div className="flex justify-center items-center mt-6">
                 <button
-                  className="bg-blue-500 text-white px-6 py-2 rounded-md mr-4"
-                  onClick={() => handleModalClose()}
+                  className={`${
+                    isLoading ? "bg-blue-400" : "bg-blue-500"
+                  } text-white px-6 py-2 rounded-md mr-4`}
+                  onClick={() => {
+                    handleRatings();
+                  }}
+                  disabled={isLoading}
                 >
-                  Submit
+                  {isLoading ? "Rating..." : "Submit"}
                 </button>
                 <button
                   className="bg-gray-400 text-white px-6 py-2 rounded-md"

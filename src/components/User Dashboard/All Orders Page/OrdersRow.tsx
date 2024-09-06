@@ -62,6 +62,20 @@ const userActionButtonOrderInventory = (
         <p className="text-sm text-gray-300">Order Cancelled</p>
       </td>
     ));
+  }else if (item.status.toLowerCase() == "reviewed") {
+    return (actionButton = (
+      <td className=" text-center">
+        <Button
+          onClick={() => setModalStatus(true)}
+          disabled
+          // title="Delete"
+          className="flex mx-auto text-sm bg-green-600  text-white justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
+        >
+          Rated
+          <MdReviews className="" />
+        </Button>
+      </td>
+    ));
   }
 };
 
@@ -156,7 +170,9 @@ const OrdersRow = ({ props }: any) => {
           modalStatus,
           setModalStatus,
           title: "Rate the product ",
-          item
+          item,
+          email,
+          modifyOrders
         }}
       />
       
