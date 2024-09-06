@@ -47,9 +47,21 @@ export const AllOrders = ({ props }: any) => {
   const [showLess50, setShowLess50] = useState<Checked>(false);
   const [showPending, setShowPending] = useState<Checked>(false);
   const [showDelivered, setShowDelivered] = useState<Checked>(false);
+  const [showRated, setShowRated] = useState<Checked>(false);
   const [showCancelled, setShowCancelled] = useState<Checked>(false);
   const [priceHigh, setPriceHigh] = useState(false);
   const [priceLow, setPriceLow] = useState(false);
+
+  // --- clearing all fitler
+  const handleClearFilter = () => {
+    setShowLess50(false);
+    setShowPending(false);
+    setShowDelivered(false);
+    setShowRated(false);
+    setShowCancelled(false);
+    setPriceHigh(false);
+    setPriceLow(false);
+  };
 
   // Get all orders
   let allOrders = data?.orders ?? [];
@@ -82,13 +94,18 @@ export const AllOrders = ({ props }: any) => {
       ? order.status.toLowerCase().includes("delivered")
       : false;
 
+    // --- filter order by status 'delivered'
+    const matchesRated = showRated
+      ? order.status.toLowerCase().includes("reviewed")
+      : false;
+
     // --- filter order by status 'cancelled'
     const matchesCancelled = showCancelled
       ? order.status.toLowerCase().includes("cancelled")
       : false;
 
     // If both filters are unchecked, show all orders
-    if (!showPending && !showDelivered && !showCancelled) {
+    if (!showPending && !showDelivered && !showCancelled && !showRated) {
       return matchesSearch && matchesPriceBelow50;
     }
 
@@ -96,7 +113,7 @@ export const AllOrders = ({ props }: any) => {
     return (
       matchesSearch &&
       matchesPriceBelow50 &&
-      (matchesPending || matchesDelivered || matchesCancelled)
+      (matchesPending || matchesDelivered || matchesCancelled || matchesRated)
     );
   });
 
@@ -259,6 +276,13 @@ export const AllOrders = ({ props }: any) => {
             </DropdownMenuCheckboxItem>
 
             <DropdownMenuCheckboxItem
+              checked={showRated}
+              onCheckedChange={setShowRated}
+            >
+              Rated
+            </DropdownMenuCheckboxItem>
+
+            <DropdownMenuCheckboxItem
               checked={showCancelled}
               onCheckedChange={setShowCancelled}
             >
@@ -276,6 +300,14 @@ export const AllOrders = ({ props }: any) => {
               onCheckedChange={() => handlePriceFilter("low")}
             >
               Price low to high
+            </DropdownMenuCheckboxItem>
+
+            <DropdownMenuCheckboxItem
+              // checked={priceLow}
+              // onCheckedChange={() => handlePriceFilter("low")}
+              onClick={handleClearFilter}
+            >
+              Clear all filter
             </DropdownMenuCheckboxItem>
           </DropdownMenuContent>
         </DropdownMenu>
