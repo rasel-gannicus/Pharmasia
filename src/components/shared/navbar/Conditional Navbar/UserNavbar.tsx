@@ -1,24 +1,19 @@
 import Link from "next/link";
-import userImage from "@/assets/img/smile.png";
-import { CircleUser, Menu, Package2, Search, Users } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { usePathname } from "next/navigation";
-import Image from "next/image";
-import { useAppDispatch, useAppSelector } from "@/utils/Redux/hooks";
-import { activeModal } from "@/utils/Redux/features/modal/modalSlice";
+import {  useAppSelector } from "@/utils/Redux/hooks";
 import { useCart } from "@/utils/Hooks/useCart";
 import { useWishlist } from "@/utils/Hooks/useWishlist";
-import DesktopMenu from "./Responsive Menu/DesktopMenu";
-import MobileMenu from "./Responsive Menu/MobileMenu";
+import DesktopMenu from "./Responsive Menu/Desktop Menu/DesktopMenu";
+import MobileMenu from "./Responsive Menu/Mobile Menu/MobileMenu";
+import { FaCartPlus } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { DropDownNavbar } from "./Responsive Menu/Desktop Menu/DropDownNavbar";
 
 const UserNavbar = () => {
   const urlPath = usePathname();
@@ -32,12 +27,6 @@ const UserNavbar = () => {
   //   --- getting wishlist data from mongodb with redux
   const wishlist: any = useWishlist();
 
-  const dispatch = useAppDispatch();
-
-  function handleLogout() {
-    dispatch(activeModal(false));
-    // getProduct(email) ;
-  }
   return (
     <header
       className={`absolute left-0 right-0 z-50 top-0 flex h-16 items-center gap-4  px-4 md:px-6 `}
@@ -49,7 +38,7 @@ const UserNavbar = () => {
       <MobileMenu cartQuantity={cartQuantity} wishlist={wishlist} />
 
       <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-        <form className="ml-auto flex-1 sm:flex-initial">
+        {/* <form className="ml-auto flex-1 sm:flex-initial">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
             <Input
@@ -58,51 +47,59 @@ const UserNavbar = () => {
               className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
             />
           </div>
-        </form>
+        </form> */}
+        <div className="ml-auto flex-1 sm:flex-initial">
+          <div className="flex  gap-3 justify-center items-center">
+            {/* --- wishlist --- */}
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href="/user/wishlist"
+                    className=" transition-colors hover:text-foreground hover:bg-white text-white hover:text-black bg-[rgb(76,40,87)] py-2 px-3 relative  rounded flex gap-1 justify-between items-center"
+                  >
+                    <FaHeart className="text-lg " />
+
+                    {wishlist?.length > 0 && (
+                      <span className="bg-red-600 w-5 h-5 text-center flex justify-center items-center text-white rounded-full absolute -right-2 -bottom-2 text-sm">
+                        {wishlist?.length}
+                      </span>
+                    )}
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Wishlist</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            {/* --- cart --- */}
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Link
+                    href="/user/cart"
+                    className=" transition-colors hover:text-foreground  hover:bg-white text-white hover:text-black bg-[#1C8674] py-2 px-3 relative  rounded flex gap-1 justify-between items-center"
+                  >
+                    <FaCartPlus className="text-lg " />
+
+                    {cartQuantity > 0 && (
+                      <span className="bg-red-600 w-5 h-5 flex justify-center items-center text-sm text-center text-white rounded-full absolute -right-2 -bottom-2">
+                        {cartQuantity}
+                      </span>
+                    )}
+                  </Link>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Cart</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        </div>
 
         {/* --- user submenu --- */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="secondary"
-              size="icon"
-              className="rounded-full overflow-hidden"
-            >
-              {/* <CircleUser className="h-5 w-5" /> */}
-              {userState?.photoURL ? (
-                <Image
-                  alt="user image"
-                  width={30}
-                  height={30}
-                  style={{ width: "100%" }}
-                  src={userState?.photoURL}
-                />
-              ) : (
-                <Image alt="user image" src={userImage} />
-              )}
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>{displayName || "John Wick"}</DropdownMenuLabel>
-            <DropdownMenuLabel className="text-slate-300">
-              {email}
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <Link href="/user/dashboard">
-              <DropdownMenuItem className="cursor-pointer">
-                Profile
-              </DropdownMenuItem>
-            </Link>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Button onClick={handleLogout} className="bg-pink-600">
-                Logout
-              </Button>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DropDownNavbar props={{ userState }} />
       </div>
     </header>
   );
