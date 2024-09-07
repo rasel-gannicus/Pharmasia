@@ -33,7 +33,7 @@ const ProfileDashboard = () => {
           {/* --- wishlist card --- */}
           <ProfileDashboardCard2 props={{ userInfo: data, isLoading }} />
 
-          <ProfileDashboardCard3 />
+          <ProfileDashboardCard3 props={{ userInfo: data, isLoading }} />
 
           {/* --- Cart quantity card --- */}
           <ProfileDashboardCard4 props={{ userInfo: data, isLoading }} />
@@ -64,8 +64,8 @@ const ProfileDashboard = () => {
       {/* --- Dashboard right side --- */}
       <div className="flex flex-col gap-4">
         <OrderCard props={{ userInfo: data, isLoading }} />
-        <ProfileChart2 />
-        <ReviewCard />
+        <ProfileChart2  props={{ userInfo: data, isLoading }} />
+        <ReviewCard props={{ userInfo: data, isLoading }} />
       </div>
     </div>
   );

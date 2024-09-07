@@ -52,7 +52,10 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ProfileChart2() {
+export function ProfileChart2({ props }: any) {
+  const { userInfo, isLoading } = props;
+  let ratingList = userInfo?.ratings;
+  
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);

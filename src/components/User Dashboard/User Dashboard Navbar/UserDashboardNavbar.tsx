@@ -100,5 +100,3 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
   );
 }
 export default PrivateRoute(UserDashboardNavbar);
-
-
