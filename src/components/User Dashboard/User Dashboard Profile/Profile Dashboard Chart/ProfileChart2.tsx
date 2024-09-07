@@ -54,8 +54,46 @@ const chartConfig = {
 
 export function ProfileChart2({ props }: any) {
   const { userInfo, isLoading } = props;
-  let ratingList = userInfo?.ratings;
-  
+  let orders = userInfo?.orders;
+
+  let getOrdersChartData: any[] = [];
+
+  const getOrdersBelow30 = orders?.filter(
+    (item: any) => item.Price <= 30 && item.status.toLowerCase() != "cancelled"
+  );
+  const getOrdersFrom30To50 = orders?.filter(
+    (item: any) =>
+      item?.Price >= 31 &&
+      item?.Price <= 50 &&
+      item?.status?.toLowerCase() != "cancelled"
+  );
+  const getOrdersFrom50To100 = orders?.filter(
+    (item: any) =>
+      item?.Price >= 51 &&
+      item?.Price <= 100 &&
+      item?.status?.toLowerCase() != "cancelled"
+  );
+  const getOrdersFrom100To150 = orders?.filter(
+    (item: any) =>
+      item?.Price >= 101 &&
+      item?.Price <= 150 &&
+      item?.status?.toLowerCase() != "cancelled"
+  );
+  const getOrdersAbove150 = orders?.filter(
+    (item: any) => item.Price > 150 && item.status.toLowerCase() != "cancelled"
+  );
+
+  getOrdersChartData = [
+    ...getOrdersChartData,
+    { title: "Orders from $0 to $30", count: getOrdersBelow30?.length },
+    { title: "Orders from $31 to $50", count: getOrdersFrom30To50?.length },
+    { title: "Orders from $51 to $100", count: getOrdersFrom50To100?.length },
+    { title: "Orders from $101 to $150", count: getOrdersFrom100To150?.length },
+    { title: "Orders above $150", count: getOrdersAbove150?.length },
+  ];
+
+  console.log(getOrdersChartData);
+
   const totalVisitors = React.useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
   }, []);
