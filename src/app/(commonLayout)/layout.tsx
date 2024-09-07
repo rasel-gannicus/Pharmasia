@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Inter, Josefin_Sans, Poppins, Ubuntu } from "next/font/google";
 import "@/app/globals.css";
-import Navbar from "@/components/shared/navbar/Navbar";
 import Footer from "@/components/shared/footer/footer";
 import CustomWrapper from "@/components/Custom Wrapper/CustomWrapper";
 import { Toaster } from "@/components/ui/toaster";
 import ReduxProvider from "@/utils/Redux/ReduxProvider";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "@/components/shared/navbar/Common Layout Navbar/Navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
