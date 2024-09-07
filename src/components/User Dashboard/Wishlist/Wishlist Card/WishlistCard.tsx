@@ -58,8 +58,8 @@ const WishlistCard = (data: any) => {
 
   return (
     <div>
-      <div className="grid grid-cols-3 items-start gap-4">
-        <div className="col-span-2 flex items-start gap-4">
+      <div className=" flex flex-col md:justify-center  items-center md:grid grid-cols-3 lg:items-start gap-4">
+        <div className="col-span-2  flex-col md:justify-start justify-center items-center flex md:flex-row md:items-start gap-4 ">
           <div className="w-28 h-28 max-sm:w-24 max-sm:h-24 shrink-0 bg-gray-100 p-2 rounded-md">
             <img src={Images} alt="" className="w-full h-full object-contain" />
           </div>
@@ -75,7 +75,7 @@ const WishlistCard = (data: any) => {
           </div>
         </div>
 
-        <div className="ml-auto  h-full">
+        <div className="ml-auto  h-full w-full flex justify-center md:justify-end md:items-start items-center">
           {isLoading || addToCartLoading ? (
             <div className="h-full flex justify-center items-center">
               <ThreeCircles
@@ -89,7 +89,7 @@ const WishlistCard = (data: any) => {
               />
             </div>
           ) : (
-            <>
+            <div className=" ">
               <Button
                 onClick={() => handleAddToCart("pending")}
                 className="bg-[#1C8674]"
@@ -121,7 +121,7 @@ const WishlistCard = (data: any) => {
                 </svg>
                 REMOVE
               </button>
-            </>
+            </div>
           )}
         </div>
       </div>

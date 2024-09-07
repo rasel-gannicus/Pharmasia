@@ -27,7 +27,7 @@ const FilterMenu = ({ props }: { props: any }) => {
     handleClearFilter,
   } = props;
   return (
-    <div className="order-1">
+    <div className="order-first">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button

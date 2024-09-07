@@ -13,16 +13,14 @@ const Wishlist = () => {
   //   --- getting wishlist data from mongodb with redux
   const wishlist: any = useWishlist();
 
-  const {  isLoading }: any = useGetProductCartQuery(
-    user?.email
-  );
+  const { isLoading }: any = useGetProductCartQuery(user?.email);
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div className="flex items-center">
         <h1 className="text-lg font-semibold md:text-2xl">Your Wishlist</h1>
       </div>
       <div
-        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm px-3"
+        className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm px-3 min-h-[70vh] "
         x-chunk="dashboard-02-chunk-1"
       >
         <div className=" max-w-3xl w-full py-4">

@@ -198,7 +198,8 @@ export const AllOrders = ({ props }: any) => {
   ) : (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
       {/* --- page menu before showing contents --- */}
-      <div className="mb-5 grid justify-center lg:flex lg:justify-between items-center gap-5">
+      <div className="mb-5 grid grid-cols-2  lg:flex lg:justify-between items-center gap-5">
+
         {/* --- Filter dropdown menu --- */}
         <FilterMenu
           props={{
@@ -220,14 +221,14 @@ export const AllOrders = ({ props }: any) => {
         />
 
         {!isDashboard && (
-          <h1 className="text-slate-500 font-semibold text-sm text-center lg:text-lg">
+          <h1 className="text-slate-500  font-semibold text-sm text-center lg:text-lg">
             Orders found : {filteredOrders?.length}
           </h1>
         )}
         {isDashboard && (
           <Button
             onClick={() => navigate.push("/user/orders")}
-            className="bg-slate-400"
+            className="bg-slate-400 order-last"
           >
             View All Orders
           </Button>

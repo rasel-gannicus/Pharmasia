@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {  useAppSelector } from "@/utils/Redux/hooks";
+import { useAppSelector } from "@/utils/Redux/hooks";
 import { useCart } from "@/utils/Hooks/useCart";
 import { useWishlist } from "@/utils/Hooks/useWishlist";
 import DesktopMenu from "./Responsive Menu/Desktop Menu/DesktopMenu";
