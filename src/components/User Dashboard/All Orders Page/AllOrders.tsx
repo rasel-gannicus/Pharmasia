@@ -3,15 +3,6 @@ import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import OrdersRow from "./OrdersRow";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-import { FaFilter } from "react-icons/fa";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import {
@@ -28,6 +19,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
 import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
 import { useRouter } from "next/navigation";
+import FilterMenu from "./Sub Components/FilterMenu";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
@@ -206,9 +198,29 @@ export const AllOrders = ({ props }: any) => {
   ) : (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
       {/* --- page menu before showing contents --- */}
-      <div className="mb-5 container flex justify-between items-center gap-5">
+      <div className="mb-5 grid justify-center lg:flex lg:justify-between items-center gap-5">
+        {/* --- Filter dropdown menu --- */}
+        <FilterMenu
+          props={{
+            showLess50,
+            setShowLess50,
+            showPending,
+            setShowPending,
+            showDelivered,
+            setShowDelivered,
+            showRated,
+            setShowRated,
+            showCancelled,
+            setShowCancelled,
+            priceHigh,
+            priceLow,
+            handlePriceFilter,
+            handleClearFilter,
+          }}
+        />
+
         {!isDashboard && (
-          <h1 className="text-slate-500 font-semibold text-sm lg:text-lg">
+          <h1 className="text-slate-500 font-semibold text-sm text-center lg:text-lg">
             Orders found : {filteredOrders?.length}
           </h1>
         )}
@@ -239,9 +251,9 @@ export const AllOrders = ({ props }: any) => {
 
         {/* --- Filter for showing content quantity per page --- */}
         {!isDashboard && (
-          <div className="flex justify-center items-center gap-1">
+          <div className="flex justify-center items-center gap-1 ">
             <p className="text-slate-400 text-xs 2xl:text-sm">
-              Products per page :{" "}
+              Products per page :
             </p>
             <Select
               onValueChange={(value: string) => {
@@ -261,83 +273,11 @@ export const AllOrders = ({ props }: any) => {
             </Select>
           </div>
         )}
-
-        {/* --- Filter dropdown menu --- */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="outline"
-              className=" flex justify-center items-center gap-2 text-lg text-slate-500  "
-            >
-              Filter by
-              <FaFilter className="w-3 h-3 text-slate-400 " />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Filter your orders by</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuCheckboxItem
-              checked={showLess50}
-              onCheckedChange={setShowLess50}
-            >
-              {`Price less than < 50`}
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={showPending}
-              onCheckedChange={setShowPending}
-            >
-              Pending
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={showDelivered}
-              onCheckedChange={setShowDelivered}
-            >
-              Delivered
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={showRated}
-              onCheckedChange={setShowRated}
-            >
-              Rated
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={showCancelled}
-              onCheckedChange={setShowCancelled}
-            >
-              Cancelled
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              checked={priceHigh}
-              onCheckedChange={() => handlePriceFilter("high")}
-            >
-              Price high to low
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={priceLow}
-              onCheckedChange={() => handlePriceFilter("low")}
-            >
-              Price low to high
-            </DropdownMenuCheckboxItem>
-
-            <DropdownMenuCheckboxItem
-              // checked={priceLow}
-              // onCheckedChange={() => handlePriceFilter("low")}
-              onClick={handleClearFilter}
-            >
-              Clear all filter
-            </DropdownMenuCheckboxItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
       </div>
       <hr />
 
       <div className="flex flex-col justify-between items-center min-h-[70vh] ">
-        <div className=" max-w-screen-sm md:max-w-full w-full overflow-x-auto ">
+        <div className="  md:max-w-full w-full overflow-x-auto ">
           <table className="bg-white min-w-full">
             <thead className="whitespace-nowrap">
               <tr>

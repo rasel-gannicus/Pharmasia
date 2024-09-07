@@ -1,12 +1,11 @@
 import React from "react";
 import { Package2 } from "lucide-react";
-
 import NavLink from "@/utils/Navlink/NavLink";
 import { useRouter } from "next/navigation";
 import CommonMenu from "./Common Menu bar for both Desktop & Mobile/CommonMenu";
 
 const DesktopMenu = ({ cartQuantity, wishlist }: any) => {
-  const router = useRouter();
+  const router = useRouter(); 
 
   return (
     <div className="flex h-full max-h-screen flex-col gap-2">

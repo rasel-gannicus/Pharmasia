@@ -1,17 +1,11 @@
-import {
-    Home,
-    LineChart,
-    Package,
-    ShoppingCart,
-    Users,
-  } from "lucide-react";
-  
-  import { Badge } from "@/components/ui/badge";
-  import NavLink from "@/utils/Navlink/NavLink";
-  import { FaRegHeart } from "react-icons/fa";
+import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
 
-const CommonMenu = ({props} : {props : any}) => {
-    const {cartQuantity , wishlist} = props ;
+import { Badge } from "@/components/ui/badge";
+import NavLink from "@/utils/Navlink/NavLink";
+import { FaRegHeart } from "react-icons/fa";
+
+const CommonMenu = ({ props }: { props: any }) => {
+  const { cartQuantity, wishlist } = props;
   return (
     <>
       <NavLink
