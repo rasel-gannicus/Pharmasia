@@ -43,6 +43,7 @@ import { useWishlist } from "@/utils/Hooks/useWishlist";
 import { FaRegHeart } from "react-icons/fa";
 import MobileMenu from "./Menubar/MobileMenu";
 import DesktopMenu from "./Menubar/DesktopMenu";
+import { DropDownNavbar } from "../Common Layout Navbar/Conditional Navbar/Responsive Menu/Desktop Menu/DropDownNavbar";
 
 function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
   const [user, loading] = useAuthState(auth);
@@ -76,22 +77,8 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
               </div>
             </form>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="secondary" size="icon" className="rounded-full">
-                <CircleUser className="h-5 w-5" />
-                <span className="sr-only">Toggle user menu</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Support</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          {/* --- dropdown menu when user will click 'user picture at the top right corner' */}
+          <DropDownNavbar props={{ userState: user }} />
         </header>
         {children}
       </div>

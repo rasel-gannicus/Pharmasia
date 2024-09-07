@@ -1,5 +1,4 @@
-import UserDashboardNavbar from "@/components/User Dashboard/User Dashboard Navbar/UserDashboardNavbar";
-
+import UserDashboardNavbar from "@/components/shared/navbar/User Dashboard Navbar/UserDashboardNavbar";
 
 export default async function RootLayout({
   children,

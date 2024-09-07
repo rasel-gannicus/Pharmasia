@@ -9,7 +9,7 @@ const ProfileDashboardCard2 = ({ props }: any) => {
 
   return (
     <div
-      className={`${dashboardCardClass} bg-gradient-to-b from-blue-50  to-white mx-auto `}
+      className={`${dashboardCardClass} bg-gradient-to-b from-blue-50  to-white mx-auto w-full `}
     >
       <div className=" bg-[#38A0E9] w-[80px] h-[80px] rounded-full flex flex-col justify-center items-center text-white text-3xl ">
         <FaHeart />

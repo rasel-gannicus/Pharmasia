@@ -10,7 +10,7 @@ const ProfileDashboardCard = ({ props }: any) => {
 
   return (
     <div
-      className={`${dashboardCardClass} bg-gradient-to-b from-orange-50 mx-auto to-white`}
+      className={`${dashboardCardClass} bg-gradient-to-b from-orange-50 mx-auto to-white w-full`}
     >
       <div className=" bg-[#FF7555] w-[80px] h-[80px] rounded-full flex flex-col justify-center items-center text-white text-3xl ">
         <MdOutlinePendingActions />
