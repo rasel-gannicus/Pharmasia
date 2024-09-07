@@ -27,10 +27,13 @@ import { TailSpin } from "react-loader-spinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
 import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
+import { useRouter } from "next/navigation";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
 export const AllOrders = ({ props }: any) => {
+  let { isDashboard } = props;
+
   const [user, loading, error] = useAuthState(auth);
 
   // --- getting user info (including user's all orders, wishlist, cart)
@@ -180,6 +183,13 @@ export const AllOrders = ({ props }: any) => {
     }
   };
 
+  useEffect(() => {
+    if (isDashboard) {
+      setContentPerPage(8);
+    }
+  }, [isDashboard]);
+  const navigate = useRouter();
+
   return isLoading || loading ? (
     <div className="min-h-[70vh] w-full flex justify-center items-center">
       <TailSpin
@@ -197,9 +207,19 @@ export const AllOrders = ({ props }: any) => {
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
       {/* --- page menu before showing contents --- */}
       <div className="mb-5 container flex justify-between items-center gap-5">
-        <h1 className="text-slate-500 font-semibold text-sm lg:text-lg">
-          Orders found : {filteredOrders?.length}
-        </h1>
+        {!isDashboard && (
+          <h1 className="text-slate-500 font-semibold text-sm lg:text-lg">
+            Orders found : {filteredOrders?.length}
+          </h1>
+        )}
+        {isDashboard && (
+          <Button
+            onClick={() => navigate.push("/user/orders")}
+            className="bg-slate-400"
+          >
+            View All Orders
+          </Button>
+        )}
 
         {/* --- search box --- */}
         <div className=" lg:min-w-[250px] ">
@@ -218,27 +238,29 @@ export const AllOrders = ({ props }: any) => {
         </div>
 
         {/* --- Filter for showing content quantity per page --- */}
-        <div className="flex justify-center items-center gap-1">
-          <p className="text-slate-400 text-xs 2xl:text-sm">
-            Products per page :{" "}
-          </p>
-          <Select
-            onValueChange={(value: string) => {
-              setContentPerPage(parseInt(value));
-              setCurrentPage(1); // Reset to first page when changing items per page
-            }}
-            defaultValue="5" // Set default value as a string
-          >
-            <SelectTrigger className="w-[80px]">
-              <SelectValue placeholder="5" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="5">5</SelectItem>
-              <SelectItem value="10">10</SelectItem>
-              <SelectItem value="20">20</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {!isDashboard && (
+          <div className="flex justify-center items-center gap-1">
+            <p className="text-slate-400 text-xs 2xl:text-sm">
+              Products per page :{" "}
+            </p>
+            <Select
+              onValueChange={(value: string) => {
+                setContentPerPage(parseInt(value));
+                setCurrentPage(1); // Reset to first page when changing items per page
+              }}
+              defaultValue="5" // Set default value as a string
+            >
+              <SelectTrigger className="w-[80px]">
+                <SelectValue placeholder="5" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="5">5</SelectItem>
+                <SelectItem value="10">10</SelectItem>
+                <SelectItem value="20">20</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
 
         {/* --- Filter dropdown menu --- */}
         <DropdownMenu>
@@ -346,21 +368,23 @@ export const AllOrders = ({ props }: any) => {
         </div>
 
         {/* Pagination controls */}
-        <div className="flex justify-center mt-5">
-          {Array.from({ length: totalPages }, (_, i) => (
-            <Button
-              key={i + 1}
-              onClick={() => changePage(i + 1)}
-              className={`${
-                currentPage === i + 1
-                  ? "bg-blue-500 text-white"
-                  : "bg-[#EFF6FF] text-black"
-              } mx-1 hover:text-white`}
-            >
-              {i + 1}
-            </Button>
-          ))}
-        </div>
+        {!isDashboard && (
+          <div className="flex justify-center mt-5">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <Button
+                key={i + 1}
+                onClick={() => changePage(i + 1)}
+                className={`${
+                  currentPage === i + 1
+                    ? "bg-blue-500 text-white"
+                    : "bg-[#EFF6FF] text-black"
+                } mx-1 hover:text-white`}
+              >
+                {i + 1}
+              </Button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

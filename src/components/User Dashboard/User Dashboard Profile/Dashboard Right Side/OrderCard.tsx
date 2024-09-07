@@ -49,7 +49,7 @@ const OrderCard = ({ props }: any) => {
   const navigate = useRouter() ; 
 
   return (
-    <div className="bg-[#FF7555] text-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] ">
+    <div className="bg-[#FF7555] text-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg w-full max-w-[400px] mx-auto">
       <h2 className="text-xl font-bold xl:text-4xl flex flex-col justify-center items-start">
         $ {totalValue || 0}
       </h2>
@@ -99,8 +99,8 @@ const OrderCard = ({ props }: any) => {
 
       </div>
       <div className="w-full text-center">
-        <Button onClick={() => navigate.push('/user/orders')} className="bg-white text-orange-500 hover:text-white">
-          View all orders
+        <Button onClick={() => navigate.push('/user/orders')} className="bg-white text-xs text-orange-500 hover:text-white">
+          All orders
         </Button>
       </div>
     </div>

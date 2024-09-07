@@ -32,7 +32,7 @@ const ReviewCard = ({ props }: any) => {
 
 
   return (
-    <div className=" bg-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] ">
+    <div className=" bg-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] w-full mx-auto">
       <h2 className="text-xl font-bold xl:text-4xl text-gray-500 gap-2 flex  justify-start items-start">
         <FaStar className="text-[#FDB457]" />
         {ratingList?.length || 0}
@@ -79,14 +79,14 @@ const ReviewCard = ({ props }: any) => {
             <p className="text-xs 2xl:text-base">Average </p>
           </div>
           <div className="flex justify-center items-center gap-1">
-            <p className="font-semibold text-lg text-gray-500">{totalRating/ratingList?.length || 0}</p>
+            <p className="font-semibold text-lg text-gray-500">{(totalRating/ratingList?.length).toFixed(1) || 0}</p>
             <FaStar className="text-[#FDB457]" />
           </div>
         </div>
       </div>
       <div className="w-full text-center">
-        <Button className="bg-[#FF7555] text-white  hover:text-white">
-          View All Reviews
+        <Button className="bg-[#FF7555] text-white text-xs hover:text-white">
+          All Reviews
         </Button>
       </div>
     </div>

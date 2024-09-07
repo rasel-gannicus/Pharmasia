@@ -13,6 +13,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
 import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
 import { Barchart } from "./Profile Dashboard Chart/Barchart";
+import { AllOrders } from "../All Orders Page/AllOrders";
 
 export const dashboardCardClass =
   "w-[170px] xl:w-[250px] max-w-[300px] flex flex-col justify-evenly items-center py-5  px-3 bg-white min-h-[300px] rounded text-center ";
@@ -23,10 +24,10 @@ const ProfileDashboard = () => {
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
 
   return (
-    <div className="bg-[#E9EFFB] min-h-screen grid grid-cols-4 gap-5 py-10 px-2 2xl:px-5 ">
+    <div className="bg-[#E9EFFB] min-h-screen grid grid-cols-1 lg:grid-cols-4 gap-5 py-10 px-2 2xl:px-5 ">
       {/* --- Dashboard left side --- */}
-      <div className=" col-span-3">
-        <div className=" lg:flex justify-between items-center gap-3 ">
+      <div className=" lg:col-span-3">
+        <div className=" grid grid-cols-2 lg:flex justify-between items-center gap-3 ">
           {/* --- order card --- */}
           <ProfileDashboardCard props={{ userInfo: data, isLoading }} />
 
@@ -42,7 +43,12 @@ const ProfileDashboard = () => {
           <Barchart props={{ userInfo: data, isLoading }} />
         </div>
 
-        <RecentOrdersTable />
+        <div className=" bg-white pb-5">
+          <AllOrders props={{ isDashboard: true }} />
+          <h2 className="text-center text-slate-400">
+            Upto 8 orders will be shown there{" "}
+          </h2>
+        </div>
 
         <div className=" my-10">
           <div className=" w-full bg-white rounded pt-10 px-5 ms-auto flex justify-center items-center h-[450px]">
@@ -62,9 +68,9 @@ const ProfileDashboard = () => {
       </div>
 
       {/* --- Dashboard right side --- */}
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 ">
         <OrderCard props={{ userInfo: data, isLoading }} />
-        <ProfileChart2  props={{ userInfo: data, isLoading }} />
+        <ProfileChart2 props={{ userInfo: data, isLoading }} />
         <ReviewCard props={{ userInfo: data, isLoading }} />
       </div>
     </div>

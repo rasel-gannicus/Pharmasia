@@ -5,7 +5,7 @@ const page = () => {
 
   return (
     <div>
-      <AllOrders />
+      <AllOrders props={{isDashboard : false}} />
     </div>
   );
 };

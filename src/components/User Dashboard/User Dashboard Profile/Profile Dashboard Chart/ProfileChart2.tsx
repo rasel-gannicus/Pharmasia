@@ -83,7 +83,7 @@ export function ProfileChart2({ props }: any) {
   }, [getOrdersChartData]);
 
   return (
-    <Card className="flex flex-col xl:max-w-[400px] ">
+    <Card className="flex flex-col xl:max-w-[400px] mx-auto">
       <CardHeader className="items-center pb-0">
         <CardDescription className="text-center">Items bought by price ratio </CardDescription>
       </CardHeader>

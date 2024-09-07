@@ -7,7 +7,7 @@ const ProfileDashboardCard3 = ({ props }: any) => {
 
   return (
     <div
-      className={`${dashboardCardClass} bg-gradient-to-b from-green-50  to-white`}
+      className={`${dashboardCardClass} bg-gradient-to-b from-green-50  to-white mx-auto`}
     >
       <div className=" bg-[#1C8674] w-[80px] h-[80px] rounded-full flex flex-col justify-center items-center text-white text-3xl ">
         <FaStar />
