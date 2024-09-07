@@ -11,6 +11,16 @@ import {
 } from "recharts";
 
 const ProfileChart = ({ props }: any) => {
+  
+  // --- getting user info (including users all orders, wishlist , cart)
+  const { userInfo, isLoading } = props;
+
+  let pendingOrders = userInfo?.orders
+    ?.filter(
+      (item: any) => item.status === "newOrder" || item.status != "cancelled"
+    )
+    .slice(0, 8);
+
   const data = [
     {
       Title: "Product A",
@@ -44,13 +54,7 @@ const ProfileChart = ({ props }: any) => {
     },
   ];
 
-  // --- getting user info (including users all orders, wishlist , cart)
-  const { userInfo, isLoading } = props;
-  let pendingOrders = userInfo?.orders?.filter(
-    (item: any) => item.status === "newOrder"
-  ).slice(0,8);
-
-  if (!pendingOrders || pendingOrders.length < 8) {
+  if (!pendingOrders || pendingOrders.length < 5) {
     pendingOrders = data;
   }
   useEffect(() => {
@@ -92,7 +96,6 @@ const ProfileChart = ({ props }: any) => {
         />
       </AreaChart>
     </ResponsiveContainer>
-    
   );
 };
 

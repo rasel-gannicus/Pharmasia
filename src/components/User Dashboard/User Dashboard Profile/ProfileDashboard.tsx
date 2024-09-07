@@ -54,7 +54,7 @@ const ProfileDashboard = () => {
               Your last 8 orders
             </h2>
             <p className="text-center text-gray-400">
-              (You must make atleast 8 orders to see your data in chart.
+              (You must make atleast 5 orders to see your data in chart.
               Otherwise there will be some dummy data here)
             </p>
           </div>

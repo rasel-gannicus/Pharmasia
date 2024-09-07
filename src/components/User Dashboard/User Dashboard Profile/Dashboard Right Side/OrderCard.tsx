@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 import React from "react";
 import {
   FaArrowsAltH,
@@ -43,6 +44,9 @@ const OrderCard = ({ props }: any) => {
     }
     return acc ;
   }, 999999999999);
+  
+  // --- taking user to another route
+  const navigate = useRouter() ; 
 
   return (
     <div className="bg-[#FF7555] text-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] ">
@@ -95,7 +99,7 @@ const OrderCard = ({ props }: any) => {
 
       </div>
       <div className="w-full text-center">
-        <Button className="bg-white text-orange-500 hover:text-white">
+        <Button onClick={() => navigate.push('/user/orders')} className="bg-white text-orange-500 hover:text-white">
           View all orders
         </Button>
       </div>
