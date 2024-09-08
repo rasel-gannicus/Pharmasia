@@ -44,6 +44,7 @@ import { FaRegHeart } from "react-icons/fa";
 import MobileMenu from "./Menubar/MobileMenu";
 import DesktopMenu from "./Menubar/DesktopMenu";
 import { DropDownNavbar } from "../Common Layout Navbar/Conditional Navbar/Responsive Menu/Desktop Menu/DropDownNavbar";
+import CommonMenuDesktop from "../Common Layout Navbar/Conditional Navbar/Responsive Menu/Desktop Menu/CommonMenuDesktop";
 
 function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
   const [user, loading] = useAuthState(auth);
@@ -54,8 +55,8 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
   //   --- getting wishlist data from mongodb with redux
   const wishlist: any = useWishlist();
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr]">
-      <div className="hidden border-r bg-muted/40 md:block">
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr] ">
+      <div className="hidden border-r bg-muted/40 md:block ">
         {/* ------------ Desktop Menu Here ---------------- */}
         <DesktopMenu cartQuantity={cartQuantity} wishlist={wishlist} />
       </div>
@@ -65,17 +66,8 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
 
           <MobileMenu cartQuantity={cartQuantity} wishlist={wishlist} />
 
-          <div className="w-full flex-1">
-            <form>
-              <div className="relative">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="search"
-                  placeholder="Search products..."
-                  className="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-                />
-              </div>
-            </form>
+          <div className="w-full flex-1 flex gap-3 text-sm lg:text-balance font-semibold text-gray-500">
+            <CommonMenuDesktop />
           </div>
           {/* --- dropdown menu when user will click 'user picture at the top right corner' */}
           <DropDownNavbar props={{ userState: user }} />
