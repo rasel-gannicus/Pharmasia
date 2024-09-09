@@ -76,7 +76,7 @@ const OrderCart = () => {
     } else {
       updatedItems = checkedItems.filter((i) => i._id !== item.data._id);
     }
-    // console.log(updatedItems);
+    
     setCheckedItems(updatedItems);
     const price = updatedItems.reduce(
       (acc, item) => acc + item.Price * item.quantity,

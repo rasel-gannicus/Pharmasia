@@ -14,9 +14,20 @@ export const userApi = apiSlice.injectEndpoints({
       query: (email) => ({
         url: `/userInfo/${email}`,
       }),
-      providesTags : ['userInfo'] 
+      providesTags: ["userInfo"],
+    }),
+
+    getUserNotifications: builder.query({
+      query: (email) => ({
+        url: `/notifications/${email}`,
+      }),
+      providesTags: ["notifications"],
     }),
   }),
 });
 
-export const { useAddUserDataMutation, useGetUserInfoQuery } = userApi;
+export const {
+  useAddUserDataMutation,
+  useGetUserInfoQuery,
+  useGetUserNotificationsQuery,
+} = userApi;

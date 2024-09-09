@@ -39,7 +39,7 @@ export const productApi = apiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["cart", "userInfo", "orders"],
+      invalidatesTags: ["cart", "userInfo", "orders", "notifications"],
     }),
 
     // --- modifying cart, 'adding, deleting, increase , decrease '
