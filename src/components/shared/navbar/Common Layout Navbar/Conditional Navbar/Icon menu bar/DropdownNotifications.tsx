@@ -1,31 +1,13 @@
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableRow,
-} from "@/components/ui/table";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Loader from "@/utils/Loading Spinner/Loader";
-import { useModifyNotificationsMutation } from "@/utils/Redux/features/user/userApi";
-import { TailSpin } from "react-loader-spinner";
 
 export function DropdownNotifications({ props }: any) {
   const { email, data, isloading, isError, error, notificationLoading } = props;
 
   return (
-    <Tabs defaultValue="account" className="w-[400px]">
+    <Tabs defaultValue="account" className="  max-w-[400px] max-h-[80vh] overflow-y-auto ">
       <TabsList className="grid w-full grid-cols-1">
         <TabsTrigger value="allNotifications">
           <span className="text-gray-400">Notifications</span>
@@ -34,7 +16,7 @@ export function DropdownNotifications({ props }: any) {
       </TabsList>
       <TabsContent value="allNotifications">
         <Card>
-          <CardContent className=" pt-10">
+          <CardContent className=" pt-10 ">
             <Table>
               <TableBody>
                 {isloading || notificationLoading ? (
@@ -42,7 +24,7 @@ export function DropdownNotifications({ props }: any) {
                 ) : (
                   data.map((item: any) => (
                     <TableRow key={item?.details}>
-                      <TableCell className="font-medium">
+                      <TableCell className="font-medium text-slate-500">
                         {item?.details}
                       </TableCell>
                     </TableRow>

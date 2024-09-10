@@ -74,7 +74,7 @@ const IconMenu = ({ props }: any) => {
               )}
             </button>
           </PopoverTrigger>
-          <PopoverContent className="w-full">
+          <PopoverContent className="">
             <DropdownNotifications
               props={{ email, data, isLoading, isError, error, notificationLoading }}
             />
