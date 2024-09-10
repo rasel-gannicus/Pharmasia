@@ -1,53 +1,59 @@
-"use client";
-
-import * as React from "react";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableRow,
+} from "@/components/ui/table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import Loader from "@/utils/Loading Spinner/Loader";
+import { useModifyNotificationsMutation } from "@/utils/Redux/features/user/userApi";
+import { TailSpin } from "react-loader-spinner";
 
-type Checked = DropdownMenuCheckboxItemProps["checked"];
-
-export function DropdownNotifications() {
-  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
-  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
-  const [showPanel, setShowPanel] = React.useState<Checked>(false);
+export function DropdownNotifications({ props }: any) {
+  const { email, data, isloading, isError, error, notificationLoading } = props;
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem
-          checked={showStatusBar}
-          onCheckedChange={setShowStatusBar}
-        >
-          Status Bar
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={showActivityBar}
-          onCheckedChange={setShowActivityBar}
-          disabled
-        >
-          Activity Bar
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={showPanel}
-          onCheckedChange={setShowPanel}
-        >
-          Panel
-        </DropdownMenuCheckboxItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Tabs defaultValue="account" className="w-[400px]">
+      <TabsList className="grid w-full grid-cols-1">
+        <TabsTrigger value="allNotifications">
+          <span className="text-gray-400">Notifications</span>
+        </TabsTrigger>
+        {/* <TabsTrigger value="unread">Unread</TabsTrigger> */}
+      </TabsList>
+      <TabsContent value="allNotifications">
+        <Card>
+          <CardContent className=" pt-10">
+            <Table>
+              <TableBody>
+                {isloading || notificationLoading ? (
+                  <Loader />
+                ) : (
+                  data.map((item: any) => (
+                    <TableRow key={item?.details}>
+                      <TableCell className="font-medium">
+                        {item?.details}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </CardContent>
+          <CardFooter>{/* <Button>Save changes</Button> */}</CardFooter>
+        </Card>
+      </TabsContent>
+    </Tabs>
   );
 }

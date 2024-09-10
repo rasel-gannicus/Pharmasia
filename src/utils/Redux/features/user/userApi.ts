@@ -23,6 +23,16 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       providesTags: ["notifications"],
     }),
+
+    // --- making all the notifications 'read'
+    modifyNotifications: builder.mutation({
+      query: (data: any) => ({
+        url: "/modifyNotifications",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["notifications"],
+    }),
   }),
 });
 
@@ -30,4 +40,5 @@ export const {
   useAddUserDataMutation,
   useGetUserInfoQuery,
   useGetUserNotificationsQuery,
+  useModifyNotificationsMutation,
 } = userApi;

@@ -9,22 +9,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Link from "next/link";
-import { useGetUserNotificationsQuery } from "@/utils/Redux/features/user/userApi";
+import {
+  useGetUserNotificationsQuery,
+  useModifyNotificationsMutation,
+} from "@/utils/Redux/features/user/userApi";
 import { useEffect, useState } from "react";
 import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
-import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-
-type Checked = DropdownMenuCheckboxItemProps["checked"];
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { DropdownNotifications } from "./DropdownNotifications";
 
 const IconMenu = ({ props }: any) => {
   const { wishlist, cartQuantity, email } = props;
@@ -42,66 +39,25 @@ const IconMenu = ({ props }: any) => {
     }
   }, [data, isLoading, isError, error]);
 
-  //   ---- Dropdown notifications functionality
-  const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
-  const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
-  const [showPanel, setShowPanel] = useState<Checked>(false);
+  //   --- making notifications 'read' when user click the Bell icon
+  const [modifyNotifications, { data: modifiedNotifications, isLoading : notificationLoading }] =
+    useModifyNotificationsMutation();
 
-  useEffect(() => {
-    console.log({ showActivityBar, showStatusBar, showPanel });
-  }, [showActivityBar, showStatusBar, showPanel]);
+  const handleNotifications = () => {
+    modifyNotifications({
+      email,
+    });
+  };
 
   return (
     <div className="ml-auto flex-1 sm:flex-initial">
       <div className="flex  gap-3 justify-center items-center">
         {/* --- Dropdown Menu Notifications --- */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <button
-              title="Notifications"
-              className={`transition-colors py-2 px-3 relative  rounded flex gap-1 justify-between items-center  ${
-                notifications?.length > 0
-                  ? "bg-blue-600 text-white"
-                  : "bg-gray-100 text-slate-600"
-              }`}
-            >
-              <IoNotifications className="text-lg " />
-
-              {notifications?.length > 0 && (
-                <span className="bg-red-600 w-5 h-5 flex justify-center items-center text-sm text-center text-white rounded-full absolute -right-2 -bottom-2">
-                  {notifications?.length}
-                </span>
-              )}
-            </button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-56">
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuCheckboxItem
-              checked={showStatusBar}
-              onCheckedChange={setShowStatusBar}
-            >
-              Status Bar
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={showActivityBar}
-              onCheckedChange={setShowActivityBar}
-              disabled
-            >
-              Activity Bar
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem
-              checked={showPanel}
-              onCheckedChange={setShowPanel}
-            >
-              Panel
-            </DropdownMenuCheckboxItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
 
         <Popover>
           <PopoverTrigger>
-          <button
+            <button
+              onClick={handleNotifications}
               title="Notifications"
               className={`transition-colors py-2 px-3 relative  rounded flex gap-1 justify-between items-center  ${
                 notifications?.length > 0
@@ -118,7 +74,11 @@ const IconMenu = ({ props }: any) => {
               )}
             </button>
           </PopoverTrigger>
-          <PopoverContent>Place content for the popover here.</PopoverContent>
+          <PopoverContent className="w-full">
+            <DropdownNotifications
+              props={{ email, data, isLoading, isError, error, notificationLoading }}
+            />
+          </PopoverContent>
         </Popover>
 
         {/* --- wishlist --- */}
