@@ -1,25 +1,18 @@
 import Link from "next/link";
 import { CircleUser, Menu, Package2, Search } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import logo from "@/assets/img/injection.png";
-import { IoMdKey, IoMdLogIn } from "react-icons/io";
+import { DropDownNavbar } from "./Responsive Menu/Desktop Menu/DropDownNavbar";
+import IconMenu from "./Icon menu bar/IconMenu";
 
 const GuestNavbar = () => {
   const urlPath = usePathname();
   const isHomePage = urlPath === "/";
+
   return (
     <header
       className={`absolute left-0 right-0 z-50 top-0 flex h-16 items-center gap-4  px-4 md:px-6 ${
@@ -107,37 +100,11 @@ const GuestNavbar = () => {
             />
           </div>
         </form>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="secondary" size="icon" className="rounded-full">
-              <CircleUser className="h-5 w-5" />
-              <span className="sr-only">Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link
-                className="bg-[#488EAF] px-3 rounded py-2 flex justify-center items-center gap-1 text-white me-2 "
-                href="/authentication/login"
-              >
-                <IoMdLogIn/>
-                Login
-              </Link>
-              <Link
-                className="bg-[#FB714C] px-3 rounded py-2 flex justify-center items-center gap-1 text-white "
-                href="/authentication/register"
-              >
-                <IoMdKey  className="text-lg" />
-                Register
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* <IconMenu props={{ wishlist : [], cartQuantity : [], email : '' }} /> */}
+
+        
+        {/* --- user submenu --- */}
+        <DropDownNavbar props={{ userState : {} }} />
       </div>
     </header>
   );

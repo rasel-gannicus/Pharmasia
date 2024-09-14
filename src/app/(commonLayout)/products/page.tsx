@@ -1,3 +1,5 @@
+
+import PopularProductCard from "@/components/for home page/most popular products/Popular Products Card/PopularProductCard";
 import ProductCard from "@/components/products/product card/ProductCard";
 import { TCloths } from "@/types/types";
 import React from "react";
@@ -19,10 +21,10 @@ const AllProducts = async () => {
         <span className="text-pink-600">All</span>
         products
       </h2>
-      <div className="py-5 grid md:grid-cols-3 gap-6 px-1">
+      <div className="py-5 grid md:grid-cols-4 lg:grid-cols-4 gap-6 px-1">
         {data?.length > 0 ? (
           data?.map((item: TCloths) => (
-            <ProductCard key={item._id} data={item} />
+            <PopularProductCard key={item._id} data={item} />
           ))
         ) : (
           <h2>No data found</h2>

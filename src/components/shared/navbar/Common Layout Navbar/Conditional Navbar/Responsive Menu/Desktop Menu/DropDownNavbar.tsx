@@ -17,6 +17,7 @@ import { FaStar } from "react-icons/fa";
 import Link from "next/link";
 import { useAppDispatch } from "@/utils/Redux/hooks";
 import { activeModal } from "@/utils/Redux/features/modal/modalSlice";
+import { IoMdKey, IoMdLogIn } from "react-icons/io";
 
 export const DropDownNavbar = ({ props }: { props: any }) => {
   const { userState } = props;
@@ -52,9 +53,9 @@ export const DropDownNavbar = ({ props }: { props: any }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{displayName || "John Wick"}</DropdownMenuLabel>
+        <DropdownMenuLabel>{displayName || "Your Account"}</DropdownMenuLabel>
         <DropdownMenuLabel className="text-slate-300">
-          {email}
+          {email || "Login to see details"}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
@@ -94,11 +95,30 @@ export const DropDownNavbar = ({ props }: { props: any }) => {
         </Link>
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Button onClick={handleLogout} className="bg-pink-600">
-            Logout
-          </Button>
-        </DropdownMenuItem>
+        {!email ? (
+          <DropdownMenuItem>
+            <Link
+              className="bg-[#488EAF] px-3 rounded py-2 flex justify-center items-center gap-1 text-white me-2 "
+              href="/authentication/login"
+            >
+              <IoMdLogIn />
+              Login
+            </Link>
+            <Link
+              className="bg-[#FB714C] px-3 rounded py-2 flex justify-center items-center gap-1 text-white "
+              href="/authentication/register"
+            >
+              <IoMdKey className="text-lg" />
+              Register
+            </Link>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem>
+            <Button onClick={handleLogout} className="bg-pink-600">
+              Logout
+            </Button>
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );

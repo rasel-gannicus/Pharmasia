@@ -22,6 +22,11 @@ const Login = () => {
             <CardTitle className="text-2xl text-[#21406A] ">Login</CardTitle>
             <CardDescription>
               Enter your credentials to login to your account
+              <div className="text-center text-blue-300 font-semibold">
+                <p> --- You may try this credential : --- </p>
+                <p>(Email : <span className="font-bold text-gray-400">rasel@gmail.com</span> </p>
+                <p>Password : <span className="font-bold text-gray-400">aaaaaa</span> )</p>
+              </div>
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -33,7 +38,10 @@ const Login = () => {
 
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account ?{" "}
-              <Link href="/authentication/register" className="font-bold text-[#488EAF]">
+              <Link
+                href="/authentication/register"
+                className="font-bold text-[#488EAF]"
+              >
                 Register
               </Link>
             </div>

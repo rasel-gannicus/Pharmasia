@@ -1,11 +1,6 @@
 import { Home, Menu, Package2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import NavLink from "@/utils/Navlink/NavLink";
-import { LineChart, Package, ShoppingCart, Users } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
-import { FaRegHeart } from "react-icons/fa";
 import CommonMenuDesktop from "../Desktop Menu/CommonMenuDesktop";
 
 const MobileMenu = ({ cartQuantity, wishlist }: any) => {

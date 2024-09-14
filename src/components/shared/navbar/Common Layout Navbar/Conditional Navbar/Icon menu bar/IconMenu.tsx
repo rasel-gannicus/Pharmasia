@@ -69,7 +69,7 @@ const IconMenu = ({ props }: any) => {
 
               {notifications?.length > 0 && (
                 <span className="bg-red-600 w-5 h-5 flex justify-center items-center text-sm text-center text-white rounded-full absolute -right-2 -bottom-2">
-                  {notifications?.length}
+                  {notifications?.length }
                 </span>
               )}
             </button>
@@ -135,31 +135,7 @@ const IconMenu = ({ props }: any) => {
           </Tooltip>
         </TooltipProvider>
 
-        {/* --- notification --- */}
-        {/* <TooltipProvider delayDuration={300}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                className={`transition-colors hover:text-foreground  hover:bg-white  hover:text-black  py-2 px-3 relative  rounded flex gap-1 justify-between items-center ${
-                  notifications?.length > 0
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-slate-600"
-                }`}
-              >
-                <IoNotifications className="text-lg " />
-
-                {notifications?.length > 0 && (
-                  <span className="bg-red-600 w-5 h-5 flex justify-center items-center text-sm text-center text-white rounded-full absolute -right-2 -bottom-2">
-                    {notifications?.length}
-                  </span>
-                )}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Notification</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider> */}
+        
       </div>
     </div>
   );
