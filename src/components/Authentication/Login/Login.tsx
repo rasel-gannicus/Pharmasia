@@ -23,9 +23,17 @@ const Login = () => {
             <CardDescription>
               Enter your credentials to login to your account
               <div className="text-center text-blue-300 font-semibold">
-                <p> --- You may try this credential : --- </p>
-                <p>(Email : <span className="font-bold text-gray-400">rasel@gmail.com</span> </p>
-                <p>Password : <span className="font-bold text-gray-400">aaaaaa</span> )</p>
+                <p> --- You may try this credential --- </p>
+                <p>
+                  (Email :{" "}
+                  <span className="font-bold text-gray-400">
+                    rasel@gmail.com
+                  </span>{" "}
+                </p>
+                <p>
+                  Password :{" "}
+                  <span className="font-bold text-gray-400">aaaaaa</span> )
+                </p>
               </div>
             </CardDescription>
           </CardHeader>

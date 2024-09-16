@@ -1,4 +1,4 @@
-import UserDashboardNavbar from "@/components/shared/navbar/User Dashboard Navbar/UserDashboardNavbar";
+import UserDashboardWrapper from "@/components/Wrapper Components/User Dashboard Wrapper/UserDashboardWrapper";
 
 export default async function RootLayout({
   children,
@@ -7,8 +7,8 @@ export default async function RootLayout({
 }>) {
   return (
     <div>
-      <UserDashboardNavbar>{children} </UserDashboardNavbar>
-      {/* <UserDashboardWrapper>{children}</UserDashboardWrapper> */}
+      {/* <UserDashboardNavbar>{children} </UserDashboardNavbar> */}
+      <UserDashboardWrapper>{children}</UserDashboardWrapper>
     </div>
   );
 }
