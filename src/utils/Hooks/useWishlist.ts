@@ -13,7 +13,7 @@ export const useWishlist = () => {
   const [cart, setCart] = useState(0);
 
   const { data, isLoading, isError, isSuccess }: any =
-    useGetProductCartQuery(email);
+    useGetProductCartQuery(user?.email);
 
   useEffect(() => {
     if (data?.cart?.length > 0) {
@@ -25,6 +25,6 @@ export const useWishlist = () => {
     }
     // console.log(data);
     // console.log(data?.cart?.length);
-  }, [email, data]);
+  }, [user?.email, data]);
   return cart;
 };
