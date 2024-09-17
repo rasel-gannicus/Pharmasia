@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Sidebar from "@/components/shared/Dashboard Sidebar/Sidebar";
+import { AdminDashboardWrapper } from "@/components/Wrapper Components/Admin Dashboard Wrapper/AdminDashboardWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,8 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-      <Sidebar />
-      <div className="p-4 sm:ml-64">{children}</div>
+      <AdminDashboardWrapper>{children}</AdminDashboardWrapper>
     </div>
   );
 }

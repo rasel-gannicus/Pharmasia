@@ -10,6 +10,8 @@ export const userApi = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+
+    // --- get all the information for single user (including orders, cart, wishlist)
     getUserInfo: builder.query({
       query: (email) => ({
         url: `/userInfo/${email}`,
@@ -17,6 +19,15 @@ export const userApi = apiSlice.injectEndpoints({
       providesTags: ["userInfo"],
     }),
 
+    // --- get all the information for single user (including orders, cart, wishlist)
+    getAllUserInfo: builder.query({
+      query: () => ({
+        url: `/allUsers`,
+      }),
+      providesTags: ["userInfo", "allUsers"],
+    }),
+
+    // --- get notifications for single user
     getUserNotifications: builder.query({
       query: (email) => ({
         url: `/notifications/${email}`,
@@ -41,4 +52,5 @@ export const {
   useGetUserInfoQuery,
   useGetUserNotificationsQuery,
   useModifyNotificationsMutation,
+  useGetAllUserInfoQuery,
 } = userApi;

@@ -5,12 +5,12 @@ import { useCart } from "@/utils/Hooks/useCart";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
 import { useWishlist } from "@/utils/Hooks/useWishlist";
-import MobileMenu from "./Menubar/MobileMenu";
-import DesktopMenu from "./Menubar/DesktopMenu";
 import { DropDownNavbar } from "../Common Layout Navbar/Conditional Navbar/Responsive Menu/Desktop Menu/DropDownNavbar";
 import CommonMenuDesktop from "../Common Layout Navbar/Conditional Navbar/Responsive Menu/Desktop Menu/CommonMenuDesktop";
+import DesktopMenu from "./Menubar/DesktopMenu";
+import MobileMenu from "./Menubar/MobileMenu";
 
-function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
+function AdminDashboardNavbar({ children }: { children: React.ReactNode }) {
   const [user, loading] = useAuthState(auth);
 
   // --- checking how many items are in cart
@@ -42,4 +42,4 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-export default PrivateRoute(UserDashboardNavbar);
+export default PrivateRoute(AdminDashboardNavbar);

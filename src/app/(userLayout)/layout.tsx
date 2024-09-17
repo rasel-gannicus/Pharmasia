@@ -7,7 +7,6 @@ export default async function RootLayout({
 }>) {
   return (
     <div>
-      {/* <UserDashboardNavbar>{children} </UserDashboardNavbar> */}
       <UserDashboardWrapper>{children}</UserDashboardWrapper>
     </div>
   );
