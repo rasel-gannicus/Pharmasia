@@ -7,7 +7,6 @@ import auth from "../firebase.init";
 
 export const useWishlist = () => {
   const [user, loading]: any = useAuthState(auth);
-  const { email } = user;
 
   // --- checking how many items are in cart
   const [cart, setCart] = useState(0);

@@ -17,9 +17,13 @@ import {
 import { TailSpin } from "react-loader-spinner";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
-import { useGetAllUserInfoQuery, useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
+import {
+  useGetAllUserInfoQuery,
+  useGetUserInfoQuery,
+} from "@/utils/Redux/features/user/userApi";
 import { useRouter } from "next/navigation";
 import FilterMenu from "./Sub Components/FilterMenu";
+import { Allura } from "next/font/google";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
@@ -31,8 +35,23 @@ export const AllOrders = ({ props }: any) => {
   // --- getting user info (including user's all orders, wishlist, cart)
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
 
-  const {data : allUser} = useGetAllUserInfoQuery(undefined) ;
-  console.log(allUser);
+  const { data: allUser } = useGetAllUserInfoQuery(undefined);
+  const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] = useState([]);
+
+  useEffect(() => {
+    // [[1,2,3],[4,5,6] , [7,8,9]]
+
+    if (allUser?.length > 0) {
+      let getAllOrders = allUser?.filter((item: any) => item?.orders);
+
+
+      setAllOrdersFromAllUsers(
+        getAllOrders.map((item : any)=> item.orders).flat()
+      );
+    }
+  }, [allUser]);
+
+  
 
   const [searchText, setSearchText] = useState("");
 
@@ -62,7 +81,7 @@ export const AllOrders = ({ props }: any) => {
   };
 
   // Get all orders
-  let allOrders = data?.orders ?? [];
+  let allOrders = allOrdersFromAllUsers ?? [];
 
   if (allOrders?.length > 0) {
     allOrders = [...allOrders].sort((a: any, b: any) => {
@@ -202,7 +221,6 @@ export const AllOrders = ({ props }: any) => {
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
       {/* --- page menu before showing contents --- */}
       <div className="mb-5 grid grid-cols-2  lg:flex lg:justify-between items-center gap-5">
-
         {/* --- Filter dropdown menu --- */}
         <FilterMenu
           props={{
