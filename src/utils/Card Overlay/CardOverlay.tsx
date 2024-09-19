@@ -64,7 +64,7 @@ const CardOverlay = ({ data: productData }: { data: any }) => {
       try {
         addToCart({
           email: user.email,
-          product: productData,
+          product: {...productData, user:user},
           status,
         });
       } catch (error) {

@@ -28,7 +28,7 @@ const Wishlist = () => {
             <div className="md:col-span-3 space-y-4">
               {wishlist?.length > 0 ? (
                 wishlist.map((index: any) => (
-                  <WishlistCard key={index} data={index} email={user?.email} />
+                  <WishlistCard key={index} data={index} email={user?.email} user={user} />
                 ))
               ) : (
                 <p className="text-center text-gray-400">

@@ -19,6 +19,9 @@ const WishlistCard = (data: any) => {
 
   const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
 
+  let receivedProductData = data.data ; 
+  let sendingProductData = {...receivedProductData, user  : data.user};
+  
   // --- this one will remove items from wishlist
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
@@ -41,10 +44,11 @@ const WishlistCard = (data: any) => {
     },
   ]: any = useAddToCartMutation();
 
+
   const handleAddToCart = (status: string) => {
     addToCart({
       email: data.email,
-      product: data.data,
+      product: sendingProductData,
       status,
     });
   };

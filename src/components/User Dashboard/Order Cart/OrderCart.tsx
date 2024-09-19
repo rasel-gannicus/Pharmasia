@@ -182,6 +182,7 @@ const OrderCart = () => {
                     key={index._id}
                     data={index}
                     email={user?.email}
+                    user={user}
                     checkAll={checkAll}
                     handleItemCheck={handleItemCheck} // Pass handleItemCheck to each Card
                   />

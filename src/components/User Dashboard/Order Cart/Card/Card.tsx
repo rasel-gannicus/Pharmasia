@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
 const Card = (data: any) => {
-  const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
+  const { _id, Images, Ratings, Title, quantity, Price, status, user } = data.data;
+
 
   const { checkAll, handleItemCheck } = data;
 

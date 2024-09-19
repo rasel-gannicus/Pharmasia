@@ -36,7 +36,8 @@ export const AllOrders = ({ props }: any) => {
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
 
   const { data: allUser } = useGetAllUserInfoQuery(undefined);
-  const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] = useState([]);
+  const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] : any = useState([]);
+  console.log("🚀 ~ AllOrders ~ allOrdersFromAllUsers:", allOrdersFromAllUsers)
 
   useEffect(() => {
     // [[1,2,3],[4,5,6] , [7,8,9]]
@@ -304,7 +305,10 @@ export const AllOrders = ({ props }: any) => {
             <thead className="whitespace-nowrap">
               <tr>
                 <th className="p-4 text-left text-sm font-semibold text-black">
-                  Name
+                  User
+                </th>
+                <th className="p-4 text-left text-sm font-semibold text-black">
+                  Product Name
                 </th>
                 <th className="p-4 text-left text-sm font-semibold text-black">
                   Order status

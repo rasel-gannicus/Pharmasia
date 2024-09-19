@@ -3,8 +3,9 @@ import { ModalForDeleteConfirmation } from "@/utils/Modal/ModalForDeleteConfirma
 import { ModalforRatings } from "@/utils/Modal/ModalForRatings";
 import RatingsDiv from "@/utils/Ratings/RatingsDiv";
 import { useModifyOrdersMutation } from "@/utils/Redux/features/products/productsApi";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import profilePhoto from "@/assets/img/profile.png" ;
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdReviews } from "react-icons/md";
 import { TailSpin } from "react-loader-spinner";
@@ -107,8 +108,22 @@ const OrdersRow = ({ props }: any) => {
     setIsAgree2(false);
   }, [isAgree2, modalStatus2, isLoading, data]);
 
+
   return (
     <tr className="odd:bg-blue-50 ">
+      <td
+        className={`p-4 text-sm text-black `}
+      >
+        <div className="flex justify-start gap-2 items-center">
+          <div className="rounded-full overflow-hidden">
+            <Image src={item?.user?.photoURL || profilePhoto} alt="user image" width={50} height={50} />
+          </div>
+          <div className="text-gray-400">
+            <p className="text-gray-600">{item?.user?.displayName}</p>
+            <p>{item?.user?.email}</p>
+          </div>
+        </div>
+      </td>
       <td className="px-4 py-2 text-sm">
         <div className="flex items-center cursor-pointer w-max">
           <img
