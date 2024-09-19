@@ -22,7 +22,7 @@ export function DropdownNotifications({ props }: any) {
                 {isloading || notificationLoading ? (
                   <Loader />
                 ) : (
-                  data.map((item: any) => (
+                  data?.map((item: any) => (
                     <TableRow key={item?.details}>
                       <TableCell className="font-medium text-slate-500">
                         {item?.details}

@@ -10,7 +10,7 @@ interface TProductId {
 export const generateStaticParams = async() => {
   const res = await fetch("https://server-for-assignment-8.vercel.app/allCloths")
   const cloths = await res.json() ;
-  return cloths.slice(0,10).map((items : TCloths)=>({
+  return cloths?.slice(0,10).map((items : TCloths)=>({
     productId : items._id
   }))
 }

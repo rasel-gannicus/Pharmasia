@@ -46,6 +46,7 @@ const IconMenu = ({ props }: any) => {
   const handleNotifications = () => {
     modifyNotifications({
       email,
+      modifyType : 'read' 
     });
   };
 

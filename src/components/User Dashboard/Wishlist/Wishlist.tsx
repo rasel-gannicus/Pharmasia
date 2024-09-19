@@ -27,7 +27,7 @@ const Wishlist = () => {
           <div className="grid md:grid-cols-3 gap-8 ">
             <div className="md:col-span-3 space-y-4">
               {wishlist?.length > 0 ? (
-                wishlist.map((index: any) => (
+                wishlist?.map((index: any) => (
                   <WishlistCard key={index} data={index} email={user?.email} user={user} />
                 ))
               ) : (

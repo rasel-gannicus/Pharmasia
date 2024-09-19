@@ -27,15 +27,6 @@ export const AdminDashboardWrapper = ({ children }: { children: React.ReactNode 
   );
   const navigation = useRouter();
 
-  // --- redirecting user to admin panel if the user role is 'admin'
-  useEffect(() => {
-    if (isLoading && !data) {
-      return;
-    }
-    if (data?.role == "admin") {
-      return navigation.push("/admin/dashboard");
-    }
-  }, [data, isLoading]);
 
   useEffect(() => {
     // --- adding user to local state with redux

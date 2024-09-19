@@ -38,7 +38,7 @@ const MostPopularProducts = async () => {
       </div>
 
       <div className="my-10  lg:w-full mx-auto md:grid md:grid-cols-3 lg:grid-cols-4 grid grid-cols-1 gap-y-10">
-        {topRatedProducts.map((item: TCloths) => (
+        {topRatedProducts?.map((item: TCloths) => (
           <PopularProductCard 
           key={item._id} 
           data={item} 

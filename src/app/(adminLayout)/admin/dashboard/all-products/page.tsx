@@ -12,8 +12,8 @@ const AllProducts = async () => {
   );
   const data = await res.json();
   let content = null;
-  if (data.length > 0) {
-    content = data.map((item: TCloths) => (
+  if (data?.length > 0) {
+    content = data?.map((item: TCloths) => (
       <tr
         key={item._id}
         className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"

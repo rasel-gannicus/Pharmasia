@@ -104,7 +104,7 @@ export function ProfileChart2({ props }: any) {
               innerRadius={60}
               strokeWidth={5}
             >
-              {getOrdersChartData.map((entry, index) => (
+              {getOrdersChartData?.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.fill} />
               ))}
               <Label

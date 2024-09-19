@@ -16,6 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useModifyNotificationsMutation } from "@/utils/Redux/features/user/userApi";
 
 const OrdersRow = ({ props }: any) => {
   const { item, email } = props;
@@ -23,20 +24,35 @@ const OrdersRow = ({ props }: any) => {
   const [modalStatus, setModalStatus] = useState(false);
   const [isAgree2, setIsAgree2] = useState(false);
 
-  // --- showing order status in tabl
+  // --- showing order status in table
   let status;
   if (item.status == "newOrder") {
     status = "Pending";
   }
 
+  // --- dropdown menu for taking action as admin ('pending','shipping', 'delivered') for each order
   const [selectMenu, setSelectMenu] = useState(item?.status || "");
 
-  const [modifyOrders, { data, isLoading, isError }] =
+  //   --- making notifications
+  const [
+    modifyNotifications,
+    { data: modifiedNotifications, isLoading: notificationLoading },
+  ] = useModifyNotificationsMutation();
+
+  const handleNotifications = (status: string) => {
+    console.log('triggered');
+    modifyNotifications({
+      email: item?.user?.email,
+      modifyType: status,
+    });
+  };
+
+  // --- making changes for order status from the admin dashboard
+  let [modifyOrders, { data, isLoading, isError }] =
     useModifyOrdersMutation();
 
   useEffect(() => {
     if (isAgree2) {
-      // --- deleting checked items from cart
       modifyOrders({
         data: item,
         modifyType: selectMenu,
@@ -44,7 +60,18 @@ const OrdersRow = ({ props }: any) => {
       });
     }
     setIsAgree2(false);
+    
   }, [isAgree2, modalStatus2, isLoading, data]);
+
+  useEffect(() => {
+    // --- making new notification for particular user if the order status changes for that user
+    if (data) {
+      handleNotifications(selectMenu);
+    }
+    
+  }, [data]);
+
+
 
   let conditionalButton = !selectMenu || item?.status == selectMenu; // -- making 'order status action' button disabled
 

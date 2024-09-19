@@ -301,7 +301,7 @@ export const AllOrders = ({ props }: any) => {
             </thead>
 
             <tbody className="whitespace-nowrap relative">
-              {paginatedOrders.map((item: any) => (
+              {paginatedOrders?.map((item: any) => (
                 <OrdersRow key={item.id} props={{ item, email: user?.email }} />
               ))}
             </tbody>

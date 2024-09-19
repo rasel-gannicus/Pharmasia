@@ -71,7 +71,7 @@ export const ModalforRatings = ({ props }: any) => {
                 </h2>
                 <div className="text-slate-400 text-3xl flex justify-center items-center gap-2 mt-3">
                   {/* Map through the stars array */}
-                  {stars.map((star) => (
+                  {stars?.map((star) => (
                     <button
                       key={star}
                       onMouseEnter={() => setHoveredStar(star)} // Highlight stars on hover

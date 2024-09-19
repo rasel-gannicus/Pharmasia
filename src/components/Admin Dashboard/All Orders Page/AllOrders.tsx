@@ -37,7 +37,6 @@ export const AllOrders = ({ props }: any) => {
 
   const { data: allUser } = useGetAllUserInfoQuery(undefined);
   const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] : any = useState([]);
-  console.log("🚀 ~ AllOrders ~ allOrdersFromAllUsers:", allOrdersFromAllUsers)
 
   useEffect(() => {
     // [[1,2,3],[4,5,6] , [7,8,9]]
@@ -47,7 +46,7 @@ export const AllOrders = ({ props }: any) => {
 
 
       setAllOrdersFromAllUsers(
-        getAllOrders.map((item : any)=> item.orders).flat()
+        getAllOrders?.map((item : any)=> item.orders).flat()
       );
     }
   }, [allUser]);
@@ -323,7 +322,7 @@ export const AllOrders = ({ props }: any) => {
             </thead>
 
             <tbody className="whitespace-nowrap relative">
-              {paginatedOrders.map((item: any) => (
+              {paginatedOrders?.map((item: any) => (
                 <OrdersRow key={item.id} props={{ item, email: user?.email }} />
               ))}
             </tbody>

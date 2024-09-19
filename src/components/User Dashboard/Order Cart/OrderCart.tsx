@@ -177,7 +177,7 @@ const OrderCart = () => {
             <div className="md:col-span-2 space-y-4">
               {/* --- Checkbox card --- */}
               {cart?.length > 0 ? (
-                cart.map((index: any) => (
+                cart?.map((index: any) => (
                   <Card
                     key={index._id}
                     data={index}
