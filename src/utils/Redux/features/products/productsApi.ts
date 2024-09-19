@@ -49,7 +49,7 @@ export const productApi = apiSlice.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
-      invalidatesTags: ["cart", "userInfo", "orders"],
+      invalidatesTags: ["cart", "userInfo", "orders", "allUsers"],
     }),
 
     // --- add product to order list

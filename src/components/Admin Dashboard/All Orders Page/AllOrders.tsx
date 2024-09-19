@@ -316,9 +316,6 @@ export const AllOrders = ({ props }: any) => {
                 <th className="p-4 text-left text-sm font-semibold text-black">
                   Price
                 </th>
-                <th className="p-4 text-left text-sm font-semibold text-black">
-                  Ratings
-                </th>
                 <th className="p-4  text-sm font-semibold text-black text-center">
                   Action
                 </th>

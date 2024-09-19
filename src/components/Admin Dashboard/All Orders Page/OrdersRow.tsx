@@ -5,80 +5,17 @@ import RatingsDiv from "@/utils/Ratings/RatingsDiv";
 import { useModifyOrdersMutation } from "@/utils/Redux/features/products/productsApi";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import profilePhoto from "@/assets/img/profile.png" ;
+import profilePhoto from "@/assets/img/profile.png";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { MdReviews } from "react-icons/md";
 import { TailSpin } from "react-loader-spinner";
-
-// --- button for user in the order inventory
-const userActionButtonOrderInventory = (
-  item: any,
-  setModalStatus2: any,
-  setModalStatus: any
-) => {
-  let actionButton = null;
-  if (item.status == "newOrder") {
-    return (actionButton = (
-      <td className=" text-center">
-        <button onClick={() => setModalStatus2(true)} title="Delete">
-          <FaRegTrashAlt className="text-lg text-red-500" />
-        </button>
-      </td>
-    ));
-  } else if (item.status.toLowerCase() == "packaged") {
-    return (actionButton = (
-      <td className=" text-center">
-        <button title="Delete" disabled>
-          <FaRegTrashAlt className="text-lg text-slate-500" />
-        </button>
-      </td>
-    ));
-  } else if (
-    item.status.toLowerCase() == "shipping" ||
-    item.status.toLowerCase() == "shipped"
-  ) {
-    return (actionButton = (
-      <td className=" text-center">
-        <button title="Delete" disabled>
-          <FaRegTrashAlt className="text-lg text-slate-500" />
-        </button>
-      </td>
-    ));
-  } else if (item.status.toLowerCase() == "delivered") {
-    return (actionButton = (
-      <td className=" text-center">
-        <Button
-          onClick={() => setModalStatus(true)}
-          title="Delete"
-          className="flex mx-auto text-sm bg-yellow-300  text-black justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
-        >
-          Review
-          <MdReviews className="" />
-        </Button>
-      </td>
-    ));
-  } else if (item.status.toLowerCase() == "cancelled" || item?.isCancelled) {
-    return (actionButton = (
-      <td className=" text-center">
-        <p className="text-sm text-gray-300">Order Cancelled</p>
-      </td>
-    ));
-  }else if (item.status.toLowerCase() == "reviewed") {
-    return (actionButton = (
-      <td className=" text-center">
-        <Button
-          onClick={() => setModalStatus(true)}
-          disabled
-          // title="Delete"
-          className="flex mx-auto text-sm bg-green-600  text-white justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
-        >
-          Rated
-          <MdReviews className="" />
-        </Button>
-      </td>
-    ));
-  }
-};
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const OrdersRow = ({ props }: any) => {
   const { item, email } = props;
@@ -91,7 +28,8 @@ const OrdersRow = ({ props }: any) => {
   if (item.status == "newOrder") {
     status = "Pending";
   }
-  let actionButton = userActionButtonOrderInventory(item, setModalStatus2, setModalStatus);
+
+  const [selectMenu, setSelectMenu] = useState(item?.status || "");
 
   const [modifyOrders, { data, isLoading, isError }] =
     useModifyOrdersMutation();
@@ -101,22 +39,26 @@ const OrdersRow = ({ props }: any) => {
       // --- deleting checked items from cart
       modifyOrders({
         data: item,
-        modifyType: "cancel",
-        email,
+        modifyType: selectMenu,
+        email: item?.user?.email,
       });
     }
     setIsAgree2(false);
   }, [isAgree2, modalStatus2, isLoading, data]);
 
+  let conditionalButton = !selectMenu || item?.status == selectMenu; // -- making 'order status action' button disabled
 
   return (
     <tr className="odd:bg-blue-50 ">
-      <td
-        className={`p-4 text-sm text-black `}
-      >
+      <td className={`p-4 text-sm text-black `}>
         <div className="flex justify-start gap-2 items-center">
           <div className="rounded-full overflow-hidden">
-            <Image src={item?.user?.photoURL || profilePhoto} alt="user image" width={50} height={50} />
+            <Image
+              src={item?.user?.photoURL || profilePhoto}
+              alt="user image"
+              width={50}
+              height={50}
+            />
           </div>
           <div className="text-gray-400">
             <p className="text-gray-600">{item?.user?.displayName}</p>
@@ -146,16 +88,7 @@ const OrdersRow = ({ props }: any) => {
           item.isCancelled && "text-red-600 font-semibold"
         }`}
       >
-        {status || item.status}
-      </td>
-      <td className="p-4 text-sm text-black">
-        $ {item.quantity * item.Price || 0}
-      </td>
-      <td className="p-4">
-        <RatingsDiv ratings={item.ratings} />
-      </td>
-      {isLoading ? (
-        <td className="w-full flex justify-center items-center">
+        {isLoading ? (
           <TailSpin
             visible={true}
             height="50"
@@ -166,31 +99,77 @@ const OrdersRow = ({ props }: any) => {
             wrapperStyle={{}}
             wrapperClass=""
           />
-        </td>
-      ) : (
-        actionButton
-      )}
+        ) : (
+          status || item.status
+        )}
+      </td>
+      <td className="p-4 text-sm text-black">
+        $ {item.quantity * item.Price || 0}
+      </td>
+      <td className="p-4 flex flex-col gap-2 justify-center items-center">
+        {isLoading ? (
+          <td className="w-full flex justify-center items-center">
+            <TailSpin
+              visible={true}
+              height="50"
+              width="50"
+              color="#1C8674"
+              ariaLabel="tail-spin-loading"
+              radius="4"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
+          </td>
+        ) : (
+          <Select value={selectMenu} onValueChange={setSelectMenu}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder={item?.status || "Action"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newOrder">Pending</SelectItem>
+              <SelectItem value="processing">Processing</SelectItem>
+              <SelectItem value="packaged">Packaged</SelectItem>
+              <SelectItem value="shipping">Shipping</SelectItem>
+              <SelectItem value="shipped">Shipped</SelectItem>
+              <SelectItem value="delivered">Delivered</SelectItem>
+              <SelectItem value="cancelled">Cancel</SelectItem>
+            </SelectContent>
+          </Select>
+        )}
+        <div className=" flex gap-1 w-[150px]">
+          <button
+            onClick={() => setModalStatus2(true)}
+            disabled={conditionalButton}
+            className={` text-xs px-2 w-full py-1 rounded ${
+              !conditionalButton
+                ? "bg-green-400 text-gray-600"
+                : "bg-gray-300 text-gray-400"
+            }`}
+          >
+            Ok
+          </button>
+          <button
+            disabled={conditionalButton}
+            onClick={() => setSelectMenu("")}
+            className={`text-xs px-2 w-full py-1 rounded ${
+              !conditionalButton
+                ? "bg-yellow-400 text-gray-600"
+                : "bg-gray-300 text-gray-400"
+            }`}
+          >
+            Cancel
+          </button>
+        </div>
+      </td>
 
       <ModalForDeleteConfirmation
         props={{
           modalStatus2,
           setModalStatus2,
           setIsAgree2,
-          title: "Do you want to cancel the order ? ",
+          title: "Proceed the action ? ",
         }}
       />
-
-      <ModalforRatings
-        props={{
-          modalStatus,
-          setModalStatus,
-          title: "Rate the product ",
-          item,
-          email,
-          modifyOrders
-        }}
-      />
-      
     </tr>
   );
 };
