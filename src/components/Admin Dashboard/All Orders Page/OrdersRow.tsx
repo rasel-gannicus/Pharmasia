@@ -40,16 +40,16 @@ const OrdersRow = ({ props }: any) => {
   ] = useModifyNotificationsMutation();
 
   const handleNotifications = (status: string) => {
-    console.log('triggered');
     modifyNotifications({
       email: item?.user?.email,
       modifyType: status,
+      productImg : item.Images,
+      productTitle : item.Title 
     });
   };
 
   // --- making changes for order status from the admin dashboard
-  let [modifyOrders, { data, isLoading, isError }] =
-    useModifyOrdersMutation();
+  let [modifyOrders, { data, isLoading, isError }] = useModifyOrdersMutation();
 
   useEffect(() => {
     if (isAgree2) {
@@ -60,7 +60,6 @@ const OrdersRow = ({ props }: any) => {
       });
     }
     setIsAgree2(false);
-    
   }, [isAgree2, modalStatus2, isLoading, data]);
 
   useEffect(() => {
@@ -68,10 +67,9 @@ const OrdersRow = ({ props }: any) => {
     if (data) {
       handleNotifications(selectMenu);
     }
-    
   }, [data]);
 
-
+  console.log(item);
 
   let conditionalButton = !selectMenu || item?.status == selectMenu; // -- making 'order status action' button disabled
 

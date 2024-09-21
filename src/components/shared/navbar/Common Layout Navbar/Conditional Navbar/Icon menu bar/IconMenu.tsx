@@ -14,7 +14,6 @@ import {
   useModifyNotificationsMutation,
 } from "@/utils/Redux/features/user/userApi";
 import { useEffect, useState } from "react";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
 
 import {
   Popover,
@@ -26,12 +25,18 @@ import { DropdownNotifications } from "./DropdownNotifications";
 const IconMenu = ({ props }: any) => {
   const { wishlist, cartQuantity, email } = props;
 
-  const { data, isLoading, isError, error } =
+  let { data, isLoading, isError, error } =
     useGetUserNotificationsQuery(email);
+    
 
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
     if (data?.length > 0) {
+      data = data?.slice().sort((a:any, b:any) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        return dateB - dateA; // For descending order
+      })
       const unreadNotifications = data?.filter(
         (item: any) => item.isRead === false
       );
@@ -75,7 +80,7 @@ const IconMenu = ({ props }: any) => {
               )}
             </button>
           </PopoverTrigger>
-          <PopoverContent className="">
+          <PopoverContent className="lg:w-[500px] ">
             <DropdownNotifications
               props={{ email, data, isLoading, isError, error, notificationLoading }}
             />
