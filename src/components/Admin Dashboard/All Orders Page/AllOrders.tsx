@@ -39,8 +39,6 @@ export const AllOrders = ({ props }: any) => {
   const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] : any = useState([]);
 
   useEffect(() => {
-    // [[1,2,3],[4,5,6] , [7,8,9]]
-
     if (allUser?.length > 0) {
       let getAllOrders = allUser?.filter((item: any) => item?.orders);
 

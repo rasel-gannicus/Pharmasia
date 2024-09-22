@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ProfileDashboardCard from "./Dashboard Left Side/Profile Dashboard Card/ProfileDashboardCard";
-import ProfileDashboardCard2 from "./Dashboard Left Side/Profile Dashboard Card/ProfileDashboardCard2";
 import ProfileDashboardCard3 from "./Dashboard Left Side/Profile Dashboard Card/ProfileDashboardCard3";
 import ProfileDashboardCard4 from "./Dashboard Left Side/Profile Dashboard Card/ProfileDashboardCard4";
 import ProfileChart from "./Profile Dashboard Chart/ProfileChart";
@@ -10,9 +9,11 @@ import ReviewCard from "./Dashboard Right Side/ReviewCard";
 import { ProfileChart2 } from "./Profile Dashboard Chart/ProfileChart2";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
-import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
+import { useGetAllUserInfoQuery, useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
 import { Barchart } from "./Profile Dashboard Chart/Barchart";
 import { AllOrders } from "../All Orders Page/AllOrders";
+import AdminDashboardCard from "./Dashboard Left Side/Profile Dashboard Card/ProfileDashboardCard";
+import AdminDashboardCard2 from "./Dashboard Left Side/Profile Dashboard Card/AdminDashboardCard2";
 
 export const dashboardCardClass =
   "w-[170px] xl:w-[250px] max-w-[300px] flex flex-col justify-evenly items-center py-5  px-3 bg-white min-h-[300px] rounded text-center ";
@@ -20,7 +21,21 @@ export const dashboardCardClass =
 const AdminProfileDashboard = () => {
   const [user, loading, error] = useAuthState(auth);
 
-  const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
+  const { data, isLoading : deleteLoading, isError } = useGetUserInfoQuery(user?.email);
+
+  const { data: allUser, isLoading} = useGetAllUserInfoQuery(undefined);
+  const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] : any = useState([]);
+
+  useEffect(() => {
+    if (allUser?.length > 0) {
+      let getAllOrders = allUser?.filter((item: any) => item?.orders);
+
+
+      setAllOrdersFromAllUsers(
+        getAllOrders?.map((item : any)=> item.orders).flat()
+      );
+    }
+  }, [allUser]);
 
   return (
     <div className="bg-[#E9EFFB] min-h-screen grid grid-cols-1 lg:grid-cols-4 gap-5 py-10 px-2 2xl:px-5 ">
@@ -28,10 +43,10 @@ const AdminProfileDashboard = () => {
       <div className=" lg:col-span-3">
         <div className=" grid grid-cols-2 lg:flex justify-between items-center gap-3 ">
           {/* --- order card --- */}
-          <ProfileDashboardCard props={{ userInfo: data, isLoading }} />
+          <AdminDashboardCard props={{ orders : allOrdersFromAllUsers, isLoading }} />
 
           {/* --- wishlist card --- */}
-          <ProfileDashboardCard2 props={{ userInfo: data, isLoading }} />
+          <AdminDashboardCard2 props={{ userInfo: data, isLoading }} />
 
           <ProfileDashboardCard3 props={{ userInfo: data, isLoading }} />
 

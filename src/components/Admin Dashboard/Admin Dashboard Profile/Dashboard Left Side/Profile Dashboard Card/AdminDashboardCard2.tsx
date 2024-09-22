@@ -3,7 +3,7 @@ import { FaHeart } from "react-icons/fa";
 import { dashboardCardClass } from "../../AdminProfileDashboard";
 import { TailSpin } from "react-loader-spinner";
 
-const ProfileDashboardCard2 = ({ props }: any) => {
+const AdminDashboardCard2 = ({ props }: any) => {
   const { userInfo, isLoading } = props;
   let wishlist = userInfo?.cart?.filter((item: any) => item.wishlist === true);
 
@@ -15,7 +15,7 @@ const ProfileDashboardCard2 = ({ props }: any) => {
         <FaHeart />
       </div>
       <h2 className="text-lg font-semibold"> Wishlists</h2>
-      <p className="text-slate-400 text-sm ">Your wishlist quaintity</p>
+      <p className="text-slate-400 text-sm ">Your wishlist quantity</p>
       <h2 className="text-2xl lg:text-3xl font-semibold text-[#38A0E9] ">
         {isLoading ? (
           <TailSpin
@@ -36,4 +36,4 @@ const ProfileDashboardCard2 = ({ props }: any) => {
   );
 };
 
-export default ProfileDashboardCard2;
+export default AdminDashboardCard2;
