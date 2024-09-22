@@ -2,7 +2,7 @@ import { MdOutlinePendingActions } from "react-icons/md";
 import { dashboardCardClass } from "../../AdminProfileDashboard";
 import { TailSpin } from "react-loader-spinner";
 
-interface AdminDashboardCardProps {
+export interface AdminDashboardCardProps {
   orders: { status: string }[];
   isLoading: boolean;
 }
@@ -15,8 +15,8 @@ const AdminDashboardCard = ({ orders, isLoading }: AdminDashboardCardProps) => {
       <div className=" bg-[#FF7555] w-[80px] h-[80px] rounded-full flex items-center justify-center text-white text-3xl ">
         <MdOutlinePendingActions />
       </div>
-      <h2 className="text-lg font-semibold">Pending</h2>
-      <p className="text-slate-400 text-sm ">Orders to be delivered</p>
+      <h2 className="text-lg font-semibold">Pending Orders</h2>
+      <p className="text-slate-400 text-sm "> Need to be processed</p>
       <h2 className="text-2xl lg:text-3xl font-semibold text-[#FF7555] ">
         {isLoading ? (
           <TailSpin
