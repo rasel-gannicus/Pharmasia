@@ -1,9 +1,10 @@
+import AdminProfileDashboard from '@/components/Admin Dashboard/Admin Dashboard Profile/AdminProfileDashboard';
 import React from 'react';
 
 const Dashboard = () => {
     return (
         <div>
-            <h2>Dashboard Here</h2>
+            <AdminProfileDashboard />
         </div>
     );
 };
