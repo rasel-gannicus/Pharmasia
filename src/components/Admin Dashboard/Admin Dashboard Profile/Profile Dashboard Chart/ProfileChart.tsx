@@ -10,12 +10,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const ProfileChart = ({ props }: any) => {
-  
-  // --- getting user info (including users all orders, wishlist , cart)
-  const { userInfo, isLoading } = props;
+const ProfileChart = ({ orders, isLoading }: any) => {
 
-  let pendingOrders = userInfo?.orders
+  let pendingOrders = orders
     ?.filter(
       (item: any) => item.status === "newOrder" || item.status != "cancelled"
     )

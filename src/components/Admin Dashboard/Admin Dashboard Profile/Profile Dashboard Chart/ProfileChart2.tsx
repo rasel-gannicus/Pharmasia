@@ -41,10 +41,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function ProfileChart2({ props }: any) {
-  const { userInfo, isLoading } = props;
-  let orders = userInfo?.orders;
-
+export function ProfileChart2({ orders, isloading }: any) {
   const getOrdersBelow30 = orders?.filter(
     (item: any) => item.Price <= 30 && item.status.toLowerCase() != "cancelled"
   );
@@ -71,11 +68,31 @@ export function ProfileChart2({ props }: any) {
   );
 
   const getOrdersChartData = [
-    { title: chartConfig.below30.label, count: getOrdersBelow30?.length, fill: chartConfig.below30.color },
-    { title: chartConfig.from30To50.label, count: getOrdersFrom30To50?.length, fill: chartConfig.from30To50.color },
-    { title: chartConfig.from50To100.label, count: getOrdersFrom50To100?.length, fill: chartConfig.from50To100.color },
-    { title: chartConfig.from100To150.label, count: getOrdersFrom100To150?.length, fill: chartConfig.from100To150.color },
-    { title: chartConfig.above150.label, count: getOrdersAbove150?.length, fill: chartConfig.above150.color },
+    {
+      title: chartConfig.below30.label,
+      count: getOrdersBelow30?.length,
+      fill: chartConfig.below30.color,
+    },
+    {
+      title: chartConfig.from30To50.label,
+      count: getOrdersFrom30To50?.length,
+      fill: chartConfig.from30To50.color,
+    },
+    {
+      title: chartConfig.from50To100.label,
+      count: getOrdersFrom50To100?.length,
+      fill: chartConfig.from50To100.color,
+    },
+    {
+      title: chartConfig.from100To150.label,
+      count: getOrdersFrom100To150?.length,
+      fill: chartConfig.from100To150.color,
+    },
+    {
+      title: chartConfig.above150.label,
+      count: getOrdersAbove150?.length,
+      fill: chartConfig.above150.color,
+    },
   ];
 
   const totalOrders = React.useMemo(() => {
@@ -85,11 +102,13 @@ export function ProfileChart2({ props }: any) {
   return (
     <Card className="flex flex-col xl:max-w-[400px] mx-auto">
       <CardHeader className="items-center pb-0">
-        <CardDescription className="text-center">Items bought by price ratio </CardDescription>
+        <CardDescription className="text-center">
+          Items bought by price ratio{" "}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
-          config={chartConfig}  // Pass the chartConfig here
+          config={chartConfig} // Pass the chartConfig here
           className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
@@ -142,7 +161,7 @@ export function ProfileChart2({ props }: any) {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="leading-none text-muted-foreground text-center">
-          Showing total orders bought by price ration 
+          Showing total orders bought by price ratio
         </div>
       </CardFooter>
     </Card>

@@ -15,7 +15,7 @@ const AdminDashboardCard3 = ({ allratingsfromAllUsers, isLoading }: AdminDashboa
         <FaStar />
       </div>
       <h2 className="text-lg font-semibold">Reviews</h2>
-      <p className="text-slate-400 text-sm">Completed by all users</p>
+      <p className="text-slate-400 text-sm"> Total reviews completed by all users</p>
       <h2 className="text-2xl font-semibold text-[#1C8674]">
         {ratingList.length}
       </h2>

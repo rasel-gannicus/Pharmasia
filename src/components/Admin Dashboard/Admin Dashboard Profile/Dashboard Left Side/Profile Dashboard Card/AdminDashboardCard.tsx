@@ -16,7 +16,7 @@ const AdminDashboardCard = ({ orders, isLoading }: AdminDashboardCardProps) => {
         <MdOutlinePendingActions />
       </div>
       <h2 className="text-lg font-semibold">Pending Orders</h2>
-      <p className="text-slate-400 text-sm "> Need to be processed</p>
+      <p className="text-slate-400 text-sm "> Total pending orders need to be processed</p>
       <h2 className="text-2xl lg:text-3xl font-semibold text-[#FF7555] ">
         {isLoading ? (
           <TailSpin

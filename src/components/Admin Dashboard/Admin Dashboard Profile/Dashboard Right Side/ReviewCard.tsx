@@ -6,30 +6,21 @@ import {
   FaLongArrowAltUp,
 } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
+const ReviewCard = ({ allratingsfromAllUsers, isLoading }: any) => {
+  const ratingList = allratingsfromAllUsers || [];
 
-const ReviewCard = ({ props }: any) => {
-  const { userInfo, isLoading } = props;
-  let ratingList = userInfo?.ratings;
+  const highestRating = Math.max(
+    ...ratingList.map((item: any) => item?.rating || 0)
+  );
 
-  const highestRating = ratingList?.reduce((acc: any, item: any) => {
-    if (item.rating > acc) {
-      acc = item.rating;
-    }
-    return acc;
-  }, 0);
+  const lowestRating = Math.min(
+    ...ratingList.map((item: any) => item?.rating || ratingList[0]?.rating || 0)
+  );
 
-  const lowestRating = ratingList?.reduce((acc: any, item: any) => {
-    if (item.rating < acc) {
-      acc = item.rating;
-    }
-    return acc;
-  }, ratingList[0].rating);
-
-  const totalRating = ratingList?.reduce((acc : any , item : any)=>{
-    acc += item.rating ; 
-    return acc ;
-  }, 0) ; 
-
+  const totalRating = ratingList.reduce(
+    (acc: number, item: any) => acc + (item?.rating || 0),
+    0
+  );
 
   return (
     <div className=" bg-white  py-5 px-3 2xl:px-5 2xl:py-8 rounded-lg max-w-[400px] w-full mx-auto">
@@ -79,7 +70,9 @@ const ReviewCard = ({ props }: any) => {
             <p className="text-xs 2xl:text-base">Average </p>
           </div>
           <div className="flex justify-center items-center gap-1">
-            <p className="font-semibold text-lg text-gray-500">{(totalRating/ratingList?.length).toFixed(1) || 0}</p>
+            <p className="font-semibold text-lg text-gray-500">
+              {(totalRating / ratingList?.length).toFixed(1) || 0}
+            </p>
             <FaStar className="text-[#FDB457]" />
           </div>
         </div>

@@ -39,6 +39,8 @@ const AdminProfileDashboard = () => {
     }
   }, [allUser]);
 
+  console.log(allratingsfromAllUsers);
+
   return (
     <div className="bg-[#E9EFFB] min-h-screen grid grid-cols-1 lg:grid-cols-4 gap-5 py-10 px-2 2xl:px-5 ">
       {/* --- Dashboard left side --- */}
@@ -55,7 +57,7 @@ const AdminProfileDashboard = () => {
           <AdminDashboardCard4 allCartfromAllUsers={allCartfromAllUsers} isLoading={isLoading} />
         </div>
         <div className="my-10  ">
-          <Barchart props={{ userInfo: data, isLoading }} />
+          <Barchart orders={allOrdersFromAllUsers} isLoading={isLoading} />
         </div>
 
         <div className=" bg-white pb-5">
@@ -67,15 +69,15 @@ const AdminProfileDashboard = () => {
 
         <div className=" my-10">
           <div className=" w-full bg-white rounded pt-10 px-5 ms-auto flex justify-center items-center h-[450px]">
-            <ProfileChart props={{ userInfo: data, isLoading }} />
+            <ProfileChart  orders={allOrdersFromAllUsers} isLoading={isLoading} />
           </div>
 
           <div className="py-8 px-4 bg-white flex flex-col justify-center items-center">
             <h2 className="text-2xl md:text-4xl font-bold text-slate-500">
-              Your last 8 orders
+              Last 8 orders from all users
             </h2>
             <p className="text-center text-gray-400">
-              (You must make atleast 5 orders to see your data in chart.
+              (There must be atleast  5 orders to see dynamic data in chart.
               Otherwise there will be some dummy data here)
             </p>
           </div>
@@ -84,9 +86,9 @@ const AdminProfileDashboard = () => {
 
       {/* --- Dashboard right side --- */}
       <div className="flex flex-col gap-4 ">
-        <OrderCard props={{ userInfo: data, isLoading }} />
-        <ProfileChart2 props={{ userInfo: data, isLoading }} />
-        <ReviewCard props={{ userInfo: data, isLoading }} />
+        <OrderCard  orders={allOrdersFromAllUsers} isLoading={isLoading} />
+        <ProfileChart2  orders={allOrdersFromAllUsers} isLoading={isLoading} />
+        <ReviewCard  allratingsfromAllUsers={allratingsfromAllUsers} isLoading={isLoading} />
       </div>
     </div>
   );

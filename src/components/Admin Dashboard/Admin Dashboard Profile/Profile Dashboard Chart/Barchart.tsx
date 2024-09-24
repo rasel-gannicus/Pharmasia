@@ -37,10 +37,9 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-export function Barchart({ props }: any) {
+export function Barchart({ orders, isLoading }: any) {
   // --- getting user info (including users all orders, wishlist , cart)
-  const { userInfo, isLoading } = props;
-  let pendingOrders = userInfo?.orders
+  let pendingOrders = orders
     ?.filter((item: any) => item)
     .sort((a: any, b: any) => b.Price - a.Price)
     .slice(0, 8);

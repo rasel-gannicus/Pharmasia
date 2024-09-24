@@ -15,7 +15,7 @@ const AdminDashboardCard4 = ({ allCartfromAllUsers, isLoading }: any) => {
       </div>
       <h2 className="text-lg font-semibold"> Carts</h2>
       <p className="text-slate-400 text-sm ">
-        Total quantity of items in all user's cart
+        Total quantity of items in all user&aposs cart
       </p>
       <h2 className="text-2xl lg:text-3xl font-bold text-[#3E5189] ">
         {isLoading ? (
