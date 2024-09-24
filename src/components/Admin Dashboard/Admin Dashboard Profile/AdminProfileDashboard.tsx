@@ -1,4 +1,5 @@
 "use client";
+// Import necessary modules and components
 import React, { useEffect, useState } from "react";
 import AdminDashboardCard3 from "./Dashboard Left Side/Profile Dashboard Card/AdminDashboardCard3";
 import AdminDashboardCard4 from "./Dashboard Left Side/Profile Dashboard Card/AdminDashboardCard4";
@@ -8,56 +9,67 @@ import ReviewCard from "./Dashboard Right Side/ReviewCard";
 import { ProfileChart2 } from "./Profile Dashboard Chart/ProfileChart2";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
-import { useGetAllUserInfoQuery, useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
+import {
+  useGetAllUserInfoQuery,
+  useGetUserInfoQuery,
+} from "@/utils/Redux/features/user/userApi";
 import { Barchart } from "./Profile Dashboard Chart/Barchart";
 import { AllOrders } from "../All Orders Page/AllOrders";
 import AdminDashboardCard2 from "./Dashboard Left Side/Profile Dashboard Card/AdminDashboardCard2";
 import AdminDashboardCard from "./Dashboard Left Side/Profile Dashboard Card/AdminDashboardCard";
-
+// Define a CSS class for dashboard cards
 export const dashboardCardClass =
   "w-[170px] xl:w-[250px] max-w-[300px] flex flex-col justify-evenly items-center py-5  px-3 bg-white min-h-[300px] rounded text-center ";
 
 const AdminProfileDashboard = () => {
+  // Get the currently authenticated user and loading/error status from Firebase
   const [user, loading, error] = useAuthState(auth);
 
-  const { data, isLoading : deleteLoading, isError } = useGetUserInfoQuery(user?.email);
+  // Fetch all user information using Redux Toolkit Query (no need for individual user data)
+  const { data: allUsers, isLoading } = useGetAllUserInfoQuery(undefined);
+  // Initialize state variables to store aggregated data
+  const [allOrders, setAllOrders] = useState([]);
+  const [allCartItems, setAllCartItems] = useState([]);
+  const [allRatings, setAllRatings] = useState([]);
 
-  const { data: allUser, isLoading} = useGetAllUserInfoQuery(undefined);
-  const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] : any = useState([]);
-  const [allCartfromAllUsers, setAllCartfromAllUsers] : any = useState([]);
-  const [allratingsfromAllUsers, setAllratingsfromAllUsers] : any = useState([]);
-
+  // Use useEffect to extract and aggregate data from all users when it changes
   useEffect(() => {
-    if (allUser?.length > 0) {
-      let getAllOrders = allUser?.filter((item: any) => item?.orders);
-      let getAllCart = allUser?.filter((item: any) => item?.cart);
-      let getAllratings = allUser?.filter((item: any) => item?.ratings);
-
-      setAllOrdersFromAllUsers(getAllOrders?.map((item : any)=> item.orders).flat());
-      setAllCartfromAllUsers(getAllCart?.map((item : any)=> item.cart).flat());
-      setAllratingsfromAllUsers(getAllratings?.map((item : any)=> item.ratings).flat());
+    if (allUsers?.length > 0) {
+      setAllOrders(allUsers.flatMap((user : any) => user.orders || []));
+      setAllCartItems(allUsers.flatMap((user : any) => user.cart || []));
+      setAllRatings(allUsers.flatMap((user : any) => user.ratings || []));
     }
-  }, [allUser]);
+  }, [allUsers]);
 
-  console.log(allratingsfromAllUsers);
+  // ... rest of the component (replace references to old state variables with the new ones)
 
   return (
+    // Main container for the admin dashboard
     <div className="bg-[#E9EFFB] min-h-screen grid grid-cols-1 lg:grid-cols-4 gap-5 py-10 px-2 2xl:px-5 ">
       {/* --- Dashboard left side --- */}
       <div className=" lg:col-span-3">
         <div className=" grid grid-cols-2 lg:flex justify-between items-center gap-3 ">
           {/* --- order card --- */}
-          <AdminDashboardCard orders={allOrdersFromAllUsers} isLoading={isLoading} />
+          <AdminDashboardCard orders={allOrders} isLoading={isLoading} />
           {/* --- wishlist card --- */}
-          <AdminDashboardCard2 allCartfromAllUsers={allCartfromAllUsers} isLoading={isLoading} />
+          <AdminDashboardCard2
+            allCartfromAllUsers={allCartItems}
+            isLoading={isLoading}
+          />
           {/* --- reviews card --- */}
-          <AdminDashboardCard3 allratingsfromAllUsers={allratingsfromAllUsers} isLoading={isLoading} />
+          <AdminDashboardCard3
+            allratingsfromAllUsers={allRatings}
+            isLoading={isLoading}
+          />
 
           {/* --- Cart quantity card --- */}
-          <AdminDashboardCard4 allCartfromAllUsers={allCartfromAllUsers} isLoading={isLoading} />
+          <AdminDashboardCard4
+            allCartfromAllUsers={allCartItems}
+            isLoading={isLoading}
+          />
         </div>
         <div className="my-10  ">
-          <Barchart orders={allOrdersFromAllUsers} isLoading={isLoading} />
+          <Barchart orders={allOrders} isLoading={isLoading} />
         </div>
 
         <div className=" bg-white pb-5">
@@ -69,7 +81,7 @@ const AdminProfileDashboard = () => {
 
         <div className=" my-10">
           <div className=" w-full bg-white rounded pt-10 px-5 ms-auto flex justify-center items-center h-[450px]">
-            <ProfileChart  orders={allOrdersFromAllUsers} isLoading={isLoading} />
+            <ProfileChart orders={allOrders} isLoading={isLoading} />
           </div>
 
           <div className="py-8 px-4 bg-white flex flex-col justify-center items-center">
@@ -77,8 +89,8 @@ const AdminProfileDashboard = () => {
               Last 8 orders from all users
             </h2>
             <p className="text-center text-gray-400">
-              (There must be atleast  5 orders to see dynamic data in chart.
-              Otherwise there will be some dummy data here)
+              (There must be at least 5 orders to see dynamic data in the chart.
+              Otherwise, there will be some dummy data here)
             </p>
           </div>
         </div>
@@ -86,9 +98,9 @@ const AdminProfileDashboard = () => {
 
       {/* --- Dashboard right side --- */}
       <div className="flex flex-col gap-4 ">
-        <OrderCard  orders={allOrdersFromAllUsers} isLoading={isLoading} />
-        <ProfileChart2  orders={allOrdersFromAllUsers} isLoading={isLoading} />
-        <ReviewCard  allratingsfromAllUsers={allratingsfromAllUsers} isLoading={isLoading} />
+        <OrderCard orders={allOrders} isLoading={isLoading} />
+        <ProfileChart2 orders={allOrders} isLoading={isLoading} />
+        <ReviewCard allratingsfromAllUsers={allRatings} isLoading={isLoading} />
       </div>
     </div>
   );

@@ -6,6 +6,6 @@ export const apiSlice = createApi({
     baseUrl: process.env.NEXT_PUBLIC_BACKENED_URL
     // baseUrl: "http://localhost:2500/api/v1",
   }),
-  tagTypes: ['userInfo', 'cart', 'orders', 'ratings', 'notifications', 'allUsers'],
+  tagTypes: ['userInfo', 'cart', 'orders', 'ratings', 'notifications', 'allUsers', 'products'],
   endpoints: (builder) => ({}),
 });

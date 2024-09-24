@@ -1,8 +1,7 @@
 import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
-
-import { Badge } from "@/components/ui/badge";
 import NavLink from "@/utils/Navlink/NavLink";
 import { FaRegHeart } from "react-icons/fa";
+import { RiMedicineBottleLine } from "react-icons/ri";
 
 const CommonMenu = ({ props, setOpen }: any) => {
   const { cartQuantity, wishlist } = props;
@@ -21,20 +20,6 @@ const CommonMenu = ({ props, setOpen }: any) => {
         <Home className="h-4 w-4" />
         Dashboard
       </NavLink>
-      
-      {/* <NavLink
-        href="/user/cart"
-        className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-        onClick={handleLinkClick}
-      >
-        <ShoppingCart className="h-4 w-4" />
-        Cart
-        {cartQuantity > 0 && (
-          <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-            {cartQuantity}
-          </Badge>
-        )}
-      </NavLink> */}
 
       <NavLink
         href="/admin/orders"
@@ -46,17 +31,12 @@ const CommonMenu = ({ props, setOpen }: any) => {
       </NavLink>
 
       <NavLink
-        href="/user/wishlist"
+        href="/admin/allProducts"
         className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
         onClick={handleLinkClick}
       >
-        <FaRegHeart className="h-4 w-4" />
-        Wish List
-        {wishlist.length > 0 && (
-          <Badge className="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full">
-            {wishlist.length}
-          </Badge>
-        )}
+        <RiMedicineBottleLine className="h-4 w-4" />
+        Products
       </NavLink>
 
       <NavLink

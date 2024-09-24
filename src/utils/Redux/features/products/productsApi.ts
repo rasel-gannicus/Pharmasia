@@ -2,6 +2,11 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const productApi = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
+    // --- get all the products
+    getAllProducts: builder.query({
+      query: () => `/allProducts`,
+      providesTags: ['products']
+    }),
     // --- get how much bookings each user have in their cart
     getProductCart: builder.query({
       query: (email: any) => ({
@@ -134,4 +139,5 @@ export const {
   useAddOrdersMutation,
   useModifyOrdersMutation,
   useAddRatingsMutation,
+  useGetAllProductsQuery
 } = productApi;

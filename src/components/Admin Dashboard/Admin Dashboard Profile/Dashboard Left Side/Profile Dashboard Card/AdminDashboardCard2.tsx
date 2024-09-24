@@ -15,7 +15,7 @@ const AdminDashboardCard2 = ({ allCartfromAllUsers, isLoading }: any) => {
         <FaHeart />
       </div>
       <h2 className="text-lg font-semibold"> Wishlists</h2>
-      <p className="text-slate-400 text-sm ">Total items in all user&aposs wishlist</p>
+      <p className="text-slate-400 text-sm ">`Total items in all user's wishlist`</p>
       <h2 className="text-2xl lg:text-3xl font-semibold text-[#38A0E9] ">
         {isLoading ? (
           <TailSpin
