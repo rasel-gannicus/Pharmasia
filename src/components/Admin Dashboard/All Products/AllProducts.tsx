@@ -1,5 +1,5 @@
 "use client";
-
+import { ToastContainer, toast } from "react-toastify";
 import { useMemo, useState } from "react";
 import {
   Table,
@@ -54,6 +54,7 @@ export const AllProducts = () => {
   // Fetch all products using the useGetAllProductsQuery hook from RTK Query
   const { data, isLoading, isError, error }: any =
     useGetAllProductsQuery(undefined);
+
   // Get the addProduct mutation function from RTK Query
   const [addProduct, { isLoading: addProductLoading }] =
     useAddProductMutation();
@@ -67,9 +68,16 @@ export const AllProducts = () => {
 
   // Function to handle adding a new product
   const handleAddProduct = async () => {
+    const toastId = toast.loading("Adding product...");
     try {
       // Call the addProduct mutation and unwrap the result
       await addProduct(newProduct).unwrap();
+      toast.update(toastId, {
+        render: "Product added successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
       // Reset the newProduct state to clear the form
       setNewProduct({
         Title: "",
@@ -86,6 +94,12 @@ export const AllProducts = () => {
     } catch (err) {
       // Log an error if the product addition fails
       console.error("Failed to add the product: ", err);
+      toast.update(toastId, {
+        render: "Failed to add product. Please try again.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -101,6 +115,7 @@ export const AllProducts = () => {
 
   return (
     <div className="space-y-4 container my-5">
+      <ToastContainer position="bottom-center" />
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Products</h2>
         <div className="flex items-center space-x-2">
