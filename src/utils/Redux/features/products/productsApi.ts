@@ -34,6 +34,15 @@ export const productApi = apiSlice.injectEndpoints({
       invalidatesTags: ["products"],
     }),
 
+    // --- edit a product
+    deleteProduct: builder.mutation({
+      query: (productId: string) => ({
+        url: `/deleteProduct/${productId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["products"],
+    }),
+
     // --- get how much bookings each user have in their cart
     getProductCart: builder.query({
       query: (email: any) => ({
@@ -107,4 +116,5 @@ export const {
   useAddProductMutation,
   useGetSingleProductQuery,
   useEditProductMutation,
+  useDeleteProductMutation
 } = productApi;

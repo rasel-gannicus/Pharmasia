@@ -14,22 +14,29 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Search, Edit, Trash2, Plus } from "lucide-react";
 import Image from "next/image";
-import { useGetAllProductsQuery } from "@/utils/Redux/features/products/productsApi";
+import {
+  useDeleteProductMutation,
+  useGetAllProductsQuery,
+} from "@/utils/Redux/features/products/productsApi";
 import AddProductModal from "./Modal/AddProductModal";
 import EditProductModal from "./Modal/EditProductModal";
 
 export const AllProducts = () => {
   // State for managing the search term for filtering products
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   // State for controlling the visibility of the "Add Product" & "Edit Product" dialog
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
   const [iseditProductOpen, setIseditProductOpen] = useState(false);
 
   // Fetch all products using the useGetAllProductsQuery hook from RTK Query
-  const { data, isLoading, isError, error }: any = useGetAllProductsQuery(undefined);
+  const { data, isLoading, isError, error }: any =
+    useGetAllProductsQuery(undefined);
 
   const [productIdForEdit, setProductIdForEdit] = useState("");
+
+  // Get the deleteProduct mutation function from RTK Query
+  const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,9 +79,35 @@ export const AllProducts = () => {
   };
 
   // Function to handle products per page change
-  const handleProductsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleProductsPerPageChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setProductsPerPage(parseInt(event.target.value));
     setCurrentPage(1); // Reset to the first page whenever products per page changes
+  };
+
+  // Function to handle deleting a product
+  const handleDeleteProduct = async (productId: string) => {
+    const toastId = toast.loading("Deleting product...");
+    try {
+      // Call the addProduct mutation and unwrap the result
+      await deleteProduct(productId).unwrap();
+      toast.update(toastId, {
+        render: "Product added successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } catch (err) {
+      // Log an error if the product addition fails
+      console.error("Failed to delete the product: ", err);
+      toast.update(toastId, {
+        render: "Failed to delete product. Please try again.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }
   };
 
   return (
@@ -147,6 +180,7 @@ export const AllProducts = () => {
               </TableCell>
               <TableCell>
                 <div className="flex space-x-2">
+                  {/* --- edit button --- */}
                   <Button
                     onClick={() => {
                       setIseditProductOpen(true);
@@ -157,7 +191,9 @@ export const AllProducts = () => {
                     <Trash2 className="w-4 h-4 mr-1" />
                     Edit
                   </Button>
-                  <Button variant="destructive" size="sm">
+
+                  {/* --- delete button --- */}
+                  <Button onClick={() => handleDeleteProduct(product?._id)}>
                     <Trash2 className="w-4 h-4 mr-1" />
                     Delete
                   </Button>
