@@ -15,57 +15,55 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAddProductMutation } from "@/utils/Redux/features/products/productsApi";
+import { useAddProductMutation, useGetSingleProductQuery } from "@/utils/Redux/features/products/productsApi";
 import { Edit, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
-const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
-  // State for storing the data of the new product being added
-  const [newProduct, setNewProduct] = useState({
-    Title: "",
-    Category: "",
-    Price: "",
-    Images: "",
-    Description: "",
-    Brand: "",
-    Flashsale: false,
-    Ratings: 0,
+const EditProductModal = ({ iseditProductOpen, setIseditProductOpen, productIdForEdit }: any) => {
+  const { data, isLoading } : any = useGetSingleProductQuery(productIdForEdit, {
+    skip: !productIdForEdit,
   });
-  // Get the addProduct mutation function from RTK Query
-  const [addProduct, { isLoading: addProductLoading }] =
-    useAddProductMutation();
+  
+  // State for storing the data of the product being edited
+  const [editedProduct, setEditedProduct] : any = useState({});
 
-  // Function to handle adding a new product
-  const handleAddProduct = async () => {
-    const toastId = toast.loading("Adding product...");
+  // Update editedProduct when data from API loads
+  useEffect(() => {
+    if (data) {
+      setEditedProduct({
+        Title: data.Title,
+        Category: data.Category,
+        Price: data.Price,
+        Images: data.Images,
+        Description: data.Description,
+        Brand: data.Brand,
+        Flashsale: data.Flashsale,
+        Ratings: data.Ratings,
+      });
+    }
+  }, [data]);
+  // Get the addProduct mutation function from RTK Query (repurpose for editing)
+  const [editProduct, { isLoading: isEditing }] = useAddProductMutation();
+  // Function to handle editing the product
+  const handleEditProduct = async () => {
+    const toastId = toast.loading("Editing product...");
     try {
-      // Call the addProduct mutation and unwrap the result
-      await addProduct(newProduct).unwrap();
+      // Call the editProduct mutation and unwrap the result
+      await editProduct(editedProduct).unwrap();
       toast.update(toastId, {
-        render: "Product added successfully!",
+        render: "Product edited successfully!",
         type: "success",
         isLoading: false,
         autoClose: 3000,
       });
-      // Reset the newProduct state to clear the form
-      setNewProduct({
-        Title: "",
-        Category: "",
-        Price: "",
-        Images: "",
-        Description: "",
-        Brand: "",
-        Flashsale: false,
-        Ratings: 0,
-      });
-      // Close the "Add Product" dialog
+
+      // Close the "Edit Product" dialog
       setIseditProductOpen(false);
     } catch (err) {
-      // Log an error if the product addition fails
-      console.error("Failed to add the product: ", err);
+      // Log an error if the product edit fails
+      console.error("Failed to edit the product: ", err);
       toast.update(toastId, {
-        render: "Failed to add product. Please try again.",
+        render: "Failed to edit product. Please try again.",
         type: "error",
         isLoading: false,
         autoClose: 3000,
@@ -75,10 +73,10 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
   return (
     <Dialog open={iseditProductOpen} onOpenChange={setIseditProductOpen}>
       <DialogTrigger asChild>
-        <Button variant={"outline"}>
+        {/* <Button variant={"outline"}>
           <Edit className="w-4 h-4 mr-2" />
-          Edit 
-        </Button>
+          Edit
+        </Button> */}
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -92,9 +90,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
             </Label>
             <Input
               id="title"
-              value={newProduct.Title}
+              value={editedProduct.Title}
               onChange={(e) =>
-                setNewProduct({ ...newProduct, Title: e.target.value })
+                setEditedProduct({ ...editedProduct, Title: e.target.value })
               }
               className="col-span-3"
             />
@@ -107,9 +105,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
             </Label>
             <Input
               id="price"
-              value={newProduct.Price}
+              value={editedProduct.Price}
               onChange={(e) =>
-                setNewProduct({ ...newProduct, Price: e.target.value })
+                setEditedProduct({ ...editedProduct, Price: e.target.value })
               }
               className="col-span-3"
               type="number"
@@ -122,10 +120,10 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
             </Label>
             <textarea
               id="description"
-              value={newProduct.Description}
+              value={editedProduct.Description}
               onChange={(e) =>
-                setNewProduct({
-                  ...newProduct,
+                setEditedProduct({
+                  ...editedProduct,
                   Description: e.target.value,
                 })
               }
@@ -140,9 +138,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
             </Label>
             <Input
               id="images"
-              value={newProduct.Images}
+              value={editedProduct.Images}
               onChange={(e) =>
-                setNewProduct({ ...newProduct, Images: e.target.value })
+                setEditedProduct({ ...editedProduct, Images: e.target.value })
               }
               className="col-span-3"
             />
@@ -155,9 +153,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
             </Label>
             <Input
               id="brand"
-              value={newProduct.Brand}
+              value={editedProduct.Brand}
               onChange={(e) =>
-                setNewProduct({ ...newProduct, Brand: e.target.value })
+                setEditedProduct({ ...editedProduct, Brand: e.target.value })
               }
               className="col-span-3"
             />
@@ -170,8 +168,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
             </Label>
             <Select
               onValueChange={(value) =>
-                setNewProduct({ ...newProduct, Category: value })
+                setEditedProduct({ ...editedProduct, Category: value })
               }
+              value={editedProduct.Category}
             >
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select a category" />
@@ -196,9 +195,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
                 id="flashsale-yes"
                 name="flashsale"
                 value="true"
-                checked={newProduct.Flashsale}
+                checked={editedProduct.Flashsale}
                 onChange={() =>
-                  setNewProduct({ ...newProduct, Flashsale: true })
+                  setEditedProduct({ ...editedProduct, Flashsale: true })
                 }
                 className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />
@@ -210,9 +209,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
                 id="flashsale-no"
                 name="flashsale"
                 value="false"
-                checked={!newProduct.Flashsale}
+                checked={!editedProduct.Flashsale}
                 onChange={() =>
-                  setNewProduct({ ...newProduct, Flashsale: false })
+                  setEditedProduct({ ...editedProduct, Flashsale: false })
                 }
                 className="h-4 w-4  rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
               />
@@ -223,8 +222,8 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
           </div>
         </div>
         <div className="flex justify-end">
-          <Button disabled={addProductLoading} onClick={handleAddProduct}>
-            {addProductLoading ? "Editing..." : "Edit Product"}
+          <Button disabled={isEditing} onClick={handleEditProduct}>
+            {isEditing ? "Editing..." : "Edit Product"}
           </Button>
         </div>
       </DialogContent>
@@ -233,3 +232,4 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen }: any) => {
 };
 
 export default EditProductModal;
+

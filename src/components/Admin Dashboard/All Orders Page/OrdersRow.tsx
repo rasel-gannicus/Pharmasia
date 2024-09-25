@@ -69,8 +69,6 @@ const OrdersRow = ({ props }: any) => {
     }
   }, [data]);
 
-  console.log(item);
-
   let conditionalButton = !selectMenu || item?.status == selectMenu; // -- making 'order status action' button disabled
 
   return (

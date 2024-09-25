@@ -14,9 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Search, Edit, Trash2, Plus } from "lucide-react";
 import Image from "next/image";
-import {
-  useGetAllProductsQuery,
-} from "@/utils/Redux/features/products/productsApi";
+import { useGetAllProductsQuery } from "@/utils/Redux/features/products/productsApi";
 import AddProductModal from "./Modal/AddProductModal";
 import EditProductModal from "./Modal/EditProductModal";
 
@@ -28,11 +26,11 @@ export const AllProducts = () => {
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
   const [iseditProductOpen, setIseditProductOpen] = useState(false);
 
-
   // Fetch all products using the useGetAllProductsQuery hook from RTK Query
   const { data, isLoading, isError, error }: any =
     useGetAllProductsQuery(undefined);
 
+  const [productIdForEdit, setProductIdForEdit] = useState("");
 
   // Use a memoized function to filter products based on the search term
   const filteredProducts = useMemo(() => {
@@ -40,8 +38,6 @@ export const AllProducts = () => {
       product?.Title.toLowerCase().includes(searchTerm.toLowerCase())
     );
   }, [data, searchTerm]);
-
- 
 
   // Display a loading message while fetching products
   if (isLoading) {
@@ -57,7 +53,10 @@ export const AllProducts = () => {
     <div className="space-y-4 container my-5">
       <ToastContainer position="bottom-center" />
       <div className="flex justify-between items-center">
-        <AddProductModal isAddProductOpen={isAddProductOpen} setIsAddProductOpen={setIsAddProductOpen}  />
+        <AddProductModal
+          isAddProductOpen={isAddProductOpen}
+          setIsAddProductOpen={setIsAddProductOpen}
+        />
         <div className="flex items-center space-x-2">
           <Input
             placeholder="Search products..."
@@ -108,7 +107,13 @@ export const AllProducts = () => {
               </TableCell>
               <TableCell>
                 <div className="flex space-x-2">
-                  <EditProductModal iseditProductOpen={iseditProductOpen} setIseditProductOpen={setIseditProductOpen} />
+                  <Button
+                    onClick={() => {setIseditProductOpen(true) ; setProductIdForEdit(product?._id)}}
+                    variant={"outline"}
+                  >
+                    <Trash2 className="w-4 h-4 mr-1" />
+                    Edit
+                  </Button>
                   <Button variant="destructive" size="sm">
                     <Trash2 className="w-4 h-4 mr-1" />
                     Delete
@@ -119,6 +124,12 @@ export const AllProducts = () => {
           ))}
         </TableBody>
       </Table>
+      <EditProductModal
+        iseditProductOpen={iseditProductOpen}
+        setIseditProductOpen={setIseditProductOpen}
+        productIdForEdit={productIdForEdit}
+        setProductIdForEdit={setProductIdForEdit}
+      />
     </div>
   );
 };

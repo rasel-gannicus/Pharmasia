@@ -11,7 +11,7 @@ import { IoMdClose } from "react-icons/io";
 
 export const ModalForDeleteConfirmation = ({ props }: any) => {
   const { modalStatus2, setModalStatus2, title, setIsAgree2 } = props;
-  //   const [open, setOpen] = useState(true);
+  
   const dispatch = useAppDispatch();
 
   //   -- closing modal and logging out

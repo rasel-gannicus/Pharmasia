@@ -9,6 +9,12 @@ export const productApi = apiSlice.injectEndpoints({
       providesTags: ["products"],
     }),
 
+    // --- get single product
+    getSingleProduct: builder.query({
+      query: (id: string | number) => `/product/${id}`,
+      providesTags: ["products"],
+    }),
+
     // --- add product to cart
     addProduct: builder.mutation({
       query: (data: any) => ({
@@ -90,5 +96,6 @@ export const {
   useModifyOrdersMutation,
   useAddRatingsMutation,
   useGetAllProductsQuery,
-  useAddProductMutation
+  useAddProductMutation,
+  useGetSingleProductQuery
 } = productApi;
