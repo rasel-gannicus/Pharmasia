@@ -15,41 +15,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useAddProductMutation, useGetSingleProductQuery } from "@/utils/Redux/features/products/productsApi";
+import {
+  useAddProductMutation,
+  useEditProductMutation,
+  useGetSingleProductQuery,
+} from "@/utils/Redux/features/products/productsApi";
 import { Edit, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-const EditProductModal = ({ iseditProductOpen, setIseditProductOpen, productIdForEdit }: any) => {
-  const { data, isLoading } : any = useGetSingleProductQuery(productIdForEdit, {
+const EditProductModal = ({
+  iseditProductOpen,
+  setIseditProductOpen,
+  productIdForEdit,
+}: any) => {
+  const { data, isLoading } = useGetSingleProductQuery(productIdForEdit, {
     skip: !productIdForEdit,
   });
-  
-  // State for storing the data of the product being edited
-  const [editedProduct, setEditedProduct] : any = useState({});
 
-  // Update editedProduct when data from API loads
+  // State for storing the data of the product being edited
+  const [editedProduct, setEditedProduct] = useState<any>({});
+
+  // Update editedProduct when data from API loads using conditional fetching
   useEffect(() => {
     if (data) {
-      setEditedProduct({
-        Title: data.Title,
-        Category: data.Category,
-        Price: data.Price,
-        Images: data.Images,
-        Description: data.Description,
-        Brand: data.Brand,
-        Flashsale: data.Flashsale,
-        Ratings: data.Ratings,
-      });
+      setEditedProduct(data);
     }
   }, [data]);
-  // Get the addProduct mutation function from RTK Query (repurpose for editing)
-  const [editProduct, { isLoading: isEditing }] = useAddProductMutation();
+  // Get the editProduct mutation function from RTK Query
+  const [editProduct, { isLoading: isEditing }] = useEditProductMutation();
+
   // Function to handle editing the product
   const handleEditProduct = async () => {
     const toastId = toast.loading("Editing product...");
     try {
       // Call the editProduct mutation and unwrap the result
-      await editProduct(editedProduct).unwrap();
+      await editProduct({ ...editedProduct, id: productIdForEdit }).unwrap();
       toast.update(toastId, {
         render: "Product edited successfully!",
         type: "success",
@@ -59,9 +59,9 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen, productIdFo
 
       // Close the "Edit Product" dialog
       setIseditProductOpen(false);
-    } catch (err) {
+    } catch (err: any) {
       // Log an error if the product edit fails
-      console.error("Failed to edit the product: ", err);
+      console.error("Failed to edit the product: ", err.message);
       toast.update(toastId, {
         render: "Failed to edit product. Please try again.",
         type: "error",
@@ -232,4 +232,3 @@ const EditProductModal = ({ iseditProductOpen, setIseditProductOpen, productIdFo
 };
 
 export default EditProductModal;
-

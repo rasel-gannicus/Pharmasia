@@ -2,7 +2,6 @@ import { apiSlice } from "../../api/apiSlice";
 
 export const productApi = apiSlice.injectEndpoints({
   endpoints: (builder: any) => ({
-
     // --- get all the products
     getAllProducts: builder.query({
       query: () => `/allProducts`,
@@ -20,6 +19,16 @@ export const productApi = apiSlice.injectEndpoints({
       query: (data: any) => ({
         url: "/addProduct",
         method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["products"],
+    }),
+
+    // --- edit a product
+    editProduct: builder.mutation({
+      query: (data: any) => ({
+        url: `/editProduct/${data._id}`,
+        method: "PUT",
         body: data,
       }),
       invalidatesTags: ["products"],
@@ -84,7 +93,6 @@ export const productApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["cart", "userInfo", "orders", "ratings"],
     }),
-
   }),
 });
 
@@ -97,5 +105,6 @@ export const {
   useAddRatingsMutation,
   useGetAllProductsQuery,
   useAddProductMutation,
-  useGetSingleProductQuery
+  useGetSingleProductQuery,
+  useEditProductMutation,
 } = productApi;
