@@ -33,7 +33,7 @@ export const AllOrders = ({ props }: any) => {
 
   const [searchText, setSearchText] = useState("");
 
-  // Initialize state
+  // Initialize pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [contentPerPage, setContentPerPage] = useState(5); // Set items per page
   const [paginatedOrders, setPaginatedOrders] = useState([]);

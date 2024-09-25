@@ -21,23 +21,38 @@ import EditProductModal from "./Modal/EditProductModal";
 export const AllProducts = () => {
   // State for managing the search term for filtering products
   const [searchTerm, setSearchTerm] = useState("");
-
-  // State for controlling the visibility of the "Add Product" dialog
+  
+  // State for controlling the visibility of the "Add Product" & "Edit Product" dialog
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
   const [iseditProductOpen, setIseditProductOpen] = useState(false);
 
   // Fetch all products using the useGetAllProductsQuery hook from RTK Query
-  const { data, isLoading, isError, error }: any =
-    useGetAllProductsQuery(undefined);
+  const { data, isLoading, isError, error }: any = useGetAllProductsQuery(undefined);
 
   const [productIdForEdit, setProductIdForEdit] = useState("");
 
+  // State for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [productsPerPage, setProductsPerPage] = useState(10); // Initial products per page
+
+  // Calculate total pages
+  const totalPages = useMemo(() => {
+    return Math.ceil((data?.length || 0) / productsPerPage);
+  }, [data, productsPerPage]);
+
+  // Calculate the products to display on the current page
+  const currentProducts = useMemo(() => {
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+    return data?.slice(startIndex, endIndex);
+  }, [data, currentPage, productsPerPage]);
+
   // Use a memoized function to filter products based on the search term
   const filteredProducts = useMemo(() => {
-    return data?.filter((product: any) =>
+    return currentProducts?.filter((product: any) =>
       product?.Title.toLowerCase().includes(searchTerm.toLowerCase())
     );
-  }, [data, searchTerm]);
+  }, [currentProducts, searchTerm]);
 
   // Display a loading message while fetching products
   if (isLoading) {
@@ -49,10 +64,24 @@ export const AllProducts = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  // Function to handle page change
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
+  // Function to handle products per page change
+  const handleProductsPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setProductsPerPage(parseInt(event.target.value));
+    setCurrentPage(1); // Reset to the first page whenever products per page changes
+  };
+
   return (
     <div className="space-y-4 container my-5">
       <ToastContainer position="bottom-center" />
       <div className="flex justify-between items-center">
+        {/* --- modal for adding a product --- */}
         <AddProductModal
           isAddProductOpen={isAddProductOpen}
           setIsAddProductOpen={setIsAddProductOpen}
@@ -64,9 +93,20 @@ export const AllProducts = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="w-64"
           />
+          {/* --- Products Per Page Select --- */}
+          <select
+            value={productsPerPage}
+            onChange={handleProductsPerPageChange}
+            className="border border-gray-300 rounded px-2 py-1"
+          >
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={30}>30</option>
+            <option value={50}>50</option>
+          </select>
         </div>
       </div>
-      <Table>
+      <Table className="min-h-[50vh] ">
         <TableHeader>
           <TableRow>
             <TableHead>Item Name</TableHead>
@@ -108,7 +148,10 @@ export const AllProducts = () => {
               <TableCell>
                 <div className="flex space-x-2">
                   <Button
-                    onClick={() => {setIseditProductOpen(true) ; setProductIdForEdit(product?._id)}}
+                    onClick={() => {
+                      setIseditProductOpen(true);
+                      setProductIdForEdit(product?._id);
+                    }}
                     variant={"outline"}
                   >
                     <Trash2 className="w-4 h-4 mr-1" />
@@ -124,6 +167,27 @@ export const AllProducts = () => {
           ))}
         </TableBody>
       </Table>
+
+      {/* --- Pagination Controls --- */}
+      <div className="flex justify-center items-center space-x-2 mt-4">
+        <Button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </Button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <Button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </Button>
+      </div>
+
+      {/* --- modal for editing a product --- */}
       <EditProductModal
         iseditProductOpen={iseditProductOpen}
         setIseditProductOpen={setIseditProductOpen}
