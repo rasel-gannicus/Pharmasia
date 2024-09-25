@@ -15,16 +15,18 @@ import { Badge } from "@/components/ui/badge";
 import { Star, Search, Edit, Trash2, Plus } from "lucide-react";
 import Image from "next/image";
 import {
-  useAddProductMutation,
   useGetAllProductsQuery,
 } from "@/utils/Redux/features/products/productsApi";
-import AddProduct from "./AddProduct";
+import AddProductModal from "./Modal/AddProductModal";
+import EditProductModal from "./Modal/EditProductModal";
 
 export const AllProducts = () => {
   // State for managing the search term for filtering products
   const [searchTerm, setSearchTerm] = useState("");
+
   // State for controlling the visibility of the "Add Product" dialog
   const [isAddProductOpen, setIsAddProductOpen] = useState(false);
+  const [iseditProductOpen, setIseditProductOpen] = useState(false);
 
 
   // Fetch all products using the useGetAllProductsQuery hook from RTK Query
@@ -55,7 +57,7 @@ export const AllProducts = () => {
     <div className="space-y-4 container my-5">
       <ToastContainer position="bottom-center" />
       <div className="flex justify-between items-center">
-        <AddProduct isAddProductOpen={isAddProductOpen} setIsAddProductOpen={setIsAddProductOpen}  />
+        <AddProductModal isAddProductOpen={isAddProductOpen} setIsAddProductOpen={setIsAddProductOpen}  />
         <div className="flex items-center space-x-2">
           <Input
             placeholder="Search products..."
@@ -106,14 +108,7 @@ export const AllProducts = () => {
               </TableCell>
               <TableCell>
                 <div className="flex space-x-2">
-                  <Button
-                    onClick={() => setIsAddProductOpen(true)}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Edit className="w-4 h-4 mr-1" />
-                    Edit
-                  </Button>
+                  <EditProductModal iseditProductOpen={iseditProductOpen} setIseditProductOpen={setIseditProductOpen} />
                   <Button variant="destructive" size="sm">
                     <Trash2 className="w-4 h-4 mr-1" />
                     Delete

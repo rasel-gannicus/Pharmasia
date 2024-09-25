@@ -20,7 +20,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
-const AddProduct = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
+const AddProductModal = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
   // State for storing the data of the new product being added
   const [newProduct, setNewProduct] = useState({
     Title: "",
@@ -75,7 +75,7 @@ const AddProduct = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
   return (
     <Dialog open={isAddProductOpen} onOpenChange={setIsAddProductOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button variant={"outline"}>
           <Plus className="w-4 h-4 mr-2" />
           Add Product
         </Button>
@@ -232,4 +232,4 @@ const AddProduct = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
   );
 };
 
-export default AddProduct;
+export default AddProductModal;
