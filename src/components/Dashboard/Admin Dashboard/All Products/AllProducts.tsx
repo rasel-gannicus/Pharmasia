@@ -1,6 +1,6 @@
 "use client";
 import { ToastContainer, toast } from "react-toastify";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   Table,
   TableBody,
@@ -20,6 +20,7 @@ import {
 } from "@/utils/Redux/features/products/productsApi";
 import AddProductModal from "./Modal/AddProductModal";
 import EditProductModal from "./Modal/EditProductModal";
+import { ModalForDeleteConfirmation } from "@/utils/Modal/ModalForDeleteConfirmation";
 
 export const AllProducts = () => {
   // State for managing the search term for filtering products
@@ -35,8 +36,47 @@ export const AllProducts = () => {
 
   const [productIdForEdit, setProductIdForEdit] = useState("");
 
+  // --- product delete functionality
   // Get the deleteProduct mutation function from RTK Query
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
+
+  const [isDelete, setIsDelete] = useState(false);
+  const [modalStatus2, setModalStatus2] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
+
+  useEffect(() => {
+    if (isDelete) {
+      const toastId = toast.loading("Deleting product...");
+      try {
+        // Call the deleteProduct function to delete the product
+        deleteProduct(deleteId).unwrap();
+        toast.update(toastId, {
+          render: "Product deleted successfully!",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
+        });
+        setIsDelete(false);
+        setDeleteId("");
+      } catch (err) {
+        // Log an error if the product deletion fails
+        console.error("Failed to delete the product: ", err);
+        toast.update(toastId, {
+          render: "Failed to delete product. Please try again.",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
+      }
+    }
+  }, [isDelete, modalStatus2, deleteId]);
+
+
+  // Function to handle deleting a product
+  const handleDeleteProduct = async (productId: string) => {
+    setModalStatus2(true);
+    setDeleteId(productId);
+  };
 
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -86,29 +126,6 @@ export const AllProducts = () => {
     setCurrentPage(1); // Reset to the first page whenever products per page changes
   };
 
-  // Function to handle deleting a product
-  const handleDeleteProduct = async (productId: string) => {
-    const toastId = toast.loading("Deleting product...");
-    try {
-      // Call the addProduct mutation and unwrap the result
-      await deleteProduct(productId).unwrap();
-      toast.update(toastId, {
-        render: "Product added successfully!",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
-    } catch (err) {
-      // Log an error if the product addition fails
-      console.error("Failed to delete the product: ", err);
-      toast.update(toastId, {
-        render: "Failed to delete product. Please try again.",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
-    }
-  };
 
   return (
     <div className="space-y-4 container my-5">
@@ -193,7 +210,10 @@ export const AllProducts = () => {
                   </Button>
 
                   {/* --- delete button --- */}
-                  <Button onClick={() => handleDeleteProduct(product?._id)}>
+                  <Button
+                    className="bg-red-600"
+                    onClick={() => handleDeleteProduct(product?._id)}
+                  >
                     <Trash2 className="w-4 h-4 mr-1" />
                     Delete
                   </Button>
@@ -229,6 +249,15 @@ export const AllProducts = () => {
         setIseditProductOpen={setIseditProductOpen}
         productIdForEdit={productIdForEdit}
         setProductIdForEdit={setProductIdForEdit}
+      />
+      {/* --- modal for deleting a product --- */}
+      <ModalForDeleteConfirmation
+        props={{
+          modalStatus2,
+          setModalStatus2,
+          title: "Do you want to delete the item ?",
+          setIsAgree2: setIsDelete,
+        }}
       />
     </div>
   );

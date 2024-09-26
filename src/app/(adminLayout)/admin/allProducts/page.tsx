@@ -1,13 +1,11 @@
-import { AllProducts } from "@/components/Admin Dashboard/All Products/AllProducts";
-
-
+import { AllProducts } from "@/components/Dashboard/Admin Dashboard/All Products/AllProducts";
 
 const page = () => {
-    return (
-        <div>
-            <AllProducts />
-        </div>
-    );
+  return (
+    <div>
+      <AllProducts />
+    </div>
+  );
 };
 
 export default page;

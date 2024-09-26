@@ -1,4 +1,4 @@
-import { AllOrders } from "@/components/Admin Dashboard/All Orders Page/AllOrders";
+import { AllOrders } from "@/components/Dashboard/Admin Dashboard/All Orders Page/AllOrders";
 import React from "react";
 
 const page = () => {

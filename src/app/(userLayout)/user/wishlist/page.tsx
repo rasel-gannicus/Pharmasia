@@ -1,12 +1,12 @@
-import Wishlist from '@/components/User Dashboard/Wishlist/Wishlist';
-import React from 'react';
+import Wishlist from "@/components/Dashboard/User Dashboard/Wishlist/Wishlist";
+import React from "react";
 
 const page = () => {
-    return (
-        <div>
-            <Wishlist />
-        </div>
-    );
+  return (
+    <div>
+      <Wishlist />
+    </div>
+  );
 };
 
 export default page;

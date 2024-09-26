@@ -35,7 +35,7 @@ export const ModalForDeleteConfirmation = ({ props }: any) => {
             This is a description inside the modal.
           </DialogDescription> */}
         </DialogHeader>
-        <p className="text-2xl font-semibold text-center my-5">{title}</p>
+        <p className="text-2xl font-semibold text-center my-5">{title || "Do you want to delete the item ?"}</p>
         <div className="flex justify-center items-center gap-4">
           <Button
             className=" bg-[#1C8674] min-w-20 "
