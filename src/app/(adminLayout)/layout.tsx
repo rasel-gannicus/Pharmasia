@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/app/globals.css";
 import Sidebar from "@/components/shared/Dashboard Sidebar/Sidebar";
 import { AdminDashboardWrapper } from "@/components/Wrapper Components/Admin Dashboard Wrapper/AdminDashboardWrapper";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <div>
       <AdminDashboardWrapper>{children}</AdminDashboardWrapper>
+      <Toaster />
     </div>
   );
 }

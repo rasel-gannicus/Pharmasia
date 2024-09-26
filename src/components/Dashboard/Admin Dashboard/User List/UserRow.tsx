@@ -1,13 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { ModalForDeleteConfirmation } from "@/utils/Modal/ModalForDeleteConfirmation";
-import { ModalforRatings } from "@/utils/Modal/ModalForRatings";
-import RatingsDiv from "@/utils/Ratings/RatingsDiv";
-import { useModifyOrdersMutation } from "@/utils/Redux/features/products/productsApi";
 import React, { useEffect, useState } from "react";
-import { FaEdit } from "react-icons/fa";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { MdReviews } from "react-icons/md";
-import { TailSpin } from "react-loader-spinner";
 import userPic from "@/assets/img/user(1).png";
 import adminPic from "@/assets/img/user(2).png";
 import Image from "next/image";
@@ -21,6 +13,8 @@ import {
 import { useUpdateUserRoleMutation } from "@/utils/Redux/features/user/userApi";
 import { toast } from "react-toastify";
 import { Badge } from "@/components/ui/badge";
+import { toast as hotToast } from "react-hot-toast";
+import { FaSackDollar } from "react-icons/fa6";
 
 const UserRow = ({ props }: any) => {
   const { item, email, allOrders, allCartItems, allRatings } = props;
@@ -107,29 +101,24 @@ const UserRow = ({ props }: any) => {
     if (isAgree2) {
       (async () => {
         try {
-          toastId = toast.loading("Updating User...", {
+          // --- creating a loading toast notification for user role update
+          toastId = hotToast.loading("Updating User...", {
             position: "bottom-center",
           });
           await updateUserRole({
             email: item?.email,
             updates: { role: selectMenu },
           }).unwrap();
-          toast.update(toastId, {
-            render: "User updated successfully!",
-            type: "success",
-            isLoading: false,
-            autoClose: 3000,
-            closeOnClick: true,
+          //   --- showing success notification after updating user role
+          hotToast.success("User updated successfully!", {
+            id: toastId,
           });
           setIsAgree2(false);
           setSelectMenu("");
         } catch (err) {
-          toast.update(toastId, {
-            render: "Failed to update user. Please try again.",
-            type: "error",
-            isLoading: false,
-            autoClose: 3000,
-            closeOnClick: true,
+          //   --- showing success notification after updating user role
+          hotToast.error("There was an error updating the user role", {
+            id: toastId,
           });
         } finally {
           setIsAgree2(false);
@@ -170,13 +159,14 @@ const UserRow = ({ props }: any) => {
         </td>
         <td className={`p-4 text-sm text-center text-black `}>{item?.role}</td>
         <td className="p-4 text-sm text-center text-black">
-          
-          
-          {item?.role != "blocked" && item?.role != "deleted" && <Badge className="bg-teal-600" variant="default">Active
-          </Badge>}
-            {(item?.role === "blocked" || item?.role === "deleted") && <Badge variant="destructive">Inactive
-          </Badge>
-              }
+          {item?.role != "blocked" && item?.role != "deleted" && (
+            <Badge className="bg-teal-600" variant="default">
+              Active
+            </Badge>
+          )}
+          {(item?.role === "blocked" || item?.role === "deleted") && (
+            <Badge variant="destructive">Inactive</Badge>
+          )}
         </td>
 
         {/* --- dropdown menu for taking action as admin ('block','make admin', 'remove admin') */}
@@ -233,7 +223,7 @@ const UserRow = ({ props }: any) => {
           </div>
         </td>
 
-        <td className="p-4 text-center">{totalOrdersQuantity}</td>
+        <td className="p-4 text-center ">{totalOrdersQuantity}</td>
         <td className="p-4 text-center">{pendingOrdersPerUser}</td>
         <td className="p-4 text-center">{onProcessingOrdersPerUser}</td>
         <td className="p-4 text-center">{packagedOrdersPerUser}</td>

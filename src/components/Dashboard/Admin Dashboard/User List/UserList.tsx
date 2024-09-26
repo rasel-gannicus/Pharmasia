@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { useGetAllUserInfoQuery } from "@/utils/Redux/features/user/userApi";
 import { useEffect, useState } from "react";
 import UserRow from "./UserRow";
+import { TailSpin } from "react-loader-spinner";
 
 const UserList = () => {
   // Fetch all user information using Redux Toolkit Query (no need for individual user data)
   const { data: allUsers, isLoading } = useGetAllUserInfoQuery(undefined);
+
   // Initialize state variables to store aggregated data
   const [allOrders, setAllOrders] = useState([]);
   const [allCartItems, setAllCartItems] = useState([]);
@@ -57,11 +59,29 @@ const UserList = () => {
     }
   }, [currentPage, isLoading, contentPerPage, allUsers]);
 
+  if (isLoading && !allUsers) {
+    return (
+      <div className="min-h-screen w-full flex flex-col gap-6 justify-center items-center">
+        <TailSpin
+          visible={true}
+          height="50"
+          width="50"
+          color="#1C8674"
+          ariaLabel="tail-spin-loading"
+          radius="4"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+        <h2 className="text-4xl font-normal text-slate-500">Loading...</h2>
+      </div>
+    );
+  }
+
   return (
     <div className="overflow-x-auto bg-white py-10 px-3 rounded">
       <div className="flex flex-col justify-between items-center min-h-[70vh] ">
         <div className="md:max-w-full grid w-full overflow-x-auto shadow-md">
-          <table className="bg-white min-w-full">
+          <table className="bg-white min-w-full min-h-[70vh] ">
             <thead className="whitespace-nowrap">
               <tr>
                 <th className="p-4 text-left text-sm font-semibold text-black">
