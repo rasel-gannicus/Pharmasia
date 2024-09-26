@@ -19,10 +19,11 @@ const PublicRoute = (WrappedComponent: FC) => {
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user?.email != null || undefined || '') {
+          
           setAuthenticated(true);
           router.replace("/"); // Redirect to the homepage
           successMessage(`Welcome ${user?.displayName}`);
-          addUserToMongoDb({ email: user?.email });
+          addUserToMongoDb({ email: user?.email, userInfo: user });
         } else {
           setAuthenticated(false);
         }

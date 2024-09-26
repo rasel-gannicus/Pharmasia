@@ -22,8 +22,6 @@ export const dashboardCardClass =
   "w-[170px] xl:w-[250px] max-w-[300px] flex flex-col justify-evenly items-center py-5  px-3 bg-white min-h-[300px] rounded text-center ";
 
 const AdminProfileDashboard = () => {
-  // Get the currently authenticated user and loading/error status from Firebase
-  const [user, loading, error] = useAuthState(auth);
 
   // Fetch all user information using Redux Toolkit Query (no need for individual user data)
   const { data: allUsers, isLoading } = useGetAllUserInfoQuery(undefined);
@@ -41,7 +39,6 @@ const AdminProfileDashboard = () => {
     }
   }, [allUsers]);
 
-  // ... rest of the component (replace references to old state variables with the new ones)
 
   return (
     // Main container for the admin dashboard

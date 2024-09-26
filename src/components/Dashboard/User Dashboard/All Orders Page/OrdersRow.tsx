@@ -9,7 +9,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { MdReviews } from "react-icons/md";
 import { TailSpin } from "react-loader-spinner";
 
-// --- button for user in the order inventory
+// --- button for user action like 'cancel order', 'delete order', 'rate order'
 const userActionButtonOrderInventory = (
   item: any,
   setModalStatus2: any,
