@@ -11,6 +11,16 @@ export const userApi = apiSlice.injectEndpoints({
       }),
     }),
 
+    // --- update a user role in mongodb
+    updateUserRole: builder.mutation({
+      query: (data) => ({
+        url: "/updateUser",
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: ["userInfo", "allUsers"],
+    }),
+
     // --- get all the information for single user (including orders, cart, wishlist)
     getUserInfo: builder.query({
       query: (email) => ({
@@ -53,4 +63,5 @@ export const {
   useGetUserNotificationsQuery,
   useModifyNotificationsMutation,
   useGetAllUserInfoQuery,
+  useUpdateUserRoleMutation
 } = userApi;

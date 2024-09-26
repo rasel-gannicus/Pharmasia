@@ -73,6 +73,9 @@ const UserList = () => {
                 <th className="p-4 text-left text-sm font-semibold text-black">
                   Active Status
                 </th>
+                <th className="p-4  text-sm font-semibold text-black text-center">
+                  Action
+                </th>
                 <th className="p-4 text-left text-sm font-semibold text-black">
                   Total Orders
                 </th>
@@ -102,9 +105,6 @@ const UserList = () => {
                 </th>
                 <th className="p-4 text-left text-sm font-semibold text-black">
                   Wishlist
-                </th>
-                <th className="p-4  text-sm font-semibold text-black text-center">
-                  Action
                 </th>
               </tr>
             </thead>

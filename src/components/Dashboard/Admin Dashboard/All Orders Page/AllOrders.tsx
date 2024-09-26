@@ -36,20 +36,17 @@ export const AllOrders = ({ props }: any) => {
   const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
 
   const { data: allUser } = useGetAllUserInfoQuery(undefined);
-  const [allOrdersFromAllUsers, setAllOrdersFromAllUsers] : any = useState([]);
+  const [allOrdersFromAllUsers, setAllOrdersFromAllUsers]: any = useState([]);
 
   useEffect(() => {
     if (allUser?.length > 0) {
       let getAllOrders = allUser?.filter((item: any) => item?.orders);
 
-
       setAllOrdersFromAllUsers(
-        getAllOrders?.map((item : any)=> item.orders).flat()
+        getAllOrders?.map((item: any) => item.orders).flat()
       );
     }
   }, [allUser]);
-
-  
 
   const [searchText, setSearchText] = useState("");
 
@@ -297,7 +294,7 @@ export const AllOrders = ({ props }: any) => {
       <hr />
 
       <div className="flex flex-col justify-between items-center min-h-[70vh] ">
-        <div className="  md:max-w-full w-full overflow-x-auto ">
+        <div className="grid  md:max-w-full w-full overflow-x-auto ">
           <table className="bg-white min-w-full">
             <thead className="whitespace-nowrap">
               <tr>

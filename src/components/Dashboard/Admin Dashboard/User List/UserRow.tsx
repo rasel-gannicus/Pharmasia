@@ -11,82 +11,25 @@ import { TailSpin } from "react-loader-spinner";
 import userPic from "@/assets/img/user(1).png";
 import adminPic from "@/assets/img/user(2).png";
 import Image from "next/image";
-
-// --- button for user action like 'cancel order', 'delete order', 'rate order'
-// const userActionButtonOrderInventory = (
-//   item: any,
-//   setModalStatus2: any,
-//   setModalStatus: any
-// ) => {
-//   let actionButton = null;
-//   if (item.status == "newOrder") {
-//     return (actionButton = (
-//       <td className=" text-center">
-//         <button onClick={() => setModalStatus2(true)} title="Delete">
-//           <FaRegTrashAlt className="text-lg text-red-500" />
-//         </button>
-//       </td>
-//     ));
-//   } else if (item.status.toLowerCase() == "packaged") {
-//     return (actionButton = (
-//       <td className=" text-center">
-//         <button title="Delete" disabled>
-//           <FaRegTrashAlt className="text-lg text-slate-500" />
-//         </button>
-//       </td>
-//     ));
-//   } else if (
-//     item.status.toLowerCase() == "shipping" ||
-//     item.status.toLowerCase() == "shipped"
-//   ) {
-//     return (actionButton = (
-//       <td className=" text-center">
-//         <button title="Delete" disabled>
-//           <FaRegTrashAlt className="text-lg text-slate-500" />
-//         </button>
-//       </td>
-//     ));
-//   } else if (item.status.toLowerCase() == "delivered") {
-//     return (actionButton = (
-//       <td className=" text-center">
-//         <Button
-//           onClick={() => setModalStatus(true)}
-//           title="Delete"
-//           className="flex mx-auto text-sm bg-yellow-300  text-black justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
-//         >
-//           Review
-//           <MdReviews className="" />
-//         </Button>
-//       </td>
-//     ));
-//   } else if (item.status.toLowerCase() == "cancelled" || item?.isCancelled) {
-//     return (actionButton = (
-//       <td className=" text-center">
-//         <p className="text-sm text-gray-300">Order Cancelled</p>
-//       </td>
-//     ));
-//   }else if (item.status.toLowerCase() == "reviewed") {
-//     return (actionButton = (
-//       <td className=" text-center">
-//         <Button
-//           onClick={() => setModalStatus(true)}
-//           disabled
-//           // title="Delete"
-//           className="flex mx-auto text-sm bg-green-600  text-white justify-center items-center gap-2 h-9 px-3 rounded hover:text-white "
-//         >
-//           Rated
-//           <MdReviews className="" />
-//         </Button>
-//       </td>
-//     ));
-//   }
-// };
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useUpdateUserRoleMutation } from "@/utils/Redux/features/user/userApi";
+import { toast } from "react-toastify";
+import { Badge } from "@/components/ui/badge";
 
 const UserRow = ({ props }: any) => {
   const { item, email, allOrders, allCartItems, allRatings } = props;
   //   console.log("🚀 ~ UserRow ~ item:", allOrders);
   const [modalStatus2, setModalStatus2] = useState(false);
   const [isAgree2, setIsAgree2] = useState(false);
+
+  // --- dropdown menu for taking action as admin ('block','make admin', 'remove admin')
+  const [selectMenu, setSelectMenu] = useState(item?.status || "");
 
   //   --- total order for each user
   let totalOrdersPerUser = allOrders?.filter(
@@ -142,15 +85,61 @@ const UserRow = ({ props }: any) => {
   let totalCartQuantity =
     allCartItems?.filter(
       (cart: any) =>
-        cart?.user?.email == item?.email && cart?.status !== "deleted"  && cart?.quantity > 0 
+        cart?.user?.email == item?.email &&
+        cart?.status !== "deleted" &&
+        cart?.quantity > 0
     ).length || 0;
 
   // --- showing wishlist quanity for each user
   let totalWishlistQuantity =
     allCartItems?.filter(
-      (cart: any) =>
-        cart?.user?.email == item?.email && cart?.wishlist
+      (cart: any) => cart?.user?.email == item?.email && cart?.wishlist
     ).length || 0;
+
+  const [updateUserRole, { data: updatedUserRole, isLoading }] =
+    useUpdateUserRoleMutation();
+
+  const handleUpdateUserRole = () => {
+    setModalStatus2(true);
+  };
+  useEffect(() => {
+    let toastId: any;
+    if (isAgree2) {
+      (async () => {
+        try {
+          toastId = toast.loading("Updating User...", {
+            position: "bottom-center",
+          });
+          await updateUserRole({
+            email: item?.email,
+            updates: { role: selectMenu },
+          }).unwrap();
+          toast.update(toastId, {
+            render: "User updated successfully!",
+            type: "success",
+            isLoading: false,
+            autoClose: 3000,
+            closeOnClick: true,
+          });
+          setIsAgree2(false);
+          setSelectMenu("");
+        } catch (err) {
+          toast.update(toastId, {
+            render: "Failed to update user. Please try again.",
+            type: "error",
+            isLoading: false,
+            autoClose: 3000,
+            closeOnClick: true,
+          });
+        } finally {
+          setIsAgree2(false);
+        }
+      })();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAgree2]);
+
+  let conditionalButton = !selectMenu || item?.role.toLowerCase() == selectMenu; // -- making 'action' button disabled
 
   return (
     <>
@@ -181,8 +170,69 @@ const UserRow = ({ props }: any) => {
         </td>
         <td className={`p-4 text-sm text-center text-black `}>{item?.role}</td>
         <td className="p-4 text-sm text-center text-black">
-          {item?.role != "blocked" && "Active"}
+          
+          
+          {item?.role != "blocked" && item?.role != "deleted" && <Badge className="bg-teal-600" variant="default">Active
+          </Badge>}
+            {(item?.role === "blocked" || item?.role === "deleted") && <Badge variant="destructive">Inactive
+          </Badge>
+              }
         </td>
+
+        {/* --- dropdown menu for taking action as admin ('block','make admin', 'remove admin') */}
+        <td className="p-4 text-center flex flex-col gap-2 justify-center items-center">
+          <Select value={selectMenu} onValueChange={setSelectMenu}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder={item?.status || "Action"} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="deleted">Delete User</SelectItem>
+              <SelectItem value="blocked">Block User</SelectItem>
+              <SelectItem value="admin">Make Admin</SelectItem>
+              <SelectItem
+                disabled={
+                  item?.role != "admin" || item?.email == "admin@pharmasia.com"
+                }
+                value="user"
+              >
+                Remove Admin
+              </SelectItem>
+              <SelectItem
+                disabled={
+                  item?.role == "user" || item?.email == "admin@pharmasia.com"
+                }
+                value="user"
+              >
+                Make User
+              </SelectItem>
+            </SelectContent>
+          </Select>
+          <div className=" flex gap-1 w-[150px]">
+            <button
+              onClick={handleUpdateUserRole}
+              disabled={conditionalButton}
+              className={` text-xs px-2 w-full py-1 rounded ${
+                !conditionalButton
+                  ? "bg-green-400 text-gray-600"
+                  : "bg-gray-300 text-gray-400"
+              }`}
+            >
+              Ok
+            </button>
+            <button
+              disabled={conditionalButton}
+              onClick={() => setSelectMenu("")}
+              className={`text-xs px-2 w-full py-1 rounded ${
+                !conditionalButton
+                  ? "bg-yellow-400 text-gray-600"
+                  : "bg-gray-300 text-gray-400"
+              }`}
+            >
+              Cancel
+            </button>
+          </div>
+        </td>
+
         <td className="p-4 text-center">{totalOrdersQuantity}</td>
         <td className="p-4 text-center">{pendingOrdersPerUser}</td>
         <td className="p-4 text-center">{onProcessingOrdersPerUser}</td>
@@ -200,7 +250,7 @@ const UserRow = ({ props }: any) => {
           modalStatus2,
           setModalStatus2,
           setIsAgree2,
-          title: "Do you want to cancel the order ? ",
+          title: "Proceed the action ? ",
         }}
       />
     </>
