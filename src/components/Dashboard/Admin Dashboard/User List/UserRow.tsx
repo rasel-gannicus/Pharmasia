@@ -92,24 +92,71 @@ const UserRow = ({ props }: any) => {
   let totalOrdersPerUser = allOrders?.filter(
     (order: any) => order?.user?.email == item?.email
   );
+
+  //   --- showing order quanity for each user
+  let totalOrdersQuantity = totalOrdersPerUser?.length || 0;
+
+  //   --- showing pending order quanity for each user
   const pendingOrdersPerUser =
     totalOrdersPerUser?.filter((order: any) =>
       ["newOrder", "pending"].includes(order?.status)
     ).length || 0;
 
-  //   --- showing order quanity for each user
-  let totalOrdersQuantity = totalOrdersPerUser?.length || 0;
+  //   --- showing pending order quanity for each user
+  const onProcessingOrdersPerUser =
+    totalOrdersPerUser?.filter((order: any) =>
+      ["processing"].includes(order?.status)
+    ).length || 0;
+
+  //   --- showing packaged order quanity for each user
+  const packagedOrdersPerUser =
+    totalOrdersPerUser?.filter((order: any) =>
+      ["packaged"].includes(order?.status)
+    ).length || 0;
+
+  // --- showing shipping order quanity for each user
+  const shippingOrdersPerUser =
+    totalOrdersPerUser?.filter((order: any) =>
+      ["shipping"].includes(order?.status)
+    ).length || 0;
+
+  // --- showing shipped order quanity for each user
+  const shippedOrdersPerUser =
+    totalOrdersPerUser?.filter((order: any) =>
+      ["shipped"].includes(order?.status)
+    ).length || 0;
+
+  // --- showing delivered order quanity for each user
+  const deliveredOrdersPerUser =
+    totalOrdersPerUser?.filter((order: any) =>
+      ["delivered"].includes(order?.status)
+    ).length || 0;
+
+  // --- showing reviewed order quanity for each user
+  const reviewedOrdersPerUser =
+    totalOrdersPerUser?.filter((order: any) =>
+      ["rated", "reviewed"].includes(order?.status)
+    ).length || 0;
 
   // --- showing cart quanity for each user
   let totalCartQuantity =
-    allCartItems?.filter((cart: any) => cart?.user?.email == item?.email)
-      .length || 0;
+    allCartItems?.filter(
+      (cart: any) =>
+        cart?.user?.email == item?.email && cart?.status !== "deleted"  && cart?.quantity > 0 
+    ).length || 0;
+
+  // --- showing wishlist quanity for each user
+  let totalWishlistQuantity =
+    allCartItems?.filter(
+      (cart: any) =>
+        cart?.user?.email == item?.email && cart?.wishlist
+    ).length || 0;
 
   return (
     <>
       <tr
         className={` ${
-          item.role === "admin" ? "bg-green-100" : "odd:bg-blue-50 "
+          item.role === "admin" ? "bg-red-100" : "odd:bg-blue-50 "
         }`}
       >
         <td className="px-4 py-2 text-sm">
@@ -138,7 +185,14 @@ const UserRow = ({ props }: any) => {
         </td>
         <td className="p-4 text-center">{totalOrdersQuantity}</td>
         <td className="p-4 text-center">{pendingOrdersPerUser}</td>
+        <td className="p-4 text-center">{onProcessingOrdersPerUser}</td>
+        <td className="p-4 text-center">{packagedOrdersPerUser}</td>
+        <td className="p-4 text-center">{shippingOrdersPerUser}</td>
+        <td className="p-4 text-center">{shippedOrdersPerUser}</td>
+        <td className="p-4 text-center">{deliveredOrdersPerUser}</td>
+        <td className="p-4 text-center">{reviewedOrdersPerUser}</td>
         <td className="p-4 text-center">{totalCartQuantity}</td>
+        <td className="p-4 text-center">{totalWishlistQuantity}</td>
       </tr>
 
       <ModalForDeleteConfirmation
