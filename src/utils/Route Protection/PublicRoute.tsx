@@ -1,11 +1,12 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC, use, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import auth from "../firebase.init"; // Adjust the path to your firebase initialization file
 import { useRouter } from "next/navigation";
 import { ThreeCircles } from "react-loader-spinner";
 import { successMessage } from "../Redux/toastMsg";
 import { useAddUserDataMutation } from "../Redux/features/user/userApi";
+import { toast } from "react-hot-toast";
 
 const PublicRoute = (WrappedComponent: FC) => {
   return function ProtectComponent(props: any) {
@@ -18,11 +19,10 @@ const PublicRoute = (WrappedComponent: FC) => {
 
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user?.email != null || undefined || '') {
-          
+        if (user?.email != null || undefined || "") {
           setAuthenticated(true);
           router.replace("/"); // Redirect to the homepage
-          successMessage(`Welcome ${user?.displayName}`);
+          // toast.success(`Welcome ${user?.displayName || 'User'} !`);
           addUserToMongoDb({ email: user?.email, userInfo: user });
         } else {
           setAuthenticated(false);
@@ -32,6 +32,7 @@ const PublicRoute = (WrappedComponent: FC) => {
 
       return () => unsubscribe();
     }, [router, data, isLoading, isError, isSuccess]);
+
 
     if (loading) {
       return (

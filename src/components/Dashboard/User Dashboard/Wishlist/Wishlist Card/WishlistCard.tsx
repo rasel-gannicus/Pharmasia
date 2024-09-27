@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { ToastAction } from "@/components/ui/toast";
-import { toast } from "@/components/ui/use-toast";
 import {
   useAddToCartMutation,
   useModifyCartMutation,
@@ -8,6 +6,7 @@ import {
 import { errorMessage, successMessage } from "@/utils/Redux/toastMsg";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { ThreeCircles } from "react-loader-spinner";
 
 const WishlistCard = (data: any) => {
@@ -19,9 +18,9 @@ const WishlistCard = (data: any) => {
 
   const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
 
-  let receivedProductData = data.data ; 
-  let sendingProductData = {...receivedProductData, user  : data.user};
-  
+  let receivedProductData = data.data;
+  let sendingProductData = { ...receivedProductData, user: data.user };
+
   // --- this one will remove items from wishlist
   const handleModify = (type: string) => {
     modifyCart({ ...data, modifyType: type, email: data.email });
@@ -44,7 +43,6 @@ const WishlistCard = (data: any) => {
     },
   ]: any = useAddToCartMutation();
 
-
   const handleAddToCart = (status: string) => {
     addToCart({
       email: data.email,
@@ -56,7 +54,10 @@ const WishlistCard = (data: any) => {
   const router = useRouter();
   useEffect(() => {
     if (cartResult?.message?.toLowerCase().includes("cart")) {
-      successMessage('Product Added to cart') ;
+      toast.success("Product Added to cart", {
+        position: "bottom-center",
+        style: { background: "#488EAF", color: "white" },
+      });
     }
   }, [cartResult, addToCartLoading]);
 

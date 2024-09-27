@@ -18,7 +18,7 @@ import {
 import { useAddProductMutation } from "@/utils/Redux/features/products/productsApi";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 const AddProductModal = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
   // State for storing the data of the new product being added
@@ -38,16 +38,11 @@ const AddProductModal = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
 
   // Function to handle adding a new product
   const handleAddProduct = async () => {
-    const toastId = toast.loading("Adding product...");
+    const toastId = toast.loading("Adding product...",{ position: "bottom-right" });
     try {
       // Call the addProduct mutation and unwrap the result
       await addProduct(newProduct).unwrap();
-      toast.update(toastId, {
-        render: "Product added successfully!",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      toast.success("Product added successfully!", { id: toastId });
       // Reset the newProduct state to clear the form
       setNewProduct({
         Title: "",
@@ -62,13 +57,9 @@ const AddProductModal = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
       // Close the "Add Product" dialog
       setIsAddProductOpen(false);
     } catch (err) {
-      // Log an error if the product addition fails
-      console.error("Failed to add the product: ", err);
-      toast.update(toastId, {
-        render: "Failed to add product. Please try again.",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
+      // show error with toast message if the product addition fails
+      toast.error("There was an error adding the product !", {
+        id: toastId,
       });
     }
   };

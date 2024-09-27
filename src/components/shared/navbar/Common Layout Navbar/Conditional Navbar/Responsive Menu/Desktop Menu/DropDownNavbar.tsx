@@ -21,13 +21,11 @@ import { IoMdKey, IoMdLogIn } from "react-icons/io";
 
 export const DropDownNavbar = ({ props }: { props: any }) => {
   const { userState } = props;
-  const { displayName, email, photoURL } = userState;
 
   const dispatch = useAppDispatch();
 
   function handleLogout() {
     dispatch(activeModal(false));
-    // getProduct(email) ;
   }
   return (
     <DropdownMenu>
@@ -53,9 +51,9 @@ export const DropDownNavbar = ({ props }: { props: any }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{displayName || "Your Account"}</DropdownMenuLabel>
+        <DropdownMenuLabel>{userState?.displayName || "Your Account"}</DropdownMenuLabel>
         <DropdownMenuLabel className="text-slate-300">
-          {email || "Login to see details"}
+          {userState?.email || "Login to see details"}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
 
@@ -95,7 +93,7 @@ export const DropDownNavbar = ({ props }: { props: any }) => {
         </Link>
 
         <DropdownMenuSeparator />
-        {!email ? (
+        {!userState?.email ? (
           <DropdownMenuItem>
             <Link
               className="bg-[#488EAF] px-3 rounded py-2 flex justify-center items-center gap-1 text-white me-2 "

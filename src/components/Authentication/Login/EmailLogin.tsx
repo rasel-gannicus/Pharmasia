@@ -35,8 +35,8 @@ const EmailLogin = () => {
       );
     }
     if (user) {
-      successMessage("Logged in successfully");
-      console.log(user);
+      // successMessage("Logged in successfully");
+      // console.log(user);
       // addUserToMongoDb({email : user?.email, name : user?.displayName});
       // router.push("/authentication/login");
     }

@@ -10,6 +10,7 @@ import { ToastContainer } from "react-toastify";
 import Modal from "@/components/Modal/Modal";
 import UserDashboardNavbar from "@/components/shared/navbar/User Dashboard Navbar/UserDashboardNavbar";
 import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
+import { Toaster } from "react-hot-toast";
 
 const UserDashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   // --- using react-firebase-hook to get user data
@@ -47,6 +48,7 @@ const UserDashboardWrapper = ({ children }: { children: React.ReactNode }) => {
       <UserDashboardNavbar> {children} </UserDashboardNavbar>
       <Modal />
       <ToastContainer />
+      <Toaster />
     </div>
   );
 };

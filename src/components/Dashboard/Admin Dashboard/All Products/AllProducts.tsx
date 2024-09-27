@@ -1,5 +1,4 @@
 "use client";
-import { ToastContainer, toast } from "react-toastify";
 import { useEffect, useMemo, useState } from "react";
 import {
   Table,
@@ -21,6 +20,8 @@ import {
 import AddProductModal from "./Modal/AddProductModal";
 import EditProductModal from "./Modal/EditProductModal";
 import { ModalForDeleteConfirmation } from "@/utils/Modal/ModalForDeleteConfirmation";
+import { toast } from "react-hot-toast";
+import Loader from "@/utils/Loading Spinner/Loader";
 
 export const AllProducts = () => {
   // State for managing the search term for filtering products
@@ -36,7 +37,7 @@ export const AllProducts = () => {
 
   const [productIdForEdit, setProductIdForEdit] = useState("");
 
-  // --- product delete functionality
+  // ! --- product delete functionality
   // Get the deleteProduct mutation function from RTK Query
   const [deleteProduct, { isLoading: isDeleting }] = useDeleteProductMutation();
 
@@ -50,27 +51,21 @@ export const AllProducts = () => {
       try {
         // Call the deleteProduct function to delete the product
         deleteProduct(deleteId).unwrap();
-        toast.update(toastId, {
-          render: "Product deleted successfully!",
-          type: "success",
-          isLoading: false,
-          autoClose: 3000,
+        toast.success("Product Deleted successfully!", {
+          id: toastId,
+          position: "bottom-right",
         });
         setIsDelete(false);
         setDeleteId("");
       } catch (err) {
         // Log an error if the product deletion fails
         console.error("Failed to delete the product: ", err);
-        toast.update(toastId, {
-          render: "Failed to delete product. Please try again.",
-          type: "error",
-          isLoading: false,
-          autoClose: 3000,
+        toast.error("There was an error deleting the product !", {
+          id: toastId,
         });
       }
     }
   }, [isDelete, modalStatus2, deleteId]);
-
 
   // Function to handle deleting a product
   const handleDeleteProduct = async (productId: string) => {
@@ -103,11 +98,12 @@ export const AllProducts = () => {
 
   // Display a loading message while fetching products
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader /> || <div>Loading...</div>;
   }
 
   // Display an error message if fetching products fails
   if (isError) {
+    toast.error("There was an error with backened !");
     return <div>Error: {error.message}</div>;
   }
 
@@ -126,10 +122,8 @@ export const AllProducts = () => {
     setCurrentPage(1); // Reset to the first page whenever products per page changes
   };
 
-
   return (
     <div className="space-y-4 container my-5">
-      <ToastContainer position="bottom-center" />
       <div className="flex justify-between items-center">
         {/* --- modal for adding a product --- */}
         <AddProductModal
@@ -147,7 +141,7 @@ export const AllProducts = () => {
           <select
             value={productsPerPage}
             onChange={handleProductsPerPageChange}
-            className="border border-gray-300 rounded px-2 py-1"
+            className="border border-gray-300 rounded px-2 py-2"
           >
             <option value={10}>10</option>
             <option value={20}>20</option>

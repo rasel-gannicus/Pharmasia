@@ -8,6 +8,7 @@ import Modal from "../Modal/Modal";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";  
 import { ToastContainer, toast } from 'react-toastify';
+import { Toaster } from "react-hot-toast";
 
 const CustomWrapper = ({
   children
@@ -39,6 +40,7 @@ const CustomWrapper = ({
       {children}
       <Modal />
       <ToastContainer />
+      <Toaster />
     </div>
   );
 };

@@ -22,7 +22,7 @@ import {
 } from "@/utils/Redux/features/products/productsApi";
 import { Edit, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 const EditProductModal = ({
   iseditProductOpen,
   setIseditProductOpen,
@@ -46,39 +46,29 @@ const EditProductModal = ({
 
   // Function to handle editing the product
   const handleEditProduct = async () => {
-    const toastId = toast.loading("Editing product...");
+    const toastId = toast.loading("Editing product...", { position: "bottom-right"});
     try {
       // Call the editProduct mutation and unwrap the result
       await editProduct({ ...editedProduct, id: productIdForEdit }).unwrap();
-      toast.update(toastId, {
-        render: "Product edited successfully!",
-        type: "success",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      toast.success("Product edited successfully!", { id: toastId });
 
       // Close the "Edit Product" dialog
       setIseditProductOpen(false);
     } catch (err: any) {
       // Log an error if the product edit fails
       console.error("Failed to edit the product: ", err.message);
-      toast.update(toastId, {
-        render: "Failed to edit product. Please try again.",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      toast.error("There was an error editing the product !", {id: toastId,});
     }
   };
   return (
-    <Dialog open={iseditProductOpen} onOpenChange={setIseditProductOpen}>
+    <Dialog open={iseditProductOpen} onOpenChange={setIseditProductOpen} >
       <DialogTrigger asChild>
         {/* <Button variant={"outline"}>
           <Edit className="w-4 h-4 mr-2" />
           Edit
         </Button> */}
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>

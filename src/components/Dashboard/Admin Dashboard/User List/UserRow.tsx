@@ -125,7 +125,6 @@ const UserRow = ({ props }: any) => {
         }
       })();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAgree2]);
 
   let conditionalButton = !selectMenu || item?.role.toLowerCase() == selectMenu; // -- making 'action' button disabled
@@ -248,22 +247,3 @@ const UserRow = ({ props }: any) => {
 };
 
 export default UserRow;
-
-{
-  /* {isLoading ? (
-        <td className="w-full flex justify-center items-center">
-          <TailSpin
-            visible={true}
-            height="50"
-            width="50"
-            color="#1C8674"
-            ariaLabel="tail-spin-loading"
-            radius="4"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-        </td>
-      ) : (
-        actionButton
-      )} */
-}

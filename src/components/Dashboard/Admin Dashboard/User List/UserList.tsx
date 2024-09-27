@@ -4,6 +4,7 @@ import { useGetAllUserInfoQuery } from "@/utils/Redux/features/user/userApi";
 import { useEffect, useState } from "react";
 import UserRow from "./UserRow";
 import { TailSpin } from "react-loader-spinner";
+import Loader from "@/utils/Loading Spinner/Loader";
 
 const UserList = () => {
   // Fetch all user information using Redux Toolkit Query (no need for individual user data)
@@ -61,19 +62,7 @@ const UserList = () => {
 
   if (isLoading && !allUsers) {
     return (
-      <div className="min-h-screen w-full flex flex-col gap-6 justify-center items-center">
-        <TailSpin
-          visible={true}
-          height="50"
-          width="50"
-          color="#1C8674"
-          ariaLabel="tail-spin-loading"
-          radius="4"
-          wrapperStyle={{}}
-          wrapperClass=""
-        />
-        <h2 className="text-4xl font-normal text-slate-500">Loading...</h2>
-      </div>
+      <Loader />
     );
   }
 

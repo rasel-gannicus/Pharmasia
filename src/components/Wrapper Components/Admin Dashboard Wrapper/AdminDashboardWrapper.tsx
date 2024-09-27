@@ -11,6 +11,7 @@ import Modal from "@/components/Modal/Modal";
 import UserDashboardNavbar from "@/components/shared/navbar/User Dashboard Navbar/UserDashboardNavbar";
 import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
 import AdminDashboardNavbar from "@/components/shared/navbar/Admin Dashboard Navbar/AdminDashboardNavbar";
+import { Toaster } from "react-hot-toast";
 
 export const AdminDashboardWrapper = ({ children }: { children: React.ReactNode }) => {
   // --- using react-firebase-hook to get user data
@@ -39,6 +40,7 @@ export const AdminDashboardWrapper = ({ children }: { children: React.ReactNode 
       <AdminDashboardNavbar> {children} </AdminDashboardNavbar>
       <Modal />
       <ToastContainer />
+      <Toaster />
     </div>
   );
 };

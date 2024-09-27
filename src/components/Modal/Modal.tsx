@@ -17,9 +17,9 @@ import auth from "@/utils/firebase.init";
 import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useSignOut } from "react-firebase-hooks/auth";
-import { toast } from "../ui/use-toast";
 import { addUserToRedux } from "@/utils/Redux/features/user/userSlice";
 import { errorMessage, successMessage } from "@/utils/Redux/toastMsg";
+import { toast } from "react-hot-toast";
 
 const Modal = () => {
   //   const [open, setOpen] = useState(true);
@@ -28,23 +28,30 @@ const Modal = () => {
 
   const [signOut, loading, error] = useSignOut(auth);
 
-
   //   -- closing modal and logging out
-  const handleModalClose = async() => {
+  const handleModalClose = async () => {
     dispatch(closeModal(false));
-    const success = await signOut() ;
-    if(success){
-      dispatch(addUserToRedux({user : null}))
-      successMessage('Logged out successfully !') ;
+    const success = await signOut();
+    if (success) {
+      dispatch(
+        addUserToRedux({
+          user: {
+            displayName: "",
+            email: "",
+            emailVerified: "",
+            photoURL: "",
+          },
+        })
+      );
+      toast.success(`Logged out successfully !`, { position: "bottom-center" });
     }
   };
 
-  useEffect(()=>{
-    if(error){
-      errorMessage(error?.message || 'An error happened while logging out !' )
+  useEffect(() => {
+    if (error) {
+      errorMessage(error?.message || "An error happened while logging out !");
     }
-
-  },[loading, error])
+  }, [loading, error]);
   return (
     <Dialog open={modalStatus} onOpenChange={() => dispatch(closeModal(false))}>
       <DialogContent>

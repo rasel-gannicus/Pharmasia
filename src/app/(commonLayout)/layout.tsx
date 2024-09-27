@@ -4,6 +4,8 @@ import "@/app/globals.css";
 import Footer from "@/components/shared/footer/footer";
 import CustomWrapper from "@/components/Custom Wrapper/CustomWrapper";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as HotToaster } from "react-hot-toast";
+
 import ReduxProvider from "@/utils/Redux/ReduxProvider";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "@/components/shared/navbar/Common Layout Navbar/Navbar";
