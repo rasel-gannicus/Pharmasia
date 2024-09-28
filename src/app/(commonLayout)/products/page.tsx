@@ -4,7 +4,7 @@ import PopularProductCard from "@/components/for home page/most popular products
 import { TCloths } from "@/types/types";
 import { useGetAllProductsQuery } from "@/utils/Redux/features/products/productsApi";
 const AllProducts = () => {
-  const { data, isLoading, isError } :any = useGetAllProductsQuery(undefined);
+  const { data, isLoading, isError }: any = useGetAllProductsQuery(undefined);
 
   if (isLoading) {
     return <div>Loading...</div>; // or a more sophisticated loading indicator
@@ -22,11 +22,11 @@ const AllProducts = () => {
       </h2>
       <div className="py-5 grid md:grid-cols-4 lg:grid-cols-4 gap-6 px-1">
         {data?.length > 0 ? (
-          data.map((item: TCloths) => (
+          data?.map((item: TCloths) => (
             <PopularProductCard key={item._id} data={item} />
           ))
         ) : (
-          <h2>No products found</h2> 
+          <h2>No products found</h2>
         )}
       </div>
     </div>

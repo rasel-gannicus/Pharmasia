@@ -27,7 +27,7 @@ export const productApi = apiSlice.injectEndpoints({
     // --- edit a product
     editProduct: builder.mutation({
       query: (data: any) => ({
-        url: `/editProduct/${data._id}`,
+        url: `/editProduct/${data?._id}`,
         method: "PUT",
         body: data,
       }),
@@ -116,5 +116,5 @@ export const {
   useAddProductMutation,
   useGetSingleProductQuery,
   useEditProductMutation,
-  useDeleteProductMutation
+  useDeleteProductMutation,
 } = productApi;

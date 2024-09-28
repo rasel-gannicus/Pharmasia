@@ -19,10 +19,10 @@ export const FlashSale = () => {
       <hr className="border-2 w-3/4 mx-auto my-5" />
 
       {/* --- all the flash sale items in card view --- */}
-      <div className="py-5 grid md:grid-cols-3 gap-6 px-1">
+      <div className="py-5 grid md:grid-cols-3 lg:grid-cols-4 gap-6 px-1">
         {data?.length > 0 ? (
           data
-            ?.filter((item: any) => item?.FlashSale)
+            ?.filter((item: any) => item?.Flashsale)
             .map((item: any) => <FlashSaleCard key={item._id} data={item} />)
         ) : (
           <h2>No data found</h2>

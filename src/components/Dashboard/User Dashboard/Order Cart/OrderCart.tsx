@@ -63,20 +63,20 @@ const OrderCart = () => {
   const handleItemCheck = (item: any, isChecked: boolean) => {
     let updatedItems;
     if (isChecked) {
-      let isExists = checkedItems.find((index) => index._id == item.data._id);
+      let isExists = checkedItems.find((index) => index._id == item.data?._id);
       if (isExists) {
         // console.log(item.data);
-        updatedItems = checkedItems.filter((i) => i._id !== item.data._id);
-        // const latestItemsFromDb = data.cart.find((i : any) => i._id == item.data._id) ;
+        updatedItems = checkedItems.filter((i) => i._id !== item.data?._id);
+        // const latestItemsFromDb = data?.cart.find((i : any) => i._id == item.data?._id) ;
         // console.log(latestItemsFromDb);
         updatedItems = [...updatedItems, item.data];
       } else {
         updatedItems = [...checkedItems, item.data];
       }
     } else {
-      updatedItems = checkedItems.filter((i) => i._id !== item.data._id);
+      updatedItems = checkedItems.filter((i) => i._id !== item.data?._id);
     }
-    
+
     setCheckedItems(updatedItems);
     const price = updatedItems.reduce(
       (acc, item) => acc + item.Price * item.quantity,

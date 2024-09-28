@@ -195,7 +195,7 @@ export const AllProducts = () => {
               </TableCell>
               <TableCell>
                 <div className="flex items-center">
-                  <span>{product?.FlashSale ? "Yes" : "No"}</span>
+                  <span>{product?.Flashsale ? "Yes" : "No"}</span>
                 </div>
               </TableCell>
               <TableCell>

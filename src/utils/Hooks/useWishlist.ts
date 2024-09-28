@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../Redux/hooks";
 import { useGetProductCartQuery } from "../Redux/features/products/productsApi";
@@ -11,12 +11,13 @@ export const useWishlist = () => {
   // --- checking how many items are in cart
   const [cart, setCart] = useState(0);
 
-  const { data, isLoading, isError, isSuccess }: any =
-    useGetProductCartQuery(user?.email);
+  const { data, isLoading, isError, isSuccess }: any = useGetProductCartQuery(
+    user?.email
+  );
 
   useEffect(() => {
     if (data?.cart?.length > 0) {
-      const onlyWishlist = data.cart.filter(
+      const onlyWishlist = data?.cart.filter(
         (item: any) => item.wishlist === true
       );
 

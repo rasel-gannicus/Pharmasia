@@ -23,7 +23,7 @@ const FlashSale = async () => {
         <hr className="border-2 w-3/4 mx-auto my-5" />
         <div className="py-5 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6 px-1">
           {data?.length > 0 ? (
-            data?.filter((item: any) => item?.FlashSale).map((item: any) => (
+            data?.filter((item: any) => item?.Flashsale).map((item: any) => (
               <FlashSaleCard key={item._id} data={item} />
             ))
           ) : (

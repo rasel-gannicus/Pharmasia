@@ -12,7 +12,7 @@ export const useCart = (email: any, isFullData: any) => {
 
   useEffect(() => {
     if (data?.cart?.length > 0) {
-      const onlyCart = data.cart.filter(
+      const onlyCart = data?.cart.filter(
         (item: any) => item.quantity > 0 && item.status !== "wishlist"
       );
       if (!isFullData) {

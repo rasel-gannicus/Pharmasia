@@ -6,17 +6,18 @@ interface TProductId {
   productId: string[];
 }
 
-// --- implementing SSG 
-export const generateStaticParams = async() => {
-  const res = await fetch("https://server-for-assignment-8.vercel.app/allCloths")
-  const cloths = await res.json() ;
-  return cloths?.slice(0,10).map((items : TCloths)=>({
-    productId : items._id
-  }))
-}
+// --- implementing SSG
+export const generateStaticParams = async () => {
+  const res = await fetch(
+    "https://server-for-assignment-8.vercel.app/allCloths"
+  );
+  const cloths = await res.json();
+  return cloths?.slice(0, 10).map((items: TCloths) => ({
+    productId: items._id,
+  }));
+};
 
 const SingleProduct = async ({ params }: { params: TProductId }) => {
-  
   // --- fetching data with SSG(Static Site Generation) method
   const res = await fetch(
     `https://server-for-assignment-8.vercel.app/cloths/${params.productId}`,
@@ -31,29 +32,29 @@ const SingleProduct = async ({ params }: { params: TProductId }) => {
       {/* <h2>Single Product here</h2> */}
       <div className=" flex flex-col md:flex-row gap-10">
         <div>
-          <img src={data.Images} alt="" className="mx-auto" />
+          <img src={data?.Images} alt="" className="mx-auto" />
         </div>
 
         <div className="flex-1">
-          <h2 className=" text-2xl md:text-4xl font-semibold">{data.Title}</h2>
+          <h2 className=" text-2xl md:text-4xl font-semibold">{data?.Title}</h2>
           <div className="lg:w-[40%] md:w-[80%]">
             <div className="flex justify-between items-center my-5">
               <div className="flex justify-center items-center">
                 <span className="text-4xl text-orange-400">$ </span>
                 <span className="text-xl text-gray-400 font-semibold">
                   {" "}
-                  {data.Price}
+                  {data?.Price}
                 </span>
               </div>
               <p className="text-2xl text-gray-300">|</p>
               <p className="text-xl text-gray-400 font-semibold">
-                Ratings : {data.Ratings}
+                Ratings : {data?.Ratings}
               </p>
             </div>
           </div>
           <hr className="border-1  mx-auto my-5" />
           <div className="">
-            <p>{data.Description}</p>
+            <p>{data?.Description}</p>
             <div className="mt-10 flex items-center justify-start gap-5 ms-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

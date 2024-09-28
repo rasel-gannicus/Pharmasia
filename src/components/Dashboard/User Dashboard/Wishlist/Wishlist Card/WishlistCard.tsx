@@ -16,14 +16,14 @@ const WishlistCard = (data: any) => {
     { data: modifiedData, isLoading, isError, isSuccess, error },
   ]: any = useModifyCartMutation();
 
-  const { _id, Images, Ratings, Title, quantity, Price, status } = data.data;
+  const { _id, Images, Ratings, Title, quantity, Price, status } = data?.data;
 
-  let receivedProductData = data.data;
-  let sendingProductData = { ...receivedProductData, user: data.user };
+  let receivedProductData = data?.data;
+  let sendingProductData = { ...receivedProductData, user: data?.user };
 
   // --- this one will remove items from wishlist
   const handleModify = (type: string) => {
-    modifyCart({ ...data, modifyType: type, email: data.email });
+    modifyCart({ ...data, modifyType: type, email: data?.email });
   };
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const WishlistCard = (data: any) => {
 
   const handleAddToCart = (status: string) => {
     addToCart({
-      email: data.email,
+      email: data?.email,
       product: sendingProductData,
       status,
     });

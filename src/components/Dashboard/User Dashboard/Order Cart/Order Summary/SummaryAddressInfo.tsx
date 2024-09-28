@@ -4,11 +4,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 
 const SummaryAddressInfo = (data: any) => {
   const [user, loading]: any = useAuthState(auth);
-  const { name, setName, email, setEmail, phone, setPhone } = data.data;
+  const { name, setName, email, setEmail, phone, setPhone } = data?.data;
   useEffect(() => {
     setName(user.displayName);
     setEmail(user.email);
-    setPhone(user.phoneNumber) ;
+    setPhone(user.phoneNumber);
   }, [user, loading]);
   return (
     <form className="mt-6">

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 
 const Card = (data: any) => {
-  const { _id, Images, Ratings, Title, quantity, Price, status, user } = data.data;
-
+  const { _id, Images, Ratings, Title, quantity, Price, status, user } =
+    data?.data;
 
   const { checkAll, handleItemCheck } = data;
 
@@ -19,19 +19,19 @@ const Card = (data: any) => {
   ]: any = useModifyCartMutation();
 
   const handleModify = (type: string) => {
-    modifyCart({ ...data, modifyType: type, email: data.email });
+    modifyCart({ ...data, modifyType: type, email: data?.email });
     if (checked) {
-      if (type == "increase" && data.data.quantity < 5) {
-        let newQuantity = data.data.quantity + 1;
-        let newData = { ...data.data, quantity: newQuantity };
+      if (type == "increase" && data?.data?.quantity < 5) {
+        let newQuantity = data?.data?.quantity + 1;
+        let newData = { ...data?.data, quantity: newQuantity };
         handleItemCheck({ data: newData }, true);
-      } else if (type == "decrease" && data.data.quantity > 1) {
-        let newQuantity = data.data.quantity - 1;
-        let newData = { ...data.data, quantity: newQuantity };
+      } else if (type == "decrease" && data?.data?.quantity > 1) {
+        let newQuantity = data?.data?.quantity - 1;
+        let newData = { ...data?.data, quantity: newQuantity };
         handleItemCheck({ data: newData }, true);
       } else if (type == "delete") {
         let newQuantity = 0;
-        let newData = { ...data.data, quantity: newQuantity };
+        let newData = { ...data?.data, quantity: newQuantity };
         handleItemCheck({ data: newData }, true);
       }
     }
