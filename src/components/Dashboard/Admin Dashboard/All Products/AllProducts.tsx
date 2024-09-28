@@ -141,15 +141,15 @@ export const AllProducts = () => {
           <div className="flex w-full justify-center items-center gap-2">
             <p className="text-right text-sm">Products per page :</p>
             <select
-            value={productsPerPage}
-            onChange={handleProductsPerPageChange}
-            className="border border-gray-300 rounded px-2 py-2 "
-          >
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={30}>30</option>
-            <option value={50}>50</option>
-          </select>
+              value={productsPerPage}
+              onChange={handleProductsPerPageChange}
+              className="border border-gray-300 rounded px-2 py-2 "
+            >
+              <option value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={30}>30</option>
+              <option value={50}>50</option>
+            </select>
           </div>
         </div>
       </div>
