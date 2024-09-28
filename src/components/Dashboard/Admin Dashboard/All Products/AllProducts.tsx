@@ -160,6 +160,7 @@ export const AllProducts = () => {
             <TableHead>Price</TableHead>
             <TableHead>Category</TableHead>
             <TableHead>Ratings</TableHead>
+            <TableHead>Flash Sale</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -190,6 +191,11 @@ export const AllProducts = () => {
                 <div className="flex items-center">
                   <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
                   <span>{product?.Ratings?.toFixed(1)}</span>
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className="flex items-center">
+                  <span>{product?.FlashSale ? "Yes" : "No"}</span>
                 </div>
               </TableCell>
               <TableCell>

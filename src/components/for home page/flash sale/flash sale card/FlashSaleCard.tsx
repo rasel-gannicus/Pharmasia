@@ -1,41 +1,78 @@
-import { TCloths } from "@/types/types";
-import React from "react";
-import FlashSaleCountdown from "../flash sale countdown/FlashSaleCountdown";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import flash from "@/assets/img/icons8-sale.gif";
-import Image from "next/image";
+import Image from "next/image"
+import Link from "next/link"
+import { Clock, ShoppingCart } from "lucide-react"
 
-const FlashSaleCard = ({ data }: { data: TCloths }) => {
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import FlashSaleCountdown from "../flash sale countdown/FlashSaleCountdown"
+
+interface Medicine {
+  _id: string
+  Title: string
+  Description: string
+  Images: string
+  Price: number
+  DiscountedPrice?: number
+  FlashSale: boolean
+  flashSaleEndTime?: string
+}
+
+export default function FlashSaleCard({ data }: { data: Medicine }) {
+  if (!data?.FlashSale) return null
+
+  let discountedPrice = data?.Price * 0.6 ; 
+  
+  data = { ...data, DiscountedPrice: discountedPrice };
+
   return (
-    data.FlashSale && (
-      <div className="rounded-lg  flex flex-col justify-between items-center bg-base-100 shadow-xl">
+    <Card className="overflow-hidden">
+      <CardHeader className="p-0">
         <div className="relative">
-          <div className="absolute top-0 right-0">
-            <Image alt="flash" src={flash} />
-          </div>
-          <img src={data.Images} alt="Shoes" className="mx-auto w-full" />
-          {data?.flashSaleEndTime && (
-            <div className="absolute text-center w-full bg-[#DB2777] py-1 px-2 bottom-0 right-0  text-white text-sm ">
-              <FlashSaleCountdown endTime={data.flashSaleEndTime} />
-            </div>
-          )}
+          <Image
+            src={data?.Images}
+            alt={data?.Title}
+            width={300}
+            height={200}
+            className="w-full object-cover h-48"
+          />
+          <Badge className="absolute top-2 left-2 bg-red-500">Flash Sale</Badge>
         </div>
-        <div className="flex-col py-5 flex px-3 justify-between  h-full items-center">
-          <h2 className="card-title font-semibold my-4 text-lg">
-            {data.Title}
-          </h2>
-          <p className="text-center">{data.Description}</p>
-          <div className="card-actions flex justify-center items-center mt-5">
-            <Link href={`/singleProduct/${data._id}`}>
-              <Button className=" bg-blue-400 me-3">Details</Button>
-            </Link>
-            <Button className="bg-slate-500">Buy Now</Button>
+      </CardHeader>
+      <CardContent className="p-4">
+        <h2 className="text-xl font-semibold mb-2 line-clamp-1">{data?.Title}</h2>
+        <p className="text-sm text-gray-600 mb-3 line-clamp-2">{data?.Description}</p>
+        <div className="flex justify-between items-center mb-3">
+          <div className="flex items-center gap-2">
+            <p className="text-2xl font-bold text-green-600">
+              ${data?.DiscountedPrice?.toFixed(2)}
+            </p>
+            {data.Price !== data.DiscountedPrice && (
+              <p className="text-sm text-gray-500 line-through">
+                ${data.Price.toFixed(2)}
+              </p>
+            )}
           </div>
+          <Badge variant="secondary" className="text-xs">
+            Save {(((data?.Price - discountedPrice) / data?.Price) * 100).toFixed(0)}%
+          </Badge>
         </div>
-      </div>
-    )
-  );
-};
-
-export default FlashSaleCard;
+        {data?.flashSaleEndTime && (
+          <div className="flex items-center gap-2 text-sm text-red-500 font-semibold">
+            <Clock className="w-4 h-4" />
+            <FlashSaleCountdown endTime={data?.flashSaleEndTime} />
+          </div>
+        )}
+      </CardContent>
+      <CardFooter className="p-4 pt-0 flex flex-wrap gap-2">
+        <Button asChild className="flex-1 text-xs">
+          <Link href={`/singleProduct/${data?._id}`}>View Details</Link>
+        </Button>
+        <Button variant="secondary" className="flex-1 text-xs">
+          <ShoppingCart className="w-4 h-4 mr-2" />
+          Add to Cart
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}

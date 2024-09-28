@@ -1,4 +1,4 @@
-import { TCloths } from "@/types/types";
+
 import FlashSaleCard from "./flash sale card/FlashSaleCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 const FlashSale = async () => {
   // --- fetching data with ISR method
   const res = await fetch(
-    "https://server-for-assignment-8.vercel.app/allCloths",
+    `${process.env.NEXT_PUBLIC_BACKENED_URL}/allProducts`,
     {
       next: {
         revalidate: 30,
@@ -23,7 +23,7 @@ const FlashSale = async () => {
         <hr className="border-2 w-3/4 mx-auto my-5" />
         <div className="py-5 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6 px-1">
           {data?.length > 0 ? (
-            data?.map((item: TCloths) => (
+            data?.filter((item: any) => item?.FlashSale).map((item: any) => (
               <FlashSaleCard key={item._id} data={item} />
             ))
           ) : (

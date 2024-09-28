@@ -41,6 +41,7 @@ const EditProductModal = ({
       setEditedProduct(data);
     }
   }, [data]);
+  
   // Get the editProduct mutation function from RTK Query
   const [editProduct, { isLoading: isEditing }] = useEditProductMutation();
 
@@ -185,7 +186,7 @@ const EditProductModal = ({
                 id="flashsale-yes"
                 name="flashsale"
                 value="true"
-                checked={editedProduct.Flashsale}
+                checked={editedProduct?.Flashsale}
                 onChange={() =>
                   setEditedProduct({ ...editedProduct, Flashsale: true })
                 }
