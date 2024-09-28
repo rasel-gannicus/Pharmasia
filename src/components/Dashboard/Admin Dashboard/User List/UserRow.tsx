@@ -11,7 +11,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useUpdateUserRoleMutation } from "@/utils/Redux/features/user/userApi";
-import { toast } from "react-toastify";
 import { Badge } from "@/components/ui/badge";
 import { toast as hotToast } from "react-hot-toast";
 import { FaSackDollar } from "react-icons/fa6";
@@ -170,56 +169,62 @@ const UserRow = ({ props }: any) => {
 
         {/* --- dropdown menu for taking action as admin ('block','make admin', 'remove admin') */}
         <td className="p-4 text-center flex flex-col gap-2 justify-center items-center">
-          <Select value={selectMenu} onValueChange={setSelectMenu}>
-            <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder={item?.status || "Action"} />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="deleted">Delete User</SelectItem>
-              <SelectItem value="blocked">Block User</SelectItem>
-              <SelectItem value="admin">Make Admin</SelectItem>
-              <SelectItem
-                disabled={
-                  item?.role != "admin" || item?.email == "admin@pharmasia.com"
-                }
-                value="user"
-              >
-                Remove Admin
-              </SelectItem>
-              <SelectItem
-                disabled={
-                  item?.role == "user" || item?.email == "admin@pharmasia.com"
-                }
-                value="user"
-              >
-                Make User
-              </SelectItem>
-            </SelectContent>
-          </Select>
-          <div className=" flex gap-1 w-[150px]">
-            <button
-              onClick={handleUpdateUserRole}
-              disabled={conditionalButton}
-              className={` text-xs px-2 w-full py-1 rounded ${
-                !conditionalButton
-                  ? "bg-green-400 text-gray-600"
-                  : "bg-gray-300 text-gray-400"
-              }`}
-            >
-              Ok
-            </button>
-            <button
-              disabled={conditionalButton}
-              onClick={() => setSelectMenu("")}
-              className={`text-xs px-2 w-full py-1 rounded ${
-                !conditionalButton
-                  ? "bg-yellow-400 text-gray-600"
-                  : "bg-gray-300 text-gray-400"
-              }`}
-            >
-              Cancel
-            </button>
-          </div>
+          {item?.email !== "admin@pharmasia.com" && (
+            <>
+              <Select value={selectMenu} onValueChange={setSelectMenu}>
+                <SelectTrigger className="w-[150px]">
+                  <SelectValue placeholder={item?.status || "Take Action"} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="deleted">Delete User</SelectItem>
+                  <SelectItem value="blocked">Block User</SelectItem>
+                  <SelectItem value="admin">Make Admin</SelectItem>
+                  <SelectItem
+                    disabled={
+                      item?.role != "admin" ||
+                      item?.email == "admin@pharmasia.com"
+                    }
+                    value="user"
+                  >
+                    Remove Admin
+                  </SelectItem>
+                  <SelectItem
+                    disabled={
+                      item?.role == "user" ||
+                      item?.email == "admin@pharmasia.com"
+                    }
+                    value="user"
+                  >
+                    Make User
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+              <div className=" flex gap-1 w-[150px]">
+                <button
+                  onClick={handleUpdateUserRole}
+                  disabled={conditionalButton}
+                  className={` text-xs px-2 w-full py-1 rounded ${
+                    !conditionalButton
+                      ? "bg-green-400 text-gray-600"
+                      : "bg-gray-300 text-gray-400"
+                  }`}
+                >
+                  Ok
+                </button>
+                <button
+                  disabled={conditionalButton}
+                  onClick={() => setSelectMenu("")}
+                  className={`text-xs px-2 w-full py-1 rounded ${
+                    !conditionalButton
+                      ? "bg-yellow-400 text-gray-600"
+                      : "bg-gray-300 text-gray-400"
+                  }`}
+                >
+                  Cancel
+                </button>
+              </div>
+            </>
+          )}
         </td>
 
         <td className="p-4 text-center ">{totalOrdersQuantity}</td>

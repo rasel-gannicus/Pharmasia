@@ -27,18 +27,3 @@ export const successMessage = (msg : any) => {
 };
 
 
-
-// export const showCnToast = (msg : any, isAction = false) => {
-//   return toast({
-//     title: msg,
-//     action: isAction && (
-//       <ToastAction
-//         className="bg-blue-900 text-white hover:text-black"
-//         onClick={() => router.push("/authentication/login")}
-//         altText="Try again"
-//       >
-//         Login
-//       </ToastAction>
-//     ),
-//   });
-// };
