@@ -33,15 +33,21 @@ const UserList = () => {
       setAllCartItems(allUsers.flatMap((user: any) => user.cart || []));
       setAllRatings(allUsers.flatMap((user: any) => user.ratings || []));
     }
-  }, [allUsers]); 
+  }, [allUsers]);
 
-  let allUsersFiltered = allUsers?.filter((user : any) => user?.email?.toLowerCase().includes(searchText.toLowerCase()) || user?.userInfo?.displayName?.toLowerCase().includes(searchText.toLowerCase()));
+  let allUsersFiltered = allUsers?.filter(
+    (user: any) =>
+      user?.email?.toLowerCase().includes(searchText.toLowerCase()) ||
+      user?.userInfo?.displayName
+        ?.toLowerCase()
+        .includes(searchText.toLowerCase())
+  );
 
   //   --- pagination functionality
 
   // Initialize pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [contentPerPage, setContentPerPage] = useState(5); // Set items per page
+  const [contentPerPage, setContentPerPage] = useState(10); // Set items per page
   const [paginatedOrders, setPaginatedOrders] = useState([]);
 
   // Calculate total pages
@@ -103,19 +109,6 @@ const UserList = () => {
           }}
         /> */}
 
-            {/* {!isDashboard && (
-          <h1 className="text-slate-500  font-semibold text-sm text-center lg:text-lg">
-            Orders found : {filteredOrders?.length}
-          </h1>
-        )}
-        {isDashboard && (
-          <Button
-            onClick={() => navigate.push("/user/orders")}
-            className="bg-slate-400 order-last"
-          >
-            View All Orders
-          </Button>
-        )} */}
 
             {/* --- search box --- */}
             <div className=" lg:min-w-[320px] ">
@@ -133,26 +126,41 @@ const UserList = () => {
               </form>
             </div>
 
+            {!isDashboard && (
+              <h1 className="text-slate-500  font-semibold text-sm text-center lg:text-lg">
+                Users found : {allUsersFiltered?.length}
+              </h1>
+            )}
+            {/* {isDashboard && (
+              <Button
+                onClick={() => navigate.push("/user/orders")}
+                className="bg-slate-400 order-last"
+              >
+                View All Orders
+              </Button>
+            )} */}
+
             {/* --- Filter for showing content quantity per page --- */}
             {!isDashboard && (
               <div className="flex justify-center items-center gap-1 ">
                 <p className="text-slate-400 text-xs 2xl:text-sm">
-                  Products per page :
+                  See users per page :
                 </p>
                 <Select
                   onValueChange={(value: string) => {
                     setContentPerPage(parseInt(value));
                     setCurrentPage(1); // Reset to first page when changing items per page
                   }}
-                  defaultValue="5" // Set default value as a string
+                  defaultValue="10" // Set default value as a string
                 >
                   <SelectTrigger className="w-[80px]">
-                    <SelectValue placeholder="5" />
+                    <SelectValue placeholder="10" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="5">5</SelectItem>
+                    {/* <SelectItem value="5">5</SelectItem> */}
                     <SelectItem value="10">10</SelectItem>
                     <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="20">30</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -164,10 +172,10 @@ const UserList = () => {
             <thead className="whitespace-nowrap">
               <tr>
                 <th className="p-4 text-left text-sm font-semibold text-black">
-                  Name
+                  User
                 </th>
                 <th className="p-4 text-left text-sm font-semibold text-black">
-                  User Role
+                  Role
                 </th>
                 <th className="p-4 text-left text-sm font-semibold text-black">
                   Active Status

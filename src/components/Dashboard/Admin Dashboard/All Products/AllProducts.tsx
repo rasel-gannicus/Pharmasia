@@ -123,31 +123,34 @@ export const AllProducts = () => {
   };
 
   return (
-    <div className="space-y-4 container my-5">
-      <div className="flex justify-between items-center">
+    <div className="md:max-w-full grid w-full overflow-x-auto shadow-md py-10 px-1">
+      <div className="mb-5 grid grid-cols-1  lg:flex lg:justify-between items-center gap-5">
         {/* --- modal for adding a product --- */}
         <AddProductModal
           isAddProductOpen={isAddProductOpen}
           setIsAddProductOpen={setIsAddProductOpen}
         />
-        <div className="flex items-center space-x-2">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 ">
           <Input
             placeholder="Search products..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-64"
+            className="md:w-64 w-full"
           />
           {/* --- Products Per Page Select --- */}
-          <select
+          <div className="flex w-full justify-center items-center gap-2">
+            <p className="text-right text-sm">Products per page :</p>
+            <select
             value={productsPerPage}
             onChange={handleProductsPerPageChange}
-            className="border border-gray-300 rounded px-2 py-2"
+            className="border border-gray-300 rounded px-2 py-2 "
           >
             <option value={10}>10</option>
             <option value={20}>20</option>
             <option value={30}>30</option>
             <option value={50}>50</option>
           </select>
+          </div>
         </div>
       </div>
       <Table className="min-h-[50vh] ">
@@ -199,7 +202,7 @@ export const AllProducts = () => {
                     }}
                     variant={"outline"}
                   >
-                    <Trash2 className="w-4 h-4 mr-1" />
+                    <Edit className="w-4 h-4 mr-1" />
                     Edit
                   </Button>
 

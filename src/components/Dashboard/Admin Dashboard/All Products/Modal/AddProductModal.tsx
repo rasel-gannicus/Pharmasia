@@ -19,6 +19,9 @@ import { useAddProductMutation } from "@/utils/Redux/features/products/productsA
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
+import { CiMedicalCross } from "react-icons/ci";
+import firstAidImage from "@/assets/img/first-aid.png";
+import Image from "next/image";
 
 const AddProductModal = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
   // State for storing the data of the new product being added
@@ -38,7 +41,9 @@ const AddProductModal = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
 
   // Function to handle adding a new product
   const handleAddProduct = async () => {
-    const toastId = toast.loading("Adding product...",{ position: "bottom-right" });
+    const toastId = toast.loading("Adding product...", {
+      position: "bottom-right",
+    });
     try {
       // Call the addProduct mutation and unwrap the result
       await addProduct(newProduct).unwrap();
@@ -66,12 +71,13 @@ const AddProductModal = ({ isAddProductOpen, setIsAddProductOpen }: any) => {
   return (
     <Dialog open={isAddProductOpen} onOpenChange={setIsAddProductOpen}>
       <DialogTrigger asChild>
-        <Button variant={"outline"}>
-          <Plus className="w-4 h-4 mr-2" />
+        <Button variant={"outline"} className="flex justify-center items-center gap-2">
+          {/* <CiMedicalCross className="w-4 h-4 mr-2 text-red-700 font-bold" /> */}
+          <Image src={firstAidImage} alt="first-aid" width={20} height={20} />
           Add Product
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Add New Product</DialogTitle>
         </DialogHeader>

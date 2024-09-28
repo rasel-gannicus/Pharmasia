@@ -17,14 +17,15 @@ import { Barchart } from "./Profile Dashboard Chart/Barchart";
 import { AllOrders } from "../All Orders Page/AllOrders";
 import AdminDashboardCard2 from "./Dashboard Left Side/Profile Dashboard Card/AdminDashboardCard2";
 import AdminDashboardCard from "./Dashboard Left Side/Profile Dashboard Card/AdminDashboardCard";
+import Loader from "@/utils/Loading Spinner/Loader";
 // Define a CSS class for dashboard cards
 export const dashboardCardClass =
   "w-[170px] xl:w-[250px] max-w-[300px] flex flex-col justify-evenly items-center py-5  px-3 bg-white min-h-[300px] rounded text-center ";
 
 const AdminProfileDashboard = () => {
-
   // Fetch all user information using Redux Toolkit Query (no need for individual user data)
   const { data: allUsers, isLoading } = useGetAllUserInfoQuery(undefined);
+
   // Initialize state variables to store aggregated data
   const [allOrders, setAllOrders] = useState([]);
   const [allCartItems, setAllCartItems] = useState([]);
@@ -33,12 +34,16 @@ const AdminProfileDashboard = () => {
   // Use useEffect to extract and aggregate data from all users when it changes
   useEffect(() => {
     if (allUsers?.length > 0) {
-      setAllOrders(allUsers.flatMap((user : any) => user.orders || []));
-      setAllCartItems(allUsers.flatMap((user : any) => user.cart || []));
-      setAllRatings(allUsers.flatMap((user : any) => user.ratings || []));
+      setAllOrders(allUsers.flatMap((user: any) => user.orders || []));
+      setAllCartItems(allUsers.flatMap((user: any) => user.cart || []));
+      setAllRatings(allUsers.flatMap((user: any) => user.ratings || []));
     }
   }, [allUsers]);
 
+  // Display a loading message while fetching products
+  // if (isLoading) {
+  //   return <Loader /> || <div>Loading...</div>;
+  // }
 
   return (
     // Main container for the admin dashboard

@@ -24,6 +24,7 @@ import {
 import { useRouter } from "next/navigation";
 import FilterMenu from "./Sub Components/FilterMenu";
 import { Allura } from "next/font/google";
+import Loader from "@/utils/Loading Spinner/Loader";
 
 type Checked = DropdownMenuCheckboxItemProps["checked"];
 
@@ -32,11 +33,10 @@ export const AllOrders = ({ props }: any) => {
 
   const [user, loading, error] = useAuthState(auth);
 
-  // --- getting user info (including user's all orders, wishlist, cart)
-  const { data, isLoading, isError } = useGetUserInfoQuery(user?.email);
-
-  const { data: allUser } = useGetAllUserInfoQuery(undefined);
+  const { data: allUser, isLoading } = useGetAllUserInfoQuery(undefined);
   const [allOrdersFromAllUsers, setAllOrdersFromAllUsers]: any = useState([]);
+
+
 
   useEffect(() => {
     if (allUser?.length > 0) {
@@ -168,7 +168,6 @@ export const AllOrders = ({ props }: any) => {
     }
   }, [
     currentPage,
-    isLoading,
     loading,
     allOrders,
     searchText,
@@ -199,20 +198,12 @@ export const AllOrders = ({ props }: any) => {
   }, [isDashboard]);
   const navigate = useRouter();
 
-  return isLoading || loading ? (
-    <div className="min-h-[70vh] w-full flex justify-center items-center">
-      <TailSpin
-        visible={true}
-        height="100"
-        width="100"
-        color="#1C8674"
-        ariaLabel="tail-spin-loading"
-        radius="4"
-        wrapperStyle={{}}
-        wrapperClass=""
-      />
-    </div>
-  ) : (
+    // Display a loading message while fetching products
+  if (isLoading || loading) {
+    return <Loader /> || <div>Loading...</div>;
+  }
+
+  return (
     <div className="overflow-x-auto bg-white py-10 px-5 rounded-lg">
       {/* --- page menu before showing contents --- */}
       <div className="mb-5 grid grid-cols-2  lg:flex lg:justify-between items-center gap-5">

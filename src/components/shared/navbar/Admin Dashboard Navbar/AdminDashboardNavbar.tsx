@@ -24,23 +24,23 @@ function AdminDashboardNavbar({ children }: { children: React.ReactNode }) {
 
   // Returning the JSX for the Admin Dashboard Navbar
   return (
-    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr] ">
+    <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[250px_1fr] ">
       {/* Sidebar for desktop view */}
-      <div className="hidden border-r bg-muted/40 md:block ">
+      <div className="hidden border-r bg-muted md:block ">
         {/* ------------ Desktop Menu Here ---------------- */}
         <DesktopMenu cartQuantity={cartQuantity} wishlist={wishlist} />
       </div>
       {/* Main content area */}
       <div className="flex flex-col">
         {/* Header section */}
-        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+        <header className="flex h-14 items-center gap-4 border-b bg-muted px-4 lg:h-[60px] lg:px-6">
           {/* ------------ Mobile Menu Here ---------------- */}
 
           <MobileMenu cartQuantity={cartQuantity} wishlist={wishlist} />
 
           {/* Common menu items for desktop view */}
           <div className="w-full flex-1 flex gap-3 text-sm lg:text-balance font-semibold text-gray-500">
-            <CommonMenuDesktop />
+            {/* <CommonMenuDesktop /> */}
           </div>
           {/* --- dropdown menu when user will click 'user picture at the top right corner' */}
           <DropDownNavbar props={{ userState: user }} />
