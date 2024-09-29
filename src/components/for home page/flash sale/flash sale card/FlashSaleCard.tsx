@@ -35,7 +35,6 @@ interface Medicine {
 }
 
 export default function FlashSaleCard({ data }: { data: Medicine }) {
-  if (!data?.Flashsale) return null;
 
   let discountedPrice = data?.Price * 0.6;
 
