@@ -10,17 +10,41 @@ import { DropDownNavbar } from "../Common Layout Navbar/Conditional Navbar/Respo
 import CommonMenuDesktop from "../Common Layout Navbar/Conditional Navbar/Responsive Menu/Desktop Menu/CommonMenuDesktop";
 import DesktopMenu from "./Menubar/DesktopMenu";
 import MobileMenu from "./Menubar/MobileMenu";
+import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
+import Loader from "@/utils/Loading Spinner/Loader";
+import { useRouter } from "next/navigation";
 
-// Functional component for the Admin Dashboard Navbar
 function AdminDashboardNavbar({ children }: { children: React.ReactNode }) {
-  // Using the useAuthState hook to get the current user and loading state
+  // Using the useAuthState hook to get the current user and loading state from Firebase authentication
   const [user, loading] = useAuthState(auth);
 
-  // --- checking how many items are in cart using the custom useCart hook
+  // --- Using the custom useCart hook to get the number of items in the cart for the current user
   let cartQuantity = useCart(user?.email, false);
-
-  //   --- getting wishlist data from mongodb with redux using the custom useWishlist hook
+  // --- Using the custom useWishlist hook to get the wishlist data from MongoDB for the current user via Redux
   const wishlist: any = useWishlist();
+
+  // Fetching user information using the useGetUserInfoQuery hook based on the user's email
+  const {
+    data: userInfo, // The fetched user information
+    isLoading, // Indicates whether the query is loading
+    isError, // Indicates whether an error occurred during the query
+    error, // The error object if an error occurred
+  } = useGetUserInfoQuery(user?.email);
+
+  // Initializing the router for navigation
+  const navigate = useRouter();
+
+  // Display a loading indicator while the user information is being fetched or if the Firebase authentication loading state is true
+  if (isLoading)
+    return (
+      <Loader desc="Checking Admin Authentication ..." /> || (
+        <div>Loading...</div>
+      )
+    );
+
+
+  // Redirect the user to the user dashboard if their role is not "admin"
+  if (userInfo?.role !== "admin") return navigate.push("/user/dashboard");
 
   // Returning the JSX for the Admin Dashboard Navbar
   return (

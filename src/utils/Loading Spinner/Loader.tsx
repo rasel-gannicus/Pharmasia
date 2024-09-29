@@ -4,9 +4,10 @@ import { TailSpin } from "react-loader-spinner";
 type LoaderProps = {
   size?: string;
   color?: string;
+  desc?: string;
 }
 
-const Loader = ({ size, color }: LoaderProps) => {
+const Loader = ({ size, color, desc }: LoaderProps) => {
   return (
     <div className="min-h-screen w-full flex flex-col gap-6 justify-center items-center">
       <TailSpin
@@ -19,7 +20,7 @@ const Loader = ({ size, color }: LoaderProps) => {
         wrapperStyle={{}}
         wrapperClass=""
       />
-      <h2 className="text-4xl font-normal text-slate-500">Loading...</h2>
+      <h2 className="text-2xl md:text-3xl font-normal text-slate-500"> {desc || 'Loading...'} </h2>
     </div>
   );
 };

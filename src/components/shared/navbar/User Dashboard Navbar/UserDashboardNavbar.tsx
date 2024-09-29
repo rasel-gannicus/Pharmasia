@@ -31,7 +31,7 @@ function UserDashboardNavbar({ children }: { children: React.ReactNode }) {
           <MobileMenu cartQuantity={cartQuantity} wishlist={wishlist} />
 
           <div className="w-full flex-1 flex gap-3 text-sm lg:text-balance font-semibold text-gray-500">
-            <CommonMenuDesktop />
+            {/* <CommonMenuDesktop /> */}
           </div>
           {/* --- dropdown menu when user will click 'user picture at the top right corner' */}
           <DropDownNavbar props={{ userState: user }} />

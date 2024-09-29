@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 export const DropDownNavbar = ({ props }: { props: any }) => {
   const { userState } = props;
 
-  const { data: userInfo } = useGetUserInfoQuery(userState?.email);
+  const { data: userInfo , isLoading, isError, error } = useGetUserInfoQuery(userState?.email);
 
   const dispatch = useAppDispatch();
 
@@ -115,21 +115,21 @@ export const DropDownNavbar = ({ props }: { props: any }) => {
               </DropdownMenuItem>
             </Link>
 
-            <Link href="/user/cart">
+            <Link href="/user/orders">
               <DropdownMenuItem className="cursor-pointer  flex justify-start items-center gap-2 text-slate-500">
                 <RiMedicineBottleFill />
                 Orders
               </DropdownMenuItem>
             </Link>
 
-            <Link href="/user/cart">
+            <Link href="/user/wishlist">
               <DropdownMenuItem className="cursor-pointer  flex justify-start items-center gap-2 text-slate-500">
                 <MdOutlineFavorite />
                 Wishlist
               </DropdownMenuItem>
             </Link>
 
-            <Link href="/user/cart">
+            <Link href="/user/reviews">
               <DropdownMenuItem className="cursor-pointer  flex justify-start items-center gap-2 text-slate-500">
                 <FaStar />
                 Reviews
