@@ -20,9 +20,13 @@ import { activeModal } from "@/utils/Redux/features/modal/modalSlice";
 import { IoMdKey, IoMdLogIn } from "react-icons/io";
 import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
 import NavLink from "@/utils/Navlink/NavLink";
+import { useGetUserInfoQuery } from "@/utils/Redux/features/user/userApi";
+import { useSelector } from "react-redux";
 
 export const DropDownNavbar = ({ props }: { props: any }) => {
   const { userState } = props;
+
+  const { data: userInfo } = useGetUserInfoQuery(userState?.email);
 
   const dispatch = useAppDispatch();
 
@@ -60,39 +64,79 @@ export const DropDownNavbar = ({ props }: { props: any }) => {
           {userState?.email || "Login to see details"}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <div>
-          <NavLink
-            href="/admin/dashboard"
-            className="flex items-center gap-3  rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-          >
-            <Home className="h-4 w-4" />
-            Dashboard
-          </NavLink>
 
-          <NavLink
-            href="/admin/orders"
-            className="flex items-center gap-3  rounded-lg px-3 py-2 text-primary transition-all hover:text-primary"
-          >
-            <Package className="h-4 w-4" />
-            Manage Orders
-          </NavLink>
+        {userInfo?.role === "admin" ? (
+          <div>
+            <NavLink
+              href="/admin/dashboard"
+              className="flex items-center gap-3  rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <Home className="h-4 w-4" />
+              Dashboard
+            </NavLink>
 
-          <NavLink
-            href="/admin/allProducts"
-            className="flex items-center gap-3  rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-          >
-            <RiMedicineBottleLine className="h-4 w-4" />
-            Manage Products
-          </NavLink>
+            <NavLink
+              href="/admin/orders"
+              className="flex items-center gap-3  rounded-lg px-3 py-2 text-primary transition-all hover:text-primary"
+            >
+              <Package className="h-4 w-4" />
+              Manage Orders
+            </NavLink>
 
-          <NavLink
-            href="/admin/userList"
-            className="flex items-center gap-3  rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-          >
-            <Users className="h-4 w-4" />
-            Manage Users
-          </NavLink>
-        </div>
+            <NavLink
+              href="/admin/allProducts"
+              className="flex items-center gap-3  rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <RiMedicineBottleLine className="h-4 w-4" />
+              Manage Products
+            </NavLink>
+
+            <NavLink
+              href="/admin/userList"
+              className="flex items-center gap-3  rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+            >
+              <Users className="h-4 w-4" />
+              Manage Users
+            </NavLink>
+          </div>
+        ) : (
+          <div>
+            <Link href="/user/dashboard">
+              <DropdownMenuItem className="cursor-pointer flex justify-start items-center gap-2 text-slate-500">
+                <FaUser />
+                Profile
+              </DropdownMenuItem>
+            </Link>
+
+            <Link href="/user/cart">
+              <DropdownMenuItem className="cursor-pointer  flex justify-start items-center gap-2 text-slate-500">
+                <FaShoppingCart />
+                Cart
+              </DropdownMenuItem>
+            </Link>
+
+            <Link href="/user/cart">
+              <DropdownMenuItem className="cursor-pointer  flex justify-start items-center gap-2 text-slate-500">
+                <RiMedicineBottleFill />
+                Orders
+              </DropdownMenuItem>
+            </Link>
+
+            <Link href="/user/cart">
+              <DropdownMenuItem className="cursor-pointer  flex justify-start items-center gap-2 text-slate-500">
+                <MdOutlineFavorite />
+                Wishlist
+              </DropdownMenuItem>
+            </Link>
+
+            <Link href="/user/cart">
+              <DropdownMenuItem className="cursor-pointer  flex justify-start items-center gap-2 text-slate-500">
+                <FaStar />
+                Reviews
+              </DropdownMenuItem>
+            </Link>
+          </div>
+        )}
 
         <DropdownMenuSeparator />
         {!userState?.email ? (
