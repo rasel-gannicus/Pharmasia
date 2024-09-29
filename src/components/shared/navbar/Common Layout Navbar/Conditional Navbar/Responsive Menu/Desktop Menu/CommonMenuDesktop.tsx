@@ -17,6 +17,9 @@ export const commonMenuForDesktop = () => {
   <NavLink2 href="/contact" className={commonLinkClasses}>
     Contact
   </NavLink2>
+  <NavLink2 href="/aboutUs" className={commonLinkClasses}>
+    About Us
+  </NavLink2>
 </>
 }
 const CommonMenuDesktop = () => {
