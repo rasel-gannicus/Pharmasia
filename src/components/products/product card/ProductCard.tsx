@@ -1,8 +1,7 @@
-import { TCloths } from "@/types/types";
 import Link from "next/link";
 import React from "react";
 
-const ProductCard = ({ data }: { data: TCloths }) => {
+const ProductCard = ({ data }: { data: any }) => {
   return (
     <div className="card w-[95%] mx-auto md:w-full bg-base-100 shadow-xl">
       <figure className="relative">

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { TCloths } from "@/types/types";
+
 import React, { cache } from "react";
 
 interface TProductId {
@@ -12,7 +12,7 @@ export const generateStaticParams = async () => {
     "https://server-for-assignment-8.vercel.app/allCloths"
   );
   const cloths = await res.json();
-  return cloths?.slice(0, 10).map((items: TCloths) => ({
+  return cloths?.slice(0, 10).map((items: any) => ({
     productId: items._id,
   }));
 };

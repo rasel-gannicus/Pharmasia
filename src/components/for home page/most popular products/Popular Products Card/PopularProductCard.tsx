@@ -1,12 +1,12 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { TCloths } from "@/types/types";
+
 import Link from "next/link";
 import CardOverlay from "@/utils/Card Overlay/CardOverlay";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
 
-const PopularProductCard = ({ data }: { data: TCloths }) => {
+const PopularProductCard = ({ data }: { data: any }) => {
   const [user] = useAuthState(auth);
 
   return (
