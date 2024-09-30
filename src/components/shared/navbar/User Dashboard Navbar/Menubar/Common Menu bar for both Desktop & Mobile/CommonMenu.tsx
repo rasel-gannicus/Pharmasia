@@ -1,8 +1,10 @@
-import { Home, LineChart, Package, ShoppingCart, Users } from "lucide-react";
+import { Home, HomeIcon, LineChart, Package, ShoppingCart, Users } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import NavLink from "@/utils/Navlink/NavLink";
 import { FaRegHeart } from "react-icons/fa";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const CommonMenu = ({ props, setOpen }: any) => {
   const { cartQuantity, wishlist } = props;
@@ -11,6 +13,7 @@ const CommonMenu = ({ props, setOpen }: any) => {
   const handleLinkClick = () => {
     setOpen(false); // Close the menu
   };
+  const navigate = useRouter();
   return (
     <>
       <NavLink
@@ -58,23 +61,14 @@ const CommonMenu = ({ props, setOpen }: any) => {
         )}
       </NavLink>
 
-      {/* <NavLink
-        href="#"
+      <button
         className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-        onClick={handleLinkClick}
+        onClick={()=>{handleLinkClick ; navigate.push("/")}}
       >
-        <Users className="h-4 w-4" />
-        Customers
-      </NavLink>
+        <HomeIcon className="h-4 w-4" />
+        Home        
+      </button>
 
-      <NavLink
-        href="#"
-        className="flex items-center gap-3 [&.active]:bg-[#1C8674] [&.active]:text-white rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-        onClick={handleLinkClick}
-      >
-        <LineChart className="h-4 w-4" />
-        Analytics
-      </NavLink> */}
     </>
   );
 };

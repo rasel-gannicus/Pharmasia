@@ -14,7 +14,7 @@ const instagramPost = [
 
 export default function ContactUs() {
   return (
-    <div className="min-h-screen container">
+    <div className="min-h-screen">
       {/* Main Content */}
       <main className="w-full">
         <div className="mx-auto px-4 sm:px-6 lg:px-8 py-12">

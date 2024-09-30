@@ -23,7 +23,7 @@ import {
 import { DropdownNotifications } from "./DropdownNotifications";
 
 const IconMenu = ({ props }: any) => {
-  const { wishlist, cartQuantity, email } = props;
+  const { wishlist = [], cartQuantity = 0, email = '' } = props ?? {};
 
   let { data, isLoading, isError, error } =
     useGetUserNotificationsQuery(email);
@@ -62,7 +62,7 @@ const IconMenu = ({ props }: any) => {
 
         <Popover>
           <PopoverTrigger>
-            <button
+            <span
               onClick={handleNotifications}
               title="Notifications"
               className={`transition-colors py-2 px-3 relative  rounded flex gap-1 justify-between items-center  ${
@@ -78,7 +78,7 @@ const IconMenu = ({ props }: any) => {
                   {notifications?.length }
                 </span>
               )}
-            </button>
+            </span>
           </PopoverTrigger>
           <PopoverContent className="lg:w-[500px] ">
             <DropdownNotifications
@@ -139,9 +139,7 @@ const IconMenu = ({ props }: any) => {
               <p>Cart</p>
             </TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-
-        
+        </TooltipProvider>        
       </div>
     </div>
   );

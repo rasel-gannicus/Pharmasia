@@ -179,10 +179,11 @@ export default function FlashSaleCard({ data }: { data: Medicine }) {
         <Button
           onClick={() => handleCartAndWishlist("pending")}
           variant="secondary"
-          className="flex-1 text-xs hover:bg-gray-200 "
+          className={`${isLoading && "cursor-not-allowed"} flex-1 text-xs hover:bg-gray-200 `}
+          disabled={isLoading}
         >
           <ShoppingCart className="w-4 h-4 mr-2" />
-          Add to Cart
+          {isLoading ? "Adding ..." : "Add to Cart"}
         </Button>
       </CardFooter>
     </Card>

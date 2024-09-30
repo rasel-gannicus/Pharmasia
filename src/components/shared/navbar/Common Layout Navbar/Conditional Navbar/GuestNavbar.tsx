@@ -9,10 +9,13 @@ import logo from "@/assets/img/injection.png";
 import { DropDownNavbar } from "./Responsive Menu/Desktop Menu/DropDownNavbar";
 import IconMenu from "./Icon menu bar/IconMenu";
 import { commonMenuForDesktop } from "./Responsive Menu/Desktop Menu/CommonMenuDesktop";
+import { useState } from "react";
 
 const GuestNavbar = () => {
   const urlPath = usePathname();
   const isHomePage = urlPath === "/";
+
+  const [open, setOpen] = useState(false);
 
   return (
     <header
@@ -21,9 +24,9 @@ const GuestNavbar = () => {
       }`}
     >
       <nav className="hidden w-full flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6  relative">
-        {commonMenuForDesktop()}
+        {commonMenuForDesktop(setOpen)}
       </nav>
-      <Sheet>
+      <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="outline" size="icon" className="shrink-0 md:hidden">
             <Menu className="h-5 w-5" />
@@ -32,11 +35,11 @@ const GuestNavbar = () => {
         </SheetTrigger>
         <SheetContent side="left">
           <nav className="flex flex-col justify-center items-center min-h-[90vh] gap-6 text-lg font-medium ">
-            {commonMenuForDesktop()}
+            {commonMenuForDesktop(setOpen)}
           </nav>
         </SheetContent>
       </Sheet>
-      <div className="xl:flex hidden w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
+      <div className=" flex  w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
         <form className="ml-auto flex-1 sm:flex-initial">
           <div className="relative">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -47,7 +50,8 @@ const GuestNavbar = () => {
             />
           </div>
         </form>
-        {/* <IconMenu props={{ wishlist : [], cartQuantity : [], email : '' }} /> */}
+        <IconMenu props={{ wishlist: [], cartQuantity: 0, email: '' }} />
+
 
         
         {/* --- user submenu --- */}
