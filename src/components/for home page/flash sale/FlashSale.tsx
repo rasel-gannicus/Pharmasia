@@ -1,19 +1,18 @@
-
+"use client";
 import FlashSaleCard from "./flash sale card/FlashSaleCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useGetAllProductsQuery } from "@/utils/Redux/features/products/productsApi";
+import Loader from "@/utils/Loading Spinner/Loader";
 
-const FlashSale = async () => {
+const FlashSale = () => {
   // --- fetching data with ISR method
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKENED_URL}/allProducts`,
-    {
-      next: {
-        revalidate: 30,
-      },
-    }
-  );
-  const data = await res.json();
+  const { data, isLoading, isError, error }: any =
+    useGetAllProductsQuery(undefined);
+  if (isLoading) {
+    return <Loader /> || <div>Loading...</div>;
+  }
+
   return (
     <div className=" mx-auto md:w-full ">
       <div>
@@ -23,9 +22,9 @@ const FlashSale = async () => {
         <hr className="border-2 w-3/4 mx-auto my-5" />
         <div className="py-5 grid md:grid-cols-2 lg:grid-cols-4 grid-cols-1 gap-6 px-1">
           {data?.length > 0 ? (
-            data?.filter((item: any) => item?.Flashsale).map((item: any) => (
-              <FlashSaleCard key={item._id} data={item} />
-            ))
+            data
+              ?.filter((item: any) => item?.Flashsale)
+              .map((item: any) => <FlashSaleCard key={item._id} data={item} />)
           ) : (
             <h2>No data found</h2>
           )}
