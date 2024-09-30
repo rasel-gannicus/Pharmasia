@@ -1,24 +1,20 @@
+"use client" ;
 import PopularProductCard from "./Popular Products Card/PopularProductCard";
 import Link from "next/link";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "@/utils/firebase.init";
+import { useGetAllProductsQuery } from "@/utils/Redux/features/products/productsApi";
+import Loader from "@/utils/Loading Spinner/Loader";
 
-const MostPopularProducts = async () => {
-  // --- fetching data with ISR method
-  const res = await fetch(
-    "https://server-for-assignment-8.vercel.app/allCloths",
-    {
-      next: {
-        revalidate: 30,
-      },
-    }
-  );
+const MostPopularProducts = () => {
+  const { data, isLoading, isError }: any = useGetAllProductsQuery(undefined);
+  if (isLoading) {
+    return <Loader /> || <div>Loading...</div>;
+  }
 
-  const data = await res.json();
-
-  const topRatedProducts = [...data]
-    .sort((a, b) => b.Ratings - a.Ratings)
-    .slice(0, 6);
+  // const topRatedProducts = [...data]
+  //   .sort((a, b) => b.Ratings - a.Ratings)
+  //   .slice(0, 6);
 
   return (
     <div className="flex flex-col justify-center items-center py-20 ">
@@ -37,13 +33,13 @@ const MostPopularProducts = async () => {
       </div>
 
       <div className="my-10  lg:w-full mx-auto md:grid md:grid-cols-3 lg:grid-cols-4 grid grid-cols-1 gap-y-10">
-        {topRatedProducts?.map((item: any) => (
-          <PopularProductCard
-            key={item._id}
-            data={item}
-            // email={user?.email}
-          />
-        ))}
+        {data
+          .slice() // Create a shallow copy to avoid mutating the original data
+          .sort((a : any, b:any) => b.Ratings - a.Ratings)
+          .slice(0, 6)
+          .map((item : any) => (
+            <PopularProductCard key={item._id} data={item} />
+          ))}
       </div>
     </div>
   );

@@ -16,14 +16,9 @@ const TopRatedProducts = () => {
     return <div>Error: {error?.message}</div>; // or a more user-friendly error message
   }
 
-  // Sort products by rating in descending order outside the map function
-  const topRatedProducts = data
-    ?.slice()
-    .sort((a: any, b: any) => b.Ratings - a.Ratings);
-
   return (
     <div className="my-10 grid grid-cols-1 gap-y-10 md:grid-cols-4">
-      {topRatedProducts?.map((item: any) => (
+      {data?.map((item: any) => (
         <PopularProductCard key={item._id} data={item} />
       ))}
     </div>

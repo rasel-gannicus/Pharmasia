@@ -1,13 +1,14 @@
 "use client";
 
 import PopularProductCard from "@/components/for home page/most popular products/Popular Products Card/PopularProductCard";
+import Loader from "@/utils/Loading Spinner/Loader";
 
 import { useGetAllProductsQuery } from "@/utils/Redux/features/products/productsApi";
 const AllProducts = () => {
   const { data, isLoading, isError }: any = useGetAllProductsQuery(undefined);
 
   if (isLoading) {
-    return <div>Loading...</div>; // or a more sophisticated loading indicator
+    return <Loader /> || <div>Loading...</div>; // or a more sophisticated loading indicator
   }
 
   if (isError) {
