@@ -96,18 +96,30 @@ As a junior frontend developer, this project represents my journey in learning a
 
 ## 📬 Contact
 
-If you have any questions or would like to discuss this project, please feel free to reach out to me at [your.email@example.com](mailto:your.email@example.com).
+If you have any questions or would like to discuss this project, please feel free to reach out to me at [shafikrasel5@gmail.com](mailto:shafikrasel5@gmail.com).
 
-Thank you for checking out ShopEase! 🚀
+Thank you for checking out Pharmasia! 🚀
 
 ### Previews 
+
+*Home Page*
+![Home Page](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/Home%20page%20main.png?raw=true)
 
 *User Profile Dashboard*
 ![user dashboard](https://i.ibb.co.com/sHN6fqH/user-dashboard.png)
 
 *User Cart*
-![user dashboard](https://i.ibb.co.com/SdqwJMX/user-cart.png)
+![user cart](https://raw.githubusercontent.com/rasel-gannicus/Pharmasia/refs/heads/main/src/assets/for%20hosting/user%20cart.png)
 
 *User Order Inventory*
-![user dashboard](https://i.ibb.co.com/Phs3bXt/user-order-inventory.png)
+![user order inventory](https://raw.githubusercontent.com/rasel-gannicus/Pharmasia/refs/heads/main/src/assets/for%20hosting/user%20order%20inventory.png)
+
+*User Wishlist Page*
+![User Wishlist Page](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/user%20wishlist.png?raw=true)
+
+*Checkout & Billing Page*
+![Checkout & Billing Page](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/user%20billing%20&%20shipping%20address%20page.png?raw=true)
+
+*Flash Sale Page*
+![Flash Sale Page](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/flash%20sale%20page.png?raw=true)
 
