@@ -72,8 +72,42 @@ Live site: [here](https://pharmasia.vercel.app/).
 - Client: [here](https://github.com/rasel-gannicus/Pharmasia).
 - Server: [here](https://github.com/rasel-gannicus/server-for-pharmasia).
 
-### Features & Functionalities 
+## 💻 Usage
+
+After starting the development server, open your browser and visit `http://localhost:3000`. You can browse products, add items to your cart, and go through the checkout process.
+
+To test the payment functionality, use Stripe's test card numbers:
+- Card number: 4242 4242 4242 4242
+- Expiry date: Any future date
+- CVC: Any 3 digits
+
+## 🔮 Future Improvements
+
+- Implement advanced search functionality with autocomplete
+- Add product reviews and ratings system
+- Create a wishlist feature for users
+- Enhance accessibility features
+- Implement lazy loading for improved performance
+- Add more interactive animations and transitions
+
+## 🌱 Developer's Note
+
+As a junior frontend developer, this project represents my journey in learning and applying modern web development techniques. While the project includes some backend functionality, my primary focus and strengths lie in frontend development. I'm continuously working on improving my skills and would welcome any feedback or suggestions for enhancing the user interface and experience of this application.
+
+## 📬 Contact
+
+If you have any questions or would like to discuss this project, please feel free to reach out to me at [your.email@example.com](mailto:your.email@example.com).
+
+Thank you for checking out ShopEase! 🚀
+
+### Previews 
 
 *User Profile Dashboard*
 ![user dashboard](https://i.ibb.co.com/sHN6fqH/user-dashboard.png)
+
+*User Cart*
+![user dashboard](https://i.ibb.co.com/SdqwJMX/user-cart.png)
+
+*User Order Inventory*
+![user dashboard](https://i.ibb.co.com/Phs3bXt/user-order-inventory.png)
 
