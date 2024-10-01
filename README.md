@@ -1,95 +1,79 @@
-# Pharmasia
 
-Welcome to our Pharmasia Store! This project showcases a comprehensive online platform for shopping Medical Equipment. Built using modern web technologies, this platform offers a seamless shopping experience with a focus on performance and user-friendly design.
+# ⛑️ Pharmasia :  A Fronend-Focused Nextjs Pharmaceutical E-commerce platform
+
+Pharmasia  is a responsive e-commerce website that showcases my frontend development skills while also incorporating some backend functionality. This project demonstrates my ability to create intuitive user interfaces, implement responsive designs, and integrate with backend services.
+
+## ✨ Key Features
+
+- Responsive design for seamless shopping on all devices
+- Interactive product catalog with dynamic filtering and sorting
+- User-friendly shopping cart with real-time updates
+- Streamlined checkout process with form validation
+- User authentication and profile management
+- Dynamic notifications  and alerts for wisthlist, cart and orders
 
 ## Technologies Used
 
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![DaisyUI](https://img.shields.io/badge/daisyui-5A0EF8?style=for-the-badge&logo=daisyui&logoColor=white)
-![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
-![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
-![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+- **Frontend:** Next.js, TypeScript, ReactJs
+- **Styling:** Tailwind CSS, ShadCn, React Icons, React Hot Toast, React Loader Spinner
+- **State Management:** Redux Toolkit
+- **Data Fetching:** RTK Query
+- **Authentication:** Firebase Auth
+- **Ui Components:** ShadCn 
+- **Hosting:** Vercel 
+- **Backend:** Node.js, Express, MongoDB 
 
-## Features and Functionality
+## Features & Functionalities
+### Admin role
+- **Product Management:** Add, edit, delete products with dynamic filtering and sorting
+- **User Management:** Delete user, block, unblock or change their role
+- **Order Management:** View, cancel, and update orders for every user with dynamic filtering and sorting
 
-* **Responsive Design**: Ensures a smooth and consistent user experience across all devices, including desktops, tablets, and mobile phones.
-* **Product Listing**: Displays a wide variety of Medical Equipments.
-* **Shopping Cart**: Allows users to add, remove, and manage items in their shopping cart.
-* **Admin Dashboard**: Provides administrators with tools to manage products, view orders, and handle customer inquiries.
+### User role
+- User can add new product to cart, also user can remove and edit their cart
+- User can view their orders, also user can cancel and update their orders with dynamic filtering and sorting
+- user can view their wishlist, also user can add and remove items from their wishlist
+
+
+
+## Installation
+
+1. Clone the repository.
+2. Install dependencies using `npm install`.
+3. Rename `env.example` to `.env`.
+4. Run the server using `npm run dev`.
+
+## Configuration
+
+### Environment Variables
+
+- `NEXT_PUBLIC_GITHUB_ID`: GitHub client ID.
+- `NEXT_PUBLIC_GITHUB_SECRET`: GitHub client secret.
+- `NEXT_PUBLIC_GOOGLE_ID`: Google client ID.
+- `NEXT_PUBLIC_GOOGLE_SECRET`: Google client secret.
+- `NEXT_PUBLIC_SECRET`: Any secret key for enabling popup login page for Google/GitHub authentication.
+- `NEXT_PUBLIC_CLIENT_SITE_URL`: Callback URL for automatic redirecting after login with Google/GitHub or email.
+- `NEXT_PUBLIC_BACKEND_URL`: Backend URL to access MongoDB data with Express.js.
+
+## Dependencies
+
+- `cors`: Express middleware for enabling CORS.
+- `dotenv`: Loads environment variables from `.env` file for the backened code .
+- `express`: Web framework for Node.js.
+- `mongodb`: MongoDB driver for Node.js.
+- `nodemon`: Utility for automatically restarting the server during development.
 
 ### Live Site
 
-Explore the live site [here](link here...).
+Live site: [here](https://pharmasia.vercel.app/).
 
-### Repository
+### GitHub Repository
 
-Access the Frontend GitHub repository for the project [here](link here...).
+- Client: [here](https://github.com/rasel-gannicus/Pharmasia).
+- Server: [here](https://github.com/rasel-gannicus/server-for-pharmasia).
 
-Access the Backend GitHub repository for the project [here](link here...).
+### Features & Functionalities 
 
-## Setting Up Locally
+*User Profile Dashboard*
+![user dashboard](https://i.ibb.co.com/sHN6fqH/user-dashboard.png)
 
-### Frontend
-
-To set up the frontend locally, follow these steps:
-
-1. Clone the repository:
-    ```bash
-    git clone 'repository link'
-    ```
-
-2. Navigate to the project directory:
-    ```bash
-    cd 'folder directory name'
-    ```
-
-3. Install dependencies:
-    ```bash
-    npm install
-    ```
-
-4. Start the development server:
-    ```bash
-    npm run dev
-    ```
-
-5. Access the application at `http://localhost:3000` in your web browser.
-
-### Backend
-
-To set up the backend locally, follow these steps:
-
-1. Clone the repository:
-    ```bash
-    git clone 'repository link'
-    ```
-
-2. Navigate to the project directory:
-    ```bash
-    cd 'folder directory name'
-    
-
-3. Install dependencies:
-    ```bash
-    npm install
-    ```
-
-4. Configure the `.env` file with your personal settings.
-
-5. Start the server:
-    ```bash
-    node index.js
-    ```
-
-6. The backend server will start running at the specified `http://localhost:5002`.
-
-## Contributing
-
-We welcome contributions to improve the project. Please fork the repository and submit pull requests with your enhancements.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
