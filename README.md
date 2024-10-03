@@ -76,7 +76,7 @@ Live site: [here](https://pharmasia.vercel.app/).
 
 After starting the development server, open your browser and visit `http://localhost:3000`. You can browse products, add items to your cart, and go through the checkout process.
 
-To test the payment functionality, use Stripe's test card numbers:
+To test the payment functionality, use Stripe's test card numbers or you don't have to use any method. Just click 'Pay Now' or 'Pay Later' button.
 - Card number: 4242 4242 4242 4242
 - Expiry date: Any future date
 - CVC: Any 3 digits
@@ -84,8 +84,6 @@ To test the payment functionality, use Stripe's test card numbers:
 ## 🔮 Future Improvements
 
 - Implement advanced search functionality with autocomplete
-- Add product reviews and ratings system
-- Create a wishlist feature for users
 - Enhance accessibility features
 - Implement lazy loading for improved performance
 - Add more interactive animations and transitions
@@ -101,6 +99,17 @@ If you have any questions or would like to discuss this project, please feel fre
 Thank you for checking out Pharmasia! 🚀
 
 ### Previews 
+
+
+*Manage orders from Admin panel*
+![Manage orders from Admin panel](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/admin%20manage%20orders.png?raw=true)
+
+*Manage Products from Admin panel*
+![Manage Products from Admin panel](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/admin%20manage%20products.png?raw=true)
+
+*Manage Users from Admin panel*
+![Manage Users from Admin panel](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/admin%20manage%20users.png?raw=true)
+
 
 *Home Page*
 ![Home Page](https://github.com/rasel-gannicus/Pharmasia/blob/main/src/assets/for%20hosting/Home%20page%20main.png?raw=true)
