@@ -146,7 +146,7 @@ export const AllOrders = ({ props }: any) => {
   const getProductsForPage = (page: any) => {
     const startIndex = (page - 1) * contentPerPage;
     const endIndex = startIndex + contentPerPage;
-    return sortedOrders.slice(startIndex, endIndex);
+    return sortedOrders?.slice(startIndex, endIndex);
   };
 
   // Handle page change

@@ -42,8 +42,8 @@ export function Barchart({ props }: any) {
   const { userInfo, isLoading } = props;
   let pendingOrders = userInfo?.orders
     ?.filter((item: any) => item)
-    .sort((a: any, b: any) => b.Price - a.Price)
-    .slice(0, 8);
+    ?.sort((a: any, b: any) => b.Price - a.Price)
+    ?.slice(0, 8);
 
   if (!pendingOrders || pendingOrders.length < 8) {
     pendingOrders = chartData;
@@ -68,7 +68,7 @@ export function Barchart({ props }: any) {
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => value.slice(0, 3)}
+              tickFormatter={(value) => value?.slice(0, 3)}
             />
             <ChartTooltip
               cursor={false}

@@ -19,7 +19,7 @@ const ProfileChart = ({ props }: any) => {
     ?.filter(
       (item: any) => item.status === "newOrder" || item.status != "cancelled"
     )
-    .slice(0, 8);
+    ?.slice(0, 8);
 
   const data = [
     {

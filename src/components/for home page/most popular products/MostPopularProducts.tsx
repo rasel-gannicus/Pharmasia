@@ -34,10 +34,10 @@ const MostPopularProducts = () => {
 
       <div className="my-10  lg:w-full mx-auto md:grid md:grid-cols-3 lg:grid-cols-4 grid grid-cols-1 gap-y-10">
         {data
-          .slice() // Create a shallow copy to avoid mutating the original data
-          .sort((a : any, b:any) => b.Ratings - a.Ratings)
-          .slice(0, 6)
-          .map((item : any) => (
+          ?.slice() // Create a shallow copy to avoid mutating the original data
+          ?.sort((a : any, b:any) => b.Ratings - a.Ratings)
+          ?.slice(0, 6)
+          ?.map((item : any) => (
             <PopularProductCard key={item._id} data={item} />
           ))}
       </div>
